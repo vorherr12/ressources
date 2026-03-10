@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Droit & Fiscalité des Professionnels — Révisions</title>
+<style>
+:root{--bg:#f5f6fa;--card:#fff;--accent1:#1b3a4b;--accent2:#274c77;--accent3:#4a8fe7;--highlight:#edf3fc;--border:#dfe4ed;--text:#1a202c;--muted:#5a6a80;--green:#166534;--green-bg:#eefbf3;--orange:#9a3412;--orange-bg:#fef6ee;--purple:#5b21b6;--purple-bg:#f5f0ff;--red:#991b1b;--red-bg:#fef2f2;--teal:#115e59;--teal-bg:#ecfdf5;--indigo:#3730a3;--indigo-bg:#eef2ff;--pink:#9d174d;--pink-bg:#fdf2f8}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:16px}
+.topnav{position:sticky;top:0;z-index:100;background:var(--accent1);color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.topnav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:1rem;padding:.6rem 1.4rem;flex-wrap:wrap}
+.topnav .logo{font-weight:800;font-size:1.05rem;white-space:nowrap}
+.topnav .nav-links{display:flex;gap:.2rem;flex-wrap:wrap}
+.topnav .nav-links a{color:rgba(255,255,255,.82);text-decoration:none;padding:.28rem .6rem;border-radius:6px;font-size:.8rem;font-weight:500;transition:.2s}
+.topnav .nav-links a:hover,.topnav .nav-links a.active{background:rgba(255,255,255,.16);color:#fff}
+.hero{background:linear-gradient(135deg,var(--accent1),var(--accent3));color:#fff;text-align:center;padding:3rem 1.5rem 2.6rem}
+.hero h1{font-size:2.15rem;font-weight:800;margin-bottom:.4rem}
+.hero p{font-size:1.02rem;opacity:.88;max-width:680px;margin:0 auto}
+.container{max-width:960px;margin:0 auto;padding:2rem 1.25rem 4rem}
+.toc-card{background:var(--card);border-radius:14px;padding:1.8rem 2rem;margin-bottom:2.5rem;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.toc-card h2{font-size:1.15rem;color:var(--accent1);margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem}
+.toc-list{list-style:none}
+.toc-list>li{margin-bottom:.55rem}
+.toc-list>li>a{font-weight:700;color:var(--accent2);text-decoration:none;font-size:.99rem}
+.toc-list>li>a:hover{text-decoration:underline}
+.toc-list ul{list-style:none;margin-top:.2rem;padding-left:1.2rem}
+.toc-list ul li{margin-bottom:.12rem}
+.toc-list ul a{color:var(--muted);text-decoration:none;font-size:.9rem}
+.toc-list ul a:hover{color:var(--accent2);text-decoration:underline}
+.section{margin-bottom:2.5rem}
+.section-header{display:flex;align-items:center;gap:.7rem;margin-bottom:1.4rem;padding-bottom:.7rem;border-bottom:3px solid var(--accent3)}
+.section-number{background:var(--accent1);color:#fff;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;flex-shrink:0}
+.section-header h2{font-size:1.45rem;font-weight:800;color:var(--accent1)}
+.card{background:var(--card);border-radius:14px;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:1.4rem;overflow:hidden;transition:box-shadow .2s}
+.card:hover{box-shadow:0 4px 16px rgba(0,0,0,.07)}
+.card-head{display:flex;align-items:center;gap:.7rem;padding:1rem 1.4rem;cursor:pointer;user-select:none;transition:background .15s}
+.card-head:hover{background:var(--highlight)}
+.card-head .badge{font-size:.74rem;font-weight:700;padding:.17rem .55rem;border-radius:6px;white-space:nowrap}
+.badge-blue{background:#dbeafe;color:var(--accent1)}
+.badge-green{background:#d1fae5;color:var(--green)}
+.badge-orange{background:#fed7aa;color:var(--orange)}
+.badge-purple{background:#e9d5ff;color:var(--purple)}
+.badge-red{background:#fecaca;color:var(--red)}
+.badge-teal{background:#b2f5ea;color:var(--teal)}
+.badge-indigo{background:#c7d2fe;color:var(--indigo)}
+.badge-pink{background:#fbcfe8;color:var(--pink)}
+.card-head h3{font-size:1.08rem;font-weight:700;flex:1}
+.card-head .chevron{font-size:1rem;color:var(--muted);transition:transform .25s}
+.card.open .card-head .chevron{transform:rotate(180deg)}
+.card-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease;padding:0 1.6rem}
+.card.open .card-body{max-height:none;padding:.4rem 1.6rem 1.6rem}
+.card-body h4{font-size:1.01rem;font-weight:700;color:var(--accent2);margin:1.3rem 0 .5rem;padding-left:.45rem;border-left:3px solid var(--accent3)}
+.card-body h4:first-child{margin-top:.4rem}
+.card-body h5{font-size:.95rem;font-weight:700;color:var(--accent1);margin:.9rem 0 .3rem}
+.card-body p{margin-bottom:.65rem;color:#2d3748}
+.card-body ul,.card-body ol{margin:.35rem 0 .85rem 1.2rem}
+.card-body li{margin-bottom:.35rem}
+.card-body li::marker{color:var(--accent3)}
+.card-body strong{color:var(--accent1)}
+.info-box{border-radius:10px;padding:.85rem 1.15rem;margin:1rem 0;font-size:.93rem;border-left:4px solid}
+.info-box.blue{background:var(--highlight);border-color:var(--accent3)}
+.info-box.green{background:var(--green-bg);border-color:var(--green)}
+.info-box.orange{background:var(--orange-bg);border-color:var(--orange)}
+.info-box.purple{background:var(--purple-bg);border-color:var(--purple)}
+.info-box.red{background:var(--red-bg);border-color:var(--red)}
+.info-box.teal{background:var(--teal-bg);border-color:var(--teal)}
+.info-box.indigo{background:var(--indigo-bg);border-color:var(--indigo)}
+.info-box.pink{background:var(--pink-bg);border-color:var(--pink)}
+table.styled{width:100%;border-collapse:collapse;margin:.9rem 0;font-size:.9rem;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+table.styled th{background:var(--accent1);color:#fff;padding:.55rem .7rem;text-align:left;font-weight:600;font-size:.83rem}
+table.styled td{padding:.5rem .7rem;border-bottom:1px solid var(--border);vertical-align:top}
+table.styled tr:nth-child(even){background:#f8fafc}
+table.styled tr:last-child td{border-bottom:none}
+.pyramid{display:flex;flex-direction:column;align-items:center;gap:0;margin:1rem 0 1.2rem}
+.pyramid-level{text-align:center;padding:.5rem .7rem;color:#fff;font-weight:600;font-size:.86rem;border-radius:6px;line-height:1.35;margin-bottom:2px}
+.pyramid-level small{display:block;font-weight:400;font-size:.77rem;opacity:.92}
+.vs-table{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:1rem 0;border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.vs-col{padding:.9rem 1rem}
+.vs-col h5{margin-top:0;text-align:center;font-size:.93rem;padding-bottom:.35rem;border-bottom:2px solid var(--border);margin-bottom:.5rem}
+.vs-col ul{margin-left:.9rem;font-size:.91rem}
+.vs-col:first-child{background:#eef2ff}
+.vs-col:last-child{background:#fef8ee}
+.btt{position:fixed;bottom:1.5rem;right:1.5rem;width:44px;height:44px;border-radius:50%;background:var(--accent1);color:#fff;border:none;font-size:1.3rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.18);display:none;align-items:center;justify-content:center;transition:.2s;z-index:50}
+.btt:hover{background:var(--accent3);transform:scale(1.08)}
+.btt.show{display:flex}
+footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;border-top:1px solid var(--border)}
+@media(max-width:640px){
+.hero h1{font-size:1.5rem}.card-head{padding:.85rem 1rem}.card.open .card-body{padding:.35rem 1rem 1.15rem}.toc-card{padding:1.1rem}.topnav-inner{gap:.5rem;padding:.4rem .8rem}table.styled{font-size:.8rem}table.styled th,table.styled td{padding:.4rem .5rem}.pyramid-level{font-size:.76rem;padding:.4rem .5rem}.vs-table{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav"><div class="topnav-inner"><span class="logo">⚖️ Droit &amp; Fiscalité Pro</span><div class="nav-links"><a href="#s1">Notions du droit</a><a href="#s2">Organisation admin.</a><a href="#s3">Droit civil</a><a href="#s4">Fiscalité pro</a></div></div></nav>
+
+<div class="hero"><h1>Enseignements juridiques &amp; Fiscalité des professionnels</h1><p>Guide complet de révision — Notions de droit, organisation administrative, droit civil des personnes, TVA, bénéfices professionnels et gestion fiscale de l'entreprise.</p></div>
+
+<div class="container">
+
+<div class="toc-card"><h2>📑 Sommaire</h2>
+<ol class="toc-list">
+<li><a href="#s1">Notions générales du droit</a><ul><li><a href="#c11">1.1 — Définition et caractères</a></li><li><a href="#c12">1.2 — Sources et hiérarchie des normes</a></li><li><a href="#c13">1.3 — Organisation institutionnelle</a></li></ul></li>
+<li><a href="#s2">Organisation administrative de la France</a><ul><li><a href="#c21">2.1 — Déconcentration</a></li><li><a href="#c22">2.2 — Décentralisation</a></li><li><a href="#c23">2.3 — Service Public</a></li></ul></li>
+<li><a href="#s3">Droit civil et des personnes</a><ul><li><a href="#c31">3.1 — Personnalité juridique</a></li><li><a href="#c32">3.2 — Identification</a></li><li><a href="#c33">3.3 — Capacité juridique</a></li><li><a href="#c34">3.4 — Personnes morales</a></li></ul></li>
+<li><a href="#s4">Fiscalité des professionnels</a><ul><li><a href="#c41">4.1 — TVA (Taxe sur la Valeur Ajoutée)</a></li><li><a href="#c42">4.2 — Bénéfices professionnels</a></li><li><a href="#c43">4.3 — Gestion fiscale de l'entreprise</a></li></ul></li>
+</ol>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 1 : NOTIONS GÉNÉRALES DU DROIT       -->
+<!-- ============================================ -->
+<div class="section" id="s1">
+<div class="section-header"><div class="section-number">1</div><h2>Notions générales du droit</h2></div>
+
+<!-- 1.1 -->
+<div class="card" id="c11"><div class="card-head" onclick="toggle(this)"><span class="badge badge-blue">1.1</span><h3>Définition et caractères de la règle de droit</h3><span class="chevron">▼</span></div>
+<div class="card-body">
+
+<h4>Définition du droit</h4>
+<div class="info-box blue"><strong>Définition :</strong> Le droit est défini comme un <strong>ensemble de règles et de normes générales</strong> qui gèrent les rapports entre les membres d'une même société. Ces règles ont pour fonction de <strong>définir les droits et obligations des individus</strong> et de déterminer précisément ce qui est <strong>obligatoire, autorisé ou interdit</strong>.</div>
+
+<p>On distingue deux dimensions complémentaires du droit :</p>
+<ul>
+<li><strong>Le droit objectif :</strong> L'ensemble des règles juridiques en vigueur dans une société donnée (le système juridique en tant que tel). On parle du « Droit » avec un grand D.</li>
+<li><strong>Les droits subjectifs :</strong> Les prérogatives individuelles dont bénéficie chaque personne en vertu du droit objectif (droit de propriété, droit de vote, droit au respect de la vie privée…). On parle des « droits » avec un petit d.</li>
+</ul>
+
+<h4>Les grandes branches du droit</h4>
+<p>Le droit se divise en deux grandes familles :</p>
+<ul>
+<li><strong>Le droit public :</strong> Régit les rapports entre les personnes publiques (État, collectivités), ou entre une personne publique et une personne privée, lorsque la puissance publique est en jeu. Il comprend le droit constitutionnel, le droit administratif, les finances publiques et le droit fiscal.</li>
+<li><strong>Le droit privé :</strong> Régit les rapports entre les personnes privées (individus, sociétés). Il comprend le droit civil (« droit commun »), le droit commercial, le droit du travail et le droit pénal (qui a une dimension mixte car il protège l'ordre social).</li>
+</ul>
+
+<h4>Caractères de la règle de droit</h4>
+<p>Pour organiser et encadrer la société, la règle de droit repose sur <strong>trois caractères fondamentaux</strong> :</p>
+<ul>
+<li><strong>Général :</strong> Elle a une portée universelle et s'applique à tous, sans viser nommément une personne en particulier. Elle peut toutefois s'appliquer à une catégorie de personnes (ex : les commerçants, les fonctionnaires).</li>
+<li><strong>Obligatoire :</strong> Son respect s'impose impérativement. Le non-respect expose à une <strong>sanction étatique</strong> (pénale, civile, administrative). C'est ce qui distingue la règle de droit de la règle morale ou religieuse.</li>
+<li><strong>Permanent :</strong> Elle s'inscrit dans la durée et de façon continue. Elle ne s'épuise pas par son application et reste en vigueur tant qu'elle n'a pas été abrogée.</li>
+</ul>
+
+<div class="info-box orange"><strong>Règles impératives vs. supplétives :</strong> Toute règle est obligatoire, mais on distingue les règles <strong>impératives</strong> (d'ordre public, auxquelles on ne peut pas déroger — ex : âge minimum du mariage) des règles <strong>supplétives</strong> (qui s'appliquent par défaut mais auxquelles les parties peuvent déroger par contrat — ex : le régime matrimonial légal de la communauté réduite aux acquêts).</div>
+
+<h4>Le contexte d'application</h4>
+<p>Ces caractères s'expriment à travers des limites d'application bien définies :</p>
+<ul>
+<li><strong>Dans le temps :</strong> Une règle de droit s'applique à partir de son <strong>homologation et de sa publication</strong> (au Journal officiel), et reste en vigueur jusqu'à son <strong>abrogation</strong>. En principe, elle s'applique <strong>sans effets rétroactifs</strong> (principe de non-rétroactivité, art. 2 du Code civil), sauf exception (lois pénales plus douces, lois interprétatives, lois de validation expressément rétroactives). La loi nouvelle s'applique immédiatement aux <strong>situations juridiques en cours</strong> (application immédiate de la loi nouvelle) mais ne remet pas en cause les <strong>effets déjà produits</strong> par la loi ancienne (survie de la loi ancienne pour les contrats en cours).</li>
+<li><strong>Dans l'espace :</strong> La règle a vocation à s'appliquer sur l'ensemble du <strong>territoire national</strong>, bien qu'il puisse y avoir des dérogations locales (droit local alsacien-mosellan, régimes d'outre-mer). De plus, la législation nationale est contrainte par l'influence du <strong>droit européen</strong>, notamment au travers des traités, des règlements et des directives.</li>
+</ul>
+
+<h4>Les sources du droit</h4>
+<p>Ce droit émane de plusieurs sources :</p>
+<ul>
+<li><strong>Des sources directes</strong> (comme la loi, la Constitution, les traités internationaux, les décrets).</li>
+<li><strong>Des sources indirectes</strong>, telles que :
+<ul>
+<li><strong>La jurisprudence :</strong> L'ensemble des décisions rendues par les juridictions. Elle interprète, comble les lacunes et fait évoluer le droit.</li>
+<li><strong>La doctrine :</strong> Les travaux et analyses des experts du droit. Il est souligné que la doctrine joue un rôle important pour la <strong>Direction générale des finances publiques (DGFiP)</strong>, notamment à travers le Bulletin officiel des finances publiques (BOFiP), qui constitue la doctrine administrative opposable.</li>
+<li><strong>La coutume :</strong> Pratique ancienne, constante et acceptée comme obligatoire (source de plus en plus résiduelle en droit écrit français).</li>
+</ul>
+</li>
+</ul>
+</div></div>
+
+<!-- 1.2 -->
+<div class="card" id="c12"><div class="card-head" onclick="toggle(this)"><span class="badge badge-blue">1.2</span><h3>Sources et hiérarchie des normes</h3><span class="chevron">▼</span></div>
+<div class="card-body">
+<p>Le droit s'appuie sur une pluralité de sources qui sont structurées de manière très stricte pour garantir la <strong>cohérence du système juridique</strong>.</p>
+
+<h4>Les sources du droit</h4>
+<p>Le droit émane de différentes sources qui peuvent être classées en deux catégories :</p>
+<ul>
+<li><strong>Les sources directes :</strong> Elles regroupent l'ensemble des textes normatifs officiels (lois, décrets, Constitution, etc.).</li>
+<li><strong>Les sources indirectes :</strong> Elles incluent la <strong>jurisprudence</strong> (les décisions des juges) et la <strong>doctrine</strong> (les analyses des experts du droit). Il est d'ailleurs précisé que, dans le cadre spécifique de la DGFiP, la doctrine joue un rôle particulièrement important.</li>
+</ul>
+
+<h4>La hiérarchie des normes (Pyramide de Kelsen)</h4>
+<p>Pour organiser ces sources, le système juridique français repose sur le principe de la <strong>hiérarchie des normes</strong>. Ce principe impose que <strong>toute norme de niveau inférieur doit obligatoirement être conforme aux normes qui lui sont supérieures</strong>. La pyramide des normes s'articule autour de <strong>cinq grands blocs</strong> :</p>
+
+<div class="pyramid">
+<div class="pyramid-level" style="width:38%;background:#7c3aed;">1. Bloc constitutionnel<small>Constitution de 1958 + bloc de constitutionnalité</small></div>
+<div class="pyramid-level" style="width:50%;background:#4f46e5;">2. Bloc de conventionnalité<small>Traités internationaux, droit de l'UE</small></div>
+<div class="pyramid-level" style="width:62%;background:#2563eb;">3. Bloc de légalité<small>Lois organiques, lois ordinaires, ordonnances ratifiées</small></div>
+<div class="pyramid-level" style="width:74%;background:#0891b2;">4. Bloc réglementaire<small>Décrets, arrêtés</small></div>
+<div class="pyramid-level" style="width:86%;background:#0d9488;">5. Actes administratifs<small>Circulaires, instructions, délibérations locales</small></div>
+</div>
+
+<ol>
+<li><strong>Le bloc constitutionnel :</strong> Il se situe au <strong>sommet absolu</strong> de la hiérarchie. Il s'agit du texte fondateur, incarné par la <strong>Constitution de la Vème République de 1958</strong>, qui fixe le rôle des institutions et définit la séparation des pouvoirs (exécutif, législatif et judiciaire). Le « bloc de constitutionnalité » comprend également la Déclaration des droits de l'homme et du citoyen de 1789, le Préambule de la Constitution de 1946, la Charte de l'environnement de 2004, et les principes fondamentaux reconnus par les lois de la République (PFRLR). Le respect de la Constitution est assuré par le <strong>Conseil constitutionnel</strong>, qui exerce le contrôle de constitutionnalité :
+<ul>
+<li><strong>A priori :</strong> Saisine avant la promulgation d'une loi (par le Président, le PM, 60 députés ou 60 sénateurs).</li>
+<li><strong>A posteriori :</strong> Via la <strong>QPC (Question prioritaire de constitutionnalité)</strong>, depuis la réforme de 2010, permettant à tout justiciable de contester une loi déjà en vigueur portant atteinte à ses droits fondamentaux.</li>
+</ul>
+</li>
+<li><strong>Le bloc de conventionnalité :</strong> Juste en dessous se trouve le droit international et européen. Les sources précisent que le cadre européen contraint fortement la législation nationale sur certains sujets, et ce à travers trois outils majeurs :
+<ul>
+<li><strong>Les traités :</strong> Accords internationaux ratifiés (TFUE, CEDH…). Ils ont une autorité supérieure aux lois (art. 55 de la Constitution), à condition d'être régulièrement ratifiés et sous réserve de réciprocité.</li>
+<li><strong>Les règlements européens :</strong> Directement applicables dans tous les États membres, sans transposition nécessaire.</li>
+<li><strong>Les directives européennes :</strong> Fixent un objectif à atteindre ; chaque État membre doit les <strong>transposer</strong> dans son droit national dans un délai fixé.</li>
+</ul>
+Le <strong>contrôle de conventionnalité</strong> (vérifier qu'une loi est conforme aux traités) est exercé par les juges ordinaires (judiciaire et administratif), et non par le Conseil constitutionnel.
+</li>
+<li><strong>Le bloc de légalité :</strong> Ce niveau correspond à la <strong>loi</strong>, qui est votée par le pouvoir législatif (le Parlement, composé de l'Assemblée nationale et du Sénat). Le domaine de la loi couvre un champ large (défini à l'<strong>article 34 de la Constitution</strong>) et fixe notamment les règles liées aux droits civiques, aux crimes et délits, ainsi que les grands principes fiscaux et comptables. Les <strong>ordonnances</strong> prises par le Gouvernement (art. 38, sur habilitation du Parlement) acquièrent également une valeur législative une fois <strong>ratifiées</strong> par le Parlement. Les <strong>lois organiques</strong> (qui précisent l'organisation des pouvoirs publics, ex : la LOLF) ont une valeur supérieure aux lois ordinaires et sont soumises à un contrôle de constitutionnalité obligatoire.</li>
+<li><strong>Le bloc réglementaire :</strong> Il regroupe l'ensemble des actes pris par le <strong>pouvoir exécutif</strong> (le Président de la République et le Gouvernement). Ce bloc est principalement constitué des <strong>décrets</strong> et des <strong>arrêtés</strong>. Le pouvoir réglementaire s'exerce :
+<ul>
+<li>Soit pour déterminer les modalités d'application d'une loi (<strong>décret d'application</strong>).</li>
+<li>Soit de manière <strong>autonome</strong> dans tous les domaines qui ne sont pas expressément réservés à la loi par la Constitution (<strong>art. 37</strong>).</li>
+</ul>
+Les <strong>arrêtés</strong> (ministériels, préfectoraux, municipaux) sont des actes de portée plus restreinte.
+</li>
+<li><strong>Les actes administratifs :</strong> À la base de cette pyramide se trouvent les actes administratifs. Cela comprend notamment les actes internes à l'administration pris par les ministères, tels que les <strong>circulaires</strong> et les <strong>instructions</strong>. Ce niveau englobe également les actes pris par les autorités locales décentralisées (comme les <strong>délibérations des communes</strong>), qui sont soumis au <strong>contrôle de légalité du préfet</strong> afin de vérifier, <em>a posteriori</em>, leur stricte conformité aux lois et règlements qui leur sont supérieurs.</li>
+</ol>
+
+<div class="info-box green"><strong>À retenir pour la DGFiP :</strong> La doctrine administrative (instructions publiées au <strong>BOFiP — Bulletin officiel des finances publiques</strong>) se situe au niveau des actes administratifs internes. Elle ne crée pas de droit à proprement parler. Cependant, elle est <strong>opposable à l'administration</strong> par le contribuable : en vertu de l'<strong>article L. 80 A du Livre des procédures fiscales (LPF)</strong>, un contribuable peut se prévaloir d'une interprétation administrative formellement publiée, même si celle-ci est contraire à la loi. C'est la <strong>garantie contre les changements de doctrine</strong>.</div>
+
+<h4>Le contrôle du respect de la hiérarchie</h4>
+<table class="styled">
+<thead><tr><th>Contrôle</th><th>Organe compétent</th><th>Objet</th></tr></thead>
+<tbody>
+<tr><td><strong>Constitutionnalité</strong></td><td><strong>Conseil constitutionnel</strong></td><td>Conformité de la loi à la Constitution (a priori ou a posteriori via QPC).</td></tr>
+<tr><td><strong>Conventionnalité</strong></td><td><strong>Juges ordinaires</strong> (judiciaire + administratif)</td><td>Conformité de la loi aux traités internationaux.</td></tr>
+<tr><td><strong>Légalité</strong></td><td><strong>Juge administratif</strong> (TA, CAA, CE)</td><td>Conformité des actes administratifs et réglementaires à la loi. Le Préfet exerce aussi un contrôle de légalité a posteriori sur les actes des collectivités.</td></tr>
+</tbody>
+</table>
+</div></div>
+
+<!-- 1.3 -->
+<div class="card" id="c13"><div class="card-head" onclick="toggle(this)"><span class="badge badge-blue">1.3</span><h3>Organisation institutionnelle — La séparation des pouvoirs</h3><span class="chevron">▼</span></div>
+<div class="card-body">
+<div class="info-box blue"><strong>Principe fondamental :</strong> L'organisation institutionnelle de la France repose sur la <strong>séparation des pouvoirs</strong>. Toutefois, cette séparation est qualifiée de <strong>« souple »</strong>, ce qui signifie que si les trois pouvoirs (exécutif, législatif et judiciaire) sont indépendants, ils <strong>collaborent</strong> et disposent de <strong>moyens d'action et de contrôle les uns envers les autres</strong>.</div>
+
+<h4>1. Le pouvoir exécutif — Conduire la politique et administrer</h4>
+<p>Il dispose du <strong>pouvoir réglementaire</strong> (décrets, arrêtés) et de l'administration. Il est <strong>bicéphale</strong> :</p>
+<ul>
+<li><strong>Le Président de la République :</strong> Élu au <strong>suffrage universel direct</strong> pour un mandat de <strong>5 ans</strong> (limité à deux mandats consécutifs), il a un rôle d'arbitre garantissant le fonctionnement des pouvoirs publics. Il détient :
+<ul>
+<li>Des pouvoirs <strong>« propres »</strong> qu'il exerce seul : nomination du Premier ministre, dissolution de l'Assemblée nationale, recours au référendum, saisine du Conseil constitutionnel, pouvoirs exceptionnels (art. 16).</li>
+<li>Des pouvoirs <strong>« partagés »</strong> nécessitant le contreseing du Premier ministre : nomination des ministres, signature d'ordonnances et des décrets en Conseil des ministres, promulgation des lois.</li>
+</ul>
+</li>
+<li><strong>Le Gouvernement :</strong> Dirigé par le <strong>Premier ministre</strong>, il <strong>détermine et conduit la politique de la Nation</strong> (art. 20) et exécute les lois. Il partage l'<strong>initiative des lois</strong> avec le Parlement :
+<ul>
+<li>Les textes d'origine gouvernementale sont les <strong>projets de loi</strong> (dont font obligatoirement partie les <strong>lois de finances</strong>).</li>
+<li>Les textes d'origine parlementaire sont les <strong>propositions de loi</strong>.</li>
+</ul>
+En pratique, les <strong>projets de loi</strong> représentent la majorité des lois adoptées. En période de <strong>cohabitation</strong> (quand le Président et l'Assemblée nationale sont de bords politiques opposés), le Premier ministre devient le véritable chef du pouvoir exécutif.
+</li>
+</ul>
+
+<h4>2. Le pouvoir législatif — Voter la loi et contrôler l'exécutif</h4>
+<p>Il étudie, discute, modifie et vote les lois. Le Parlement français est <strong>bicaméral</strong>, avec une représentativité distincte :</p>
+<ul>
+<li><strong>L'Assemblée nationale :</strong> Ses <strong>577 députés</strong> sont élus au <strong>suffrage universel direct</strong> pour 5 ans. Ils représentent le <strong>Peuple français</strong>.</li>
+<li><strong>Le Sénat :</strong> Ses <strong>348 sénateurs</strong> sont élus au <strong>suffrage universel indirect</strong> par de grands électeurs pour 6 ans (renouvelé par moitié tous les 3 ans). Ils assurent la <strong>représentation des collectivités territoriales</strong>.</li>
+</ul>
+<p><strong>Le vote de la loi :</strong> La procédure repose sur une <strong>« navette parlementaire »</strong> entre les deux assemblées pour aboutir à un texte commun. En cas de désaccord, une <strong>commission mixte paritaire (CMP)</strong> composée de 7 députés et 7 sénateurs est réunie.</p>
+
+<div class="info-box indigo"><strong>La primauté de l'Assemblée nationale :</strong> Le bicaméralisme est <strong>inégalitaire</strong> au profit de l'Assemblée nationale en raison de sa légitimité démocratique directe. Elle a la <strong>priorité sur le budget</strong> (les lois de finances sont déposées en premier devant l'AN), le <strong>dernier mot</strong> en cas de désaccord persistant avec le Sénat lors du vote d'une loi, et est la <strong>seule chambre à pouvoir renverser le Gouvernement</strong>.</div>
+
+<h4>3. Le pouvoir judiciaire — Appliquer la loi et juger les litiges</h4>
+<p>Il interprète la loi, juge les litiges et se pose en <strong>gardien des libertés individuelles et de la propriété privée</strong>.</p>
+<ul>
+<li><strong>L'indépendance de la justice :</strong> Elle est garantie par le Président de la République, assisté du Conseil supérieur de la magistrature (CSM). Cette indépendance s'exerce vis-à-vis du pouvoir législatif (le juge ne peut pas créer de lois, le législateur ne peut pas légiférer rétroactivement pour influencer un procès en cours) et du pouvoir exécutif.</li>
+<li><strong>Statut des magistrats :</strong> On distingue :
+<ul>
+<li>Les <strong>magistrats du siège (les juges)</strong>, qui sont <strong>inamovibles</strong> pour garantir leur indépendance.</li>
+<li>Les <strong>magistrats du parquet (les procureurs)</strong>, qui représentent la société et sont soumis à l'<strong>autorité hiérarchique du Gouvernement</strong> pour l'application de sa politique pénale.</li>
+</ul>
+</li>
+<li><strong>Les deux ordres de juridictions :</strong> L'existence de deux ordres est une illustration de la séparation des pouvoirs, car les juges judiciaires ne peuvent juger l'Administration :
+<ul>
+<li><strong>Ordre judiciaire :</strong> Litiges entre personnes privées (civil et pénal). Hiérarchie : TJ / TC → Cour d'appel → <strong>Cour de cassation</strong>.</li>
+<li><strong>Ordre administratif :</strong> Litiges impliquant l'Administration. Hiérarchie : TA → CAA → <strong>Conseil d'État</strong>.</li>
+<li>En cas de conflit de compétence entre les deux ordres : le <strong>Tribunal des conflits</strong>.</li>
+</ul>
+</li>
+</ul>
+
+<h4>Les interactions et le contrôle mutuel (séparation souple)</h4>
+<p>Pour éviter les abus, ces pouvoirs s'équilibrent :</p>
+<ul>
+<li><strong>Le Parlement contrôle le Gouvernement</strong> via des questions, des commissions d'enquête et, surtout, par des mécanismes mettant en jeu sa responsabilité :
+<ul>
+<li><strong>Motion de censure spontanée (art. 49-2) :</strong> Initiative des députés. Doit être signée par 1/10 des députés. Adoptée à la majorité absolue.</li>
+<li><strong>Motion de censure provoquée (art. 49-3) :</strong> Le Premier ministre engage la responsabilité du Gouvernement sur le vote d'un texte. Le texte est considéré adopté sans vote, sauf si une motion de censure est déposée et votée dans les 24 heures.</li>
+<li><strong>Question de confiance (art. 49-1) :</strong> Le Premier ministre demande au Parlement de confirmer son soutien. Le refus entraîne la démission.</li>
+</ul>
+<strong>L'adoption de l'une de ces mesures entraîne la démission immédiate du Gouvernement.</strong>
+</li>
+<li>En retour, le <strong>Président de la République peut dissoudre l'Assemblée nationale</strong> (art. 12).</li>
+<li>Enfin, le principe de séparation s'illustre par des <strong>règles d'incompatibilité stricte</strong> : un ministre ne peut pas exercer simultanément un mandat parlementaire.</li>
+</ul>
+
+<table class="styled">
+<thead><tr><th>Interaction</th><th>De qui → Vers qui</th><th>Mécanisme</th></tr></thead>
+<tbody>
+<tr><td><strong>Contrôle politique</strong></td><td>Parlement → Gouvernement</td><td>Questions, commissions d'enquête, motions de censure (49-2, 49-3), vote de confiance (49-1).</td></tr>
+<tr><td><strong>Dissolution</strong></td><td>Président → Assemblée nationale</td><td>Art. 12 de la Constitution. Provoque de nouvelles élections législatives.</td></tr>
+<tr><td><strong>Contrôle constitutionnel</strong></td><td>Conseil constitutionnel → Lois</td><td>Contrôle a priori (avant promulgation) ou a posteriori (QPC par tout justiciable).</td></tr>
+<tr><td><strong>Initiative législative partagée</strong></td><td>Gouvernement ↔ Parlement</td><td>Projets de loi (Gouv.) / Propositions de loi (Parl.).</td></tr>
+</tbody>
+</table>
+
+</div></div>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 2 : ORGANISATION ADMINISTRATIVE      -->
+<!-- ============================================ -->
+<div class="section" id="s2">
+<div class="section-header"><div class="section-number">2</div><h2>Organisation administrative de la France</h2></div>
+
+<!-- 2.1 -->
+<div class="card" id="c21"><div class="card-head" onclick="toggle(this)"><span class="badge badge-green">2.1</span><h3>La déconcentration</h3><span class="chevron">▼</span></div>
+<div class="card-body">
+<div class="info-box blue"><strong>Contexte :</strong> Dans le cadre de l'organisation administrative de la France, qui est un <strong>État unitaire</strong>, l'administration s'articule autour de deux modes de fonctionnement complémentaires : la <strong>décentralisation</strong> et la <strong>déconcentration</strong>.</div>
+
+<h4>Définition et principes de la déconcentration</h4>
+<p>La déconcentration est un <strong>aménagement de la centralisation</strong> de l'État. Elle consiste, au sein d'une seule et même personne morale (l'État), à <strong>déléguer une partie du pouvoir de décision</strong> des autorités centrales (situées à Paris) vers des <strong>relais locaux répartis sur le territoire</strong>.</p>
+
+<div class="info-box teal"><strong>Formule mnémotechnique :</strong> « C'est toujours le même marteau qui frappe, mais on en a raccourci le manche. » (Odilon Barrot) — Le pouvoir reste étatique, mais il s'exerce plus près du terrain.</div>
+
+<p>Ce mode d'organisation repose sur des caractéristiques très strictes :</p>
+<ul>
+<li><strong>Absence de personnalité morale et d'autonomie :</strong> Les organes locaux déconcentrés ne sont que le <strong>prolongement de l'État</strong> ; ils prennent des décisions au nom et pour le compte de l'État.</li>
+<li><strong>Subordination hiérarchique :</strong> Ces services restent entièrement soumis au <strong>pouvoir et au contrôle hiérarchique</strong> de l'administration centrale (pouvoir d'instruction, de réformation, d'annulation et de substitution).</li>
+<li><strong>Principe de nomination :</strong> Contrairement aux autorités décentralisées qui sont élues, les autorités déconcentrées sont <strong>nommées et révoquées</strong> par le pouvoir central.</li>
+</ul>
+
+<h4>L'organisation de l'administration déconcentrée</h4>
+<p>Ce système repose sur deux niveaux qui interagissent :</p>
+
+<h5>1. L'administration centrale de l'État</h5>
+<p>Elle est composée des <strong>ministères et de leurs directions générales</strong>, qui ont une compétence nationale. Son rôle est de concevoir et d'impulser les politiques publiques, de préparer les textes (lois, décrets) et de <strong>diriger et contrôler les services déconcentrés</strong> en leur attribuant des moyens.</p>
+
+<h5>2. Les services déconcentrés de l'État</h5>
+<p>Regroupant <strong>95 % des agents de l'État</strong>, ces services agissent au plus près de la population (arrondissement, département, région) pour mettre en œuvre les politiques nationales. Les acteurs principaux sont :</p>
+
+<ul>
+<li><strong>Le Préfet :</strong> Nommé par le Président de la République, il est le <strong>représentant de l'État</strong> au niveau du département ou de la région. Il a un rôle majeur : il dirige la majorité des directions locales de l'État, veille à l'<strong>ordre public</strong>, négocie avec les collectivités et exerce un <strong>contrôle de légalité</strong> sur les actes de ces dernières.</li>
+<li><strong>Les directions régionales et départementales :</strong> On trouve au niveau régional des structures comme le <strong>Rectorat</strong>, les <strong>Agences régionales de santé (ARS)</strong> ou les <strong>Directions régionales des finances publiques (DRFiP)</strong>. Au niveau départemental, on trouve par exemple les <strong>Directions départementales des territoires (DDT)</strong> ou les <strong>Directions départementales des finances publiques (DDFiP)</strong>. Il est à noter que certaines de ces directions, comme la DRFiP ou la DDFiP, <strong>ne sont pas placées sous l'autorité directe du Préfet</strong>, bien qu'elles se coordonnent avec lui.</li>
+<li><strong>Le Maire (dédoublement fonctionnel) :</strong> Bien qu'il soit l'exécutif décentralisé de sa commune, le maire agit également en tant qu'<strong>autorité déconcentrée</strong> (agent de l'État) lorsqu'il exécute les lois, gère l'état civil ou organise les élections, et ce, <strong>sous l'autorité du Préfet</strong>.</li>
+</ul>
+
+<h4>Les circonscriptions administratives de l'État</h4>
+<table class="styled">
+<thead><tr><th>Niveau</th><th>Autorité déconcentrée</th><th>Exemples de services</th></tr></thead>
+<tbody>
+<tr><td><strong>Région</strong></td><td>Préfet de région</td><td>DRFiP, Rectorat, ARS, DREAL, DIRECCTE</td></tr>
+<tr><td><strong>Département</strong></td><td>Préfet de département</td><td>DDFiP, DDT, DDSP, DDPP</td></tr>
+<tr><td><strong>Arrondissement</strong></td><td>Sous-préfet</td><td>Sous-préfecture (relais du préfet)</td></tr>
+<tr><td><strong>Commune</strong></td><td>Maire (agent de l'État)</td><td>État civil, élections, publication des lois</td></tr>
+</tbody>
+</table>
+</div></div>
+
+<!-- 2.2 -->
+<div class="card" id="c22"><div class="card-head" onclick="toggle(this)"><span class="badge badge-green">2.2</span><h3>La décentralisation</h3><span class="chevron">▼</span></div>
+<div class="card-body">
+<p>Dans l'organisation administrative de la France, la décentralisation constitue le <strong>second mode de fonctionnement</strong> de l'État, agissant en complément de la déconcentration. Elle a été mise en place pour pallier le risque d'une administration trop centralisée qui prendrait des décisions déconnectées des aspirations locales.</p>
+
+<h4>Définition et principes de la décentralisation</h4>
+<p>La décentralisation consiste en un <strong>transfert de compétences</strong> de l'État vers des institutions qui lui sont <strong>juridiquement distinctes</strong> et qui bénéficient de la <strong>personnalité morale</strong>.</p>
+<p>Contrairement à la déconcentration, elle se caractérise par une véritable autonomie :</p>
+<ul>
+<li><strong>Rupture du lien hiérarchique :</strong> Les autorités locales ne sont plus soumises à la subordination hiérarchique de l'État. Elles bénéficient de la <strong>libre administration</strong> (art. 72 de la Constitution).</li>
+<li><strong>Légitimité démocratique :</strong> Les décisions ne sont plus prises au nom de l'État par des agents nommés, mais au nom de la personne publique locale, par des organes généralement <strong>élus par les citoyens</strong>.</li>
+<li><strong>Autonomie financière :</strong> Les collectivités disposent de ressources propres (impôts locaux, dotations de l'État) et votent leur propre budget.</li>
+</ul>
+
+<p>La décentralisation s'exerce sous <strong>deux formes</strong> :</p>
+<ul>
+<li><strong>La décentralisation territoriale :</strong> Le transfert de compétences s'opère au profit des <strong>collectivités territoriales</strong> (communes, départements, régions).</li>
+<li><strong>La décentralisation fonctionnelle (ou technique) :</strong> Le transfert concerne la gestion d'un <strong>service public spécifique</strong> (comme les universités ou les hôpitaux publics) confié à un établissement public.</li>
+</ul>
+
+<h4>Les acteurs de la décentralisation</h4>
+<p>Ce système s'appuie sur différents échelons et structures :</p>
+<ul>
+<li><strong>Les collectivités territoriales :</strong> Communes, départements, régions et collectivités d'outre-mer s'administrent librement. Elles sont dirigées par une <strong>assemblée délibérante élue au suffrage universel</strong> (ex : le conseil municipal) et un <strong>exécutif élu par cette dernière</strong> (ex : le maire).</li>
+</ul>
+
+<table class="styled">
+<thead><tr><th>Collectivité</th><th>Assemblée délibérante</th><th>Exécutif</th><th>Compétences principales</th></tr></thead>
+<tbody>
+<tr><td><strong>Commune</strong><br>(≈ 35 000)</td><td>Conseil municipal</td><td>Maire</td><td>État civil, urbanisme (PLU), écoles primaires, voirie communale, action sociale de proximité, police municipale.</td></tr>
+<tr><td><strong>Département</strong><br>(101)</td><td>Conseil départemental</td><td>Président du conseil départemental</td><td>Action sociale (RSA, APA, PMI, aide à l'enfance), collèges, routes départementales, transports scolaires.</td></tr>
+<tr><td><strong>Région</strong><br>(18)</td><td>Conseil régional</td><td>Président du conseil régional</td><td>Développement économique, lycées, formation professionnelle, transports régionaux (TER), aménagement du territoire.</td></tr>
+</tbody>
+</table>
+
+<ul>
+<li><strong>Les établissements publics locaux :</strong> Ce sont des structures rattachées aux collectivités pour gérer un objet particulier, comme les <strong>Centres communaux d'action sociale (CCAS)</strong> ou les <strong>Caisses des écoles</strong>.</li>
+<li><strong>Les structures intercommunales (EPCI) :</strong> Pour pallier le morcellement des petites communes, des <strong>Établissements publics de coopération intercommunale</strong> (syndicats de communes, communautés de communes, communautés d'agglomération, communautés urbaines, métropoles…) sont créés pour mutualiser des prestations (comme le ramassage des ordures) ou mener de vastes projets d'aménagement.</li>
+</ul>
+
+<h4>Les interlocuteurs : contrôle et accompagnement</h4>
+<p>En contrepartie de leur autonomie et de leur libre administration, ces acteurs décentralisés sont soumis à des contrôles externes et bénéficient d'un accompagnement :</p>
+<ul>
+<li><strong>Le Préfet :</strong> S'il n'exerce plus de tutelle a priori, il est chargé d'un <strong>contrôle de légalité a posteriori</strong> des actes locaux. S'il constate une illégalité, il peut saisir le tribunal administratif (<strong>déféré préfectoral</strong>). Il exerce également un <strong>contrôle budgétaire</strong>.</li>
+<li><strong>Les Chambres régionales et territoriales des comptes (CRTC) :</strong> Ces juridictions spécialisées contrôlent la <strong>régularité et la qualité de la gestion locale</strong>, participent au contrôle budgétaire et évaluent les politiques publiques.</li>
+<li><strong>La DGFiP :</strong> Elle assure un <strong>rôle double</strong> auprès des collectivités locales. D'une part, elle <strong>gère leurs comptes</strong> et exécute leurs dépenses et recettes via ses services de gestion comptable (<strong>SGC</strong>). D'autre part, elle leur fournit une <strong>mission de conseil</strong> grâce aux conseillers aux décideurs locaux (<strong>CDL</strong>).</li>
+</ul>
+
+<div class="vs-table">
+<div class="vs-col"><h5>🏛️ Déconcentration</h5><ul><li>Même personne morale (<strong>l'État</strong>)</li><li>Agents <strong>nommés</strong></li><li>Lien <strong>hiérarchique</strong></li><li><strong>Pas d'autonomie</strong> juridique</li><li>Ex : Préfet, DDFiP, Rectorat</li></ul></div>
+<div class="vs-col"><h5>🏘️ Décentralisation</h5><ul><li>Personne morale <strong>distincte</strong></li><li>Organes <strong>élus</strong></li><li><strong>Libre administration</strong></li><li><strong>Autonomie</strong> (sous contrôle de légalité)</li><li>Ex : Commune, Département, Région</li></ul></div>
+</div>
+
+<h4>Complément : les grandes étapes de la décentralisation</h4>
+<ul>
+<li><strong>Acte I (1982-1983) :</strong> Lois Defferre. Transfert de compétences aux communes, départements et régions. Suppression de la tutelle a priori au profit du contrôle de légalité a posteriori. Le préfet perd son rôle d'exécutif du département au profit du président du conseil général.</li>
+<li><strong>Acte II (2003-2004) :</strong> Révision constitutionnelle. Inscription dans la Constitution du principe de « l'organisation décentralisée de la République » (art. 1er). Principe de subsidiarité, autonomie financière, droit à l'expérimentation.</li>
+<li><strong>Acte III (2010-2015) :</strong> Loi MAPTAM (2014, création des métropoles), loi NOTRe (2015, renforcement des régions et intercommunalités, suppression de la clause générale de compétence pour les départements et régions). Passage de 22 à 13 régions métropolitaines.</li>
+</ul>
+</div></div>
+
+<!-- 2.3 -->
+<div class="card" id="c23"><div class="card-head" onclick="toggle(this)"><span class="badge badge-green">2.3</span><h3>Le Service Public</h3><span class="chevron">▼</span></div>
+<div class="card-body">
+<p>Dans le cadre de l'organisation administrative de la France, assurer le service public constitue l'une des <strong>missions essentielles</strong> de l'administration, qu'elle soit déconcentrée ou décentralisée.</p>
+
+<h4>Définition et critères du service public</h4>
+<p>Le service public est défini comme une activité d'<strong>intérêt général</strong> qui est exercée par (ou pour le compte de) une <strong>personne publique</strong>, afin de pallier les défaillances de l'initiative privée ou d'assurer des missions régaliennes de l'État. Pour être qualifiée de service public, une activité doit réunir <strong>trois critères cumulatifs</strong> :</p>
+<ol>
+<li><strong>Un but d'intérêt général</strong> visant à satisfaire les besoins de la population (ex : police, justice).</li>
+<li><strong>Une prise en charge par une personne publique</strong>, ou par une personne privée agissant pour le compte d'une personne publique.</li>
+<li><strong>Un régime exorbitant du droit commun</strong>, impliquant l'usage de prérogatives de puissance publique ou l'assujettissement à des obligations spécifiques (ex : le pouvoir d'expropriation).</li>
+</ol>
+
+<h4>Les trois principes fondamentaux (« Lois de Rolland »)</h4>
+<p>Quel que soit leur domaine (éducation, santé, économie…), tous les services publics sont soumis à trois grands principes de fonctionnement :</p>
+<ul>
+<li><strong>Le principe de continuité :</strong> Le service doit fonctionner de manière <strong>régulière et ininterrompue</strong>. Cela implique un encadrement strict du droit de grève des agents publics (instauration d'un service minimum, interdiction de faire grève pour certaines professions comme les militaires, voire réquisition du personnel).</li>
+<li><strong>Le principe d'égalité :</strong> Il garantit l'accès de tous au service public <strong>sans discriminations subjectives</strong> (sexe, religion, etc.). Toutefois, des tarifs différenciés peuvent être appliqués si les usagers se trouvent dans des <strong>situations objectivement différentes</strong> (ex : tarification selon le quotient familial).</li>
+<li><strong>Le principe de mutabilité (ou d'adaptation) :</strong> Le service public ne doit pas rester figé. Il doit <strong>évoluer</strong> pour s'adapter aux besoins de la société et aux progrès techniques, à l'image de la DGFiP qui développe l'accueil à distance et les services en ligne.</li>
+</ul>
+
+<h4>Les deux catégories de services publics</h4>
+<p>Les services publics se divisent en deux catégories exclusives l'une de l'autre, distinguées selon l'origine de leur financement, la nature de leurs opérations et leurs règles de gestion :</p>
+<table class="styled">
+<thead><tr><th>Critère</th><th>SPA (Service Public Administratif)</th><th>SPIC (Service Public Industriel et Commercial)</th></tr></thead>
+<tbody>
+<tr><td><strong>Activité</strong></td><td>Régaliennes ou sociales (état civil, protection de la santé)</td><td>Proches du secteur privé (parcs de stationnement, transports urbains)</td></tr>
+<tr><td><strong>Financement</strong></td><td>Principalement par l'<strong>impôt</strong> et les subventions</td><td><strong>Prix payé par l'usager</strong> (redevance)</td></tr>
+<tr><td><strong>Droit applicable</strong></td><td>Droit <strong>public</strong></td><td>Majoritairement droit <strong>privé</strong> (code du travail)</td></tr>
+<tr><td><strong>Juge compétent</strong></td><td>Juge <strong>administratif</strong></td><td>Juge <strong>judiciaire</strong></td></tr>
+<tr><td><strong>Personnel</strong></td><td>Agents publics (fonctionnaires ou contractuels de droit public)</td><td>Salariés de droit privé (sauf le directeur et le comptable)</td></tr>
+</tbody>
+</table>
+
+<h4>Les modes de gestion dans l'organisation administrative</h4>
+<p>Les personnes publiques (État, collectivités territoriales) sont libres de choisir comment gérer leurs services publics, sauf si la loi impose un monopole (ex : la fiscalité ou la défense). On distingue deux grands modes :</p>
+<ul>
+<li><strong>La gestion directe (la régie) :</strong> La personne publique gère le service avec ses propres moyens financiers et humains (ex : un service périscolaire communal ou la DGFiP au niveau de l'État).</li>
+<li><strong>La gestion déléguée :</strong> La gestion est confiée à un tiers.
+<ul>
+<li>Elle peut être <strong>unilatérale</strong>, en créant un <strong>établissement public</strong> (comme un hôpital ou un musée). Ce mode illustre la <strong>décentralisation fonctionnelle</strong>, où la structure bénéficie d'une autonomie mais est soumise au <strong>principe de spécialité</strong> (elle ne gère que le service public pour lequel elle a été créée).</li>
+<li>Elle peut être <strong>contractuelle</strong>, notamment pour les SPIC, en confiant le service à une personne privée via :
+<ul>
+<li>Une <strong>concession</strong> : le concessionnaire assume le risque financier et se rémunère sur les usagers.</li>
+<li>Un <strong>marché public</strong> : la collectivité conserve le risque et rémunère le contractant par un prix.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="info-box green"><strong>L'usager et le service public :</strong> Les relations diffèrent selon la catégorie. L'usager d'un <strong>SPA</strong> est dans une situation <strong>légale et réglementaire</strong> (pas de contrat). L'usager d'un <strong>SPIC</strong> est dans une situation <strong>contractuelle</strong> de droit privé. L'usager du SPIC est qualifié de « client » ou « abonné ». Cette distinction a des conséquences directes sur le juge compétent en cas de litige.</div>
+</div></div>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 3 : DROIT CIVIL ET DES PERSONNES     -->
+<!-- ============================================ -->
+<div class="section" id="s3">
+<div class="section-header"><div class="section-number">3</div><h2>Droit civil et des personnes</h2></div>
+
+<!-- 3.1 -->
+<div class="card" id="c31"><div class="card-head" onclick="toggle(this)"><span class="badge badge-purple">3.1</span><h3>Personnalité juridique</h3><span class="chevron">▼</span></div>
+<div class="card-body">
+<div class="info-box blue"><strong>Définition :</strong> La personnalité juridique se définit en droit civil comme l'<strong>aptitude à être titulaire de droits et assujetti à des obligations</strong>. Elle confère la qualité de « <strong>sujet de droit</strong> », par opposition aux « <strong>objets de droit</strong> » (les choses et les biens, catégorie à laquelle appartiennent juridiquement les animaux, bien qu'ils soient protégés en tant qu'êtres vivants doués de sensibilité).</div>
+
+<p>Le droit distingue deux grandes catégories de personnes juridiques :</p>
+<ul>
+<li><strong>Les personnes physiques :</strong> Les êtres humains.</li>
+<li><strong>Les personnes morales :</strong> Les groupements de personnes ou de biens (État, collectivités, sociétés commerciales, associations, syndicats) qui sont dotés d'une personnalité juridique <strong>distincte de celle de leurs membres</strong>.</li>
+</ul>
+
+<h4>La durée de la personnalité juridique</h4>
+<p>Les modalités d'acquisition et de perte de cette personnalité diffèrent selon la nature de la personne :</p>
+
+<h5>Pour les personnes physiques</h5>
+<ul>
+<li><strong>Début :</strong> La personnalité juridique commence en principe à la <strong>naissance</strong>, à condition que l'enfant naisse <strong>vivant et viable</strong> (ayant respiré et disposant des organes indispensables à la vie).</li>
+<li><strong>Exception — l'<em>infans conceptus</em> :</strong> L'enfant simplement conçu est réputé né chaque fois que cela est <strong>dans son intérêt</strong> (par exemple, pour hériter d'un père décédé pendant la grossesse), à condition de naître ensuite vivant et viable.</li>
+<li><strong>Fin :</strong> La personnalité juridique prend fin à la <strong>mort</strong> (constatée médicalement). En cas de doute :
+<ul>
+<li><strong>L'absence :</strong> Quand une personne a cessé de paraître sans que l'on sache si elle est morte ou vivante. Le juge peut prononcer une déclaration d'absence après 20 ans (ou 10 ans après un jugement de présomption d'absence).</li>
+<li><strong>La disparition :</strong> Quand une personne a disparu dans des circonstances de nature à mettre sa vie en danger (naufrage, catastrophe). Le tribunal peut prononcer directement un jugement déclaratif de décès.</li>
+</ul>
+</li>
+</ul>
+
+<h5>Pour les personnes morales</h5>
+<ul>
+<li><strong>Début :</strong> La personnalité s'acquiert par des <strong>formalités de publicité</strong> : immatriculation au <strong>Registre national des entreprises (RNE)</strong> pour une société, déclaration en préfecture pour une association, dépôt des statuts pour un syndicat. <strong>Sans cette publicité, le groupement n'a aucune autonomie juridique</strong> et se trouve frappé d'incapacité.</li>
+<li><strong>Fin :</strong> Elle prend fin au moment de la <strong>dissolution</strong> de la personne morale (qui peut être légale, statutaire, volontaire ou judiciaire), suivie d'une <strong>radiation</strong> pour être opposable aux tiers.</li>
+</ul>
+
+<h4>Les attributs de la personnalité juridique</h4>
+<p>Posséder la personnalité juridique confère des droits fondamentaux, un patrimoine, mais aussi des éléments d'identification et de capacité qui permettent d'agir dans la vie civile et économique :</p>
+
+<h5>1. L'identification</h5>
+<p>L'identification permet de distinguer chaque sujet de droit.</p>
+<ul>
+<li><strong>La personne physique</strong> est individualisée par son <strong>nom de famille</strong> (acquis par filiation ou décision et complété obligatoirement par un <strong>prénom</strong>, et potentiellement un <strong>nom d'usage</strong>), son <strong>sexe</strong>, son <strong>état civil</strong>, ainsi que son <strong>domicile</strong> (son siège légal unique, à ne pas confondre avec sa simple résidence de fait). Elle possède également des identifiants chiffrés comme le <strong>numéro Insee</strong> (Sécurité sociale) et le <strong>numéro fiscal</strong>.</li>
+<li><strong>La personne morale</strong> (comme une société) est identifiée par son <strong>nom</strong> (dénomination ou raison sociale, nom commercial, enseigne), son <strong>domicile</strong> (le siège social, fixé dans les statuts) et des <strong>numéros d'immatriculation</strong> officiels (<strong>SIREN</strong> et <strong>SIRET</strong>).</li>
+</ul>
+
+<h5>2. La capacité juridique</h5>
+<p>C'est l'aptitude à avoir des droits (<strong>capacité de jouissance</strong>) et à les mettre en œuvre soi-même (<strong>capacité d'exercice</strong>).</p>
+<ul>
+<li>Pour les <strong>personnes physiques</strong>, la capacité est la règle et l'incapacité est l'exception. Les exceptions concernent les <strong>mineurs</strong> (incapacité d'exercice nécessitant l'intervention d'un représentant légal jusqu'à la majorité ou l'émancipation) et les <strong>majeurs protégés</strong> (placés sous sauvegarde de justice, curatelle ou tutelle en raison d'une altération de leurs facultés mentales ou corporelles).</li>
+<li>Pour les <strong>personnes morales</strong>, la capacité est limitée par le <strong>principe de spécialité</strong> : elles n'ont qu'une capacité de jouissance spéciale, strictement cantonnée à l'<strong>objet social</strong> défini dans leurs statuts (par exemple, une société créée pour vendre des voitures ne peut pas ouvrir un salon de coiffure). Ne pouvant agir physiquement, elles exercent cette capacité par le biais de la <strong>représentation</strong>, via des personnes physiques mandatées (gérant, PDG).</li>
+</ul>
+
+<h5>3. Le patrimoine</h5>
+<p>Toute personne juridique possède un <strong>patrimoine</strong>, c'est-à-dire l'ensemble des droits et obligations à caractère pécuniaire. Le patrimoine est <strong>unique</strong>, <strong>universel</strong> (il contient un actif et un passif indissociables) et <strong>incessible</strong> du vivant de la personne (on ne peut pas transférer l'intégralité de son patrimoine). Il peut toutefois contenir des droits <strong>patrimoniaux</strong> (évaluables en argent : propriété, créances) et des droits <strong>extrapatrimoniaux</strong> (inestimables : nom, honneur, vie privée).</p>
+
+</div></div>
+
+<!-- 3.2 -->
+<div class="card" id="c32"><div class="card-head" onclick="toggle(this)"><span class="badge badge-purple">3.2</span><h3>Identification des personnes</h3><span class="chevron">▼</span></div>
+<div class="card-body">
+<p>Dans le domaine du droit civil et des personnes, l'identification est un <strong>attribut fondamental</strong> découlant de la personnalité juridique, qu'elle soit physique ou morale. Elle a pour but de <strong>désigner et de distinguer chaque sujet de droit</strong> dans la vie sociale et juridique. Pour une administration comme la DGFiP, cette identification précise est indispensable afin de <strong>retrouver les usagers</strong>, de <strong>s'adresser au bon interlocuteur</strong> et d'<strong>éviter les amalgames ou les doublons fiscaux</strong>.</p>
+
+<h4>1. L'identification de la personne physique</h4>
+<p>L'individualisation de l'être humain s'articule autour de plusieurs éléments :</p>
+<ul>
+<li><strong>Le nom et ses accessoires :</strong> Le <strong>nom de famille</strong> (ou nom de naissance) marque le rattachement à une famille et s'acquiert principalement par la <strong>filiation</strong>, bien qu'il puisse aussi résulter d'une décision administrative ou judiciaire. Une personne peut également choisir d'utiliser un <strong>nom d'usage</strong> (par exemple suite à un mariage). Le nom comporte un accessoire obligatoire, le <strong>prénom</strong>, et peut s'accompagner d'accessoires facultatifs comme un <strong>pseudonyme</strong> ou un <strong>titre de noblesse</strong>.</li>
+<li><strong>Le sexe :</strong> Il s'agit d'une mention (féminin ou masculin) obligatoirement indiquée sur les actes de l'état civil.</li>
+<li><strong>Le domicile :</strong> C'est le lieu du <strong>principal établissement</strong> de la personne, là où elle est rattachée juridiquement pour exercer ses droits et obligations. Le domicile est <strong>unique, inviolable</strong>, et génère des effets de droit importants :
+<ul>
+<li>Lieu d'<strong>imposition</strong>.</li>
+<li><strong>Tribunal compétent</strong> (en principe, le tribunal du domicile du défendeur).</li>
+<li>Lieu d'ouverture d'une <strong>succession</strong>.</li>
+</ul>
+</li>
+</ul>
+
+<div class="info-box orange"><strong>Domicile ≠ Résidence :</strong> Les sources insistent sur la différence avec la <strong>résidence</strong>, qui n'est qu'une situation de fait (lieu de séjour provisoire) et qui peut être <strong>multiple</strong>. Le domicile est une notion <strong>juridique</strong> ; la résidence est une notion <strong>factuelle</strong>. En droit fiscal, le domicile fiscal obéit à des critères propres (foyer, lieu de séjour principal, activité professionnelle, centre des intérêts économiques — art. 4 B du CGI).</div>
+
+<ul>
+<li><strong>L'état civil :</strong> Il s'agit du système officiel consignant par écrit l'état des personnes (actes de naissance, mariage, divorce, décès). Tenu par le maire agissant en tant qu'agent de l'État (dédoublement fonctionnel).</li>
+<li><strong>Les identifiants chiffrés :</strong> Les individus sont également identifiés numériquement via :
+<ul>
+<li>Le <strong>numéro Insee</strong> (ou NIR, communément appelé numéro de Sécurité sociale, composé de <strong>13 chiffres et d'une clé de contrôle</strong>).</li>
+<li>Un <strong>numéro fiscal (NIF / SPI)</strong> de 13 chiffres utilisé par la DGFiP.</li>
+</ul>
+</li>
+</ul>
+
+<h4>2. L'identification de la personne morale</h4>
+<p>Les groupements comme les sociétés disposent d'éléments d'identification <strong>librement choisis par leurs fondateurs</strong>, qui font le parallèle avec ceux des personnes physiques :</p>
+<table class="styled">
+<thead><tr><th>Élément</th><th>Équivalent personne physique</th><th>Détail</th></tr></thead>
+<tbody>
+<tr><td><strong>Dénomination sociale / Raison sociale</strong></td><td>Nom de famille</td><td>Nom officiel de la société, acquis à l'immatriculation. Peut être complété par un <strong>nom commercial</strong> (nom sous lequel l'activité est connue du public) et par une <strong>enseigne</strong> (inscription ou logo apposé sur le local d'exploitation).</td></tr>
+<tr><td><strong>Siège social</strong></td><td>Domicile</td><td>Domicile <strong>unique</strong> de la personne morale, fixé dans ses statuts, généralement situé là où se trouvent ses organes d'administration.</td></tr>
+<tr><td><strong>Immatriculation (RNE)</strong></td><td>État civil</td><td>Inscription au <strong>Registre national des entreprises</strong>, qui centralise et rend publiques les informations juridiques et économiques (capital, siège, nature de l'activité).</td></tr>
+<tr><td><strong>SIREN</strong></td><td>NIR (Sécu)</td><td><strong>9 chiffres</strong> — identifie l'entreprise. Clé d'entrée principale pour la DGFiP dans ses applications de taxation et de recouvrement.</td></tr>
+<tr><td><strong>SIRET</strong></td><td>—</td><td><strong>14 chiffres</strong> (SIREN + NIC de 5 chiffres) — identifie chaque <strong>établissement</strong> de l'entreprise.</td></tr>
+</tbody>
+</table>
+</div></div>
+
+<!-- 3.3 -->
+<div class="card" id="c33"><div class="card-head" onclick="toggle(this)"><span class="badge badge-purple">3.3</span><h3>Capacité juridique</h3><span class="chevron">▼</span></div>
+<div class="card-body">
+<div class="info-box blue"><strong>Principe fondamental :</strong> « La <strong>capacité est la règle</strong>, l'<strong>incapacité l'exception</strong>. »</div>
+
+<p>Dans le domaine du droit civil, la capacité juridique se définit comme l'aptitude à être titulaire de droits et d'obligations, et à pouvoir les exercer. La capacité juridique se divise en <strong>deux composantes distinctes</strong> :</p>
+<ul>
+<li><strong>La capacité de jouissance :</strong> C'est l'aptitude à <strong>posséder</strong> des droits (comme le droit de propriété ou de recevoir un héritage) et des obligations. Pour les personnes physiques, elle est <strong>générale dès la naissance</strong> et s'étend jusqu'à la mort. Il n'existe pas d'incapacité générale de jouissance, seules des incapacités <strong>spéciales</strong> peuvent s'appliquer dans des circonstances exceptionnelles (par exemple, un dirigeant condamné pour banqueroute qui se voit interdire d'être commerçant).</li>
+<li><strong>La capacité d'exercice :</strong> C'est le pouvoir de <strong>mettre en œuvre soi-même et seul</strong> ses droits, sans assistance ni représentation par un tiers. Contrairement à la capacité de jouissance, elle est liée à la <strong>capacité de discernement</strong> de la personne.</li>
+</ul>
+
+<p>L'incapacité d'exercice touche principalement <strong>deux catégories</strong> de personnes physiques pour des raisons de protection :</p>
+
+<h4>1. L'incapacité d'exercice du mineur</h4>
+<p>Jusqu'à sa majorité (fixée à <strong>18 ans accomplis</strong>), l'enfant manque de maturité et est frappé d'une <strong>incapacité générale d'exercice</strong>. Il est placé sous l'autorité de ses parents et doit être représenté légalement (par ses parents ou un tuteur). La nature de l'acte dicte les pouvoirs du représentant :</p>
+<table class="styled">
+<thead><tr><th>Type d'acte</th><th>Définition</th><th>Pouvoir du représentant</th></tr></thead>
+<tbody>
+<tr><td><strong>Conservatoire</strong></td><td>Urgent pour sauvegarder le patrimoine (réparation d'urgence, inscription d'hypothèque).</td><td>Le représentant peut l'accomplir <strong>seul</strong>.</td></tr>
+<tr><td><strong>D'administration</strong></td><td>Gestion et exploitation courante du patrimoine (signer un bail, percevoir des loyers, placements prudents).</td><td>Le représentant peut l'accomplir <strong>seul</strong>.</td></tr>
+<tr><td><strong>De disposition</strong></td><td>Acte grave affectant durablement le patrimoine (vente d'un bien immobilier, emprunt, donation).</td><td><strong>Autorisation préalable du juge des tutelles</strong> requise.</td></tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Exceptions :</strong> Si le mineur est doué de discernement, il peut accomplir seul certains actes de la vie courante (achats de faible valeur) ou personnels (ouverture d'un livret jeune à 12 ans).</li>
+<li><strong>L'émancipation :</strong> Accessible dès <strong>16 ans révolus</strong> (par décision de justice ou par le mariage), elle permet au mineur d'être traité comme un majeur capable pour les actes de la vie civile (signer un contrat de travail, créer une micro-entreprise). Toutefois, certains actes lui restent interdits (voter, entrer dans un casino, se marier sans le consentement de ses parents).</li>
+</ul>
+
+<h4>2. L'incapacité d'exercice du majeur protégé</h4>
+<p>Bien que la capacité d'exercice soit la règle à 18 ans, certains majeurs peuvent être protégés par un juge si une <strong>altération de leurs facultés mentales ou corporelles</strong> (constatée médicalement) les empêche de pourvoir seuls à leurs intérêts. Les mesures sont <strong>proportionnelles</strong> à l'altération :</p>
+<ul>
+<li><strong>La sauvegarde de justice :</strong> Mesure <strong>légère et temporaire</strong> où la personne conserve ses droits, mais qui permet de contester ou d'annuler des actes passés qui seraient contraires à ses intérêts (action en rescision pour lésion ou en réduction pour excès).</li>
+<li><strong>La curatelle :</strong> Le majeur n'est pas hors d'état d'agir, mais a besoin d'être <strong>assisté ou contrôlé</strong> pour certains actes importants. On distingue la curatelle simple (assistance pour les actes de disposition) et la curatelle renforcée (le curateur perçoit les revenus et règle les dépenses).</li>
+<li><strong>La tutelle :</strong> Mesure la plus lourde pour le majeur qui ne peut plus veiller sur ses intérêts. Il est assimilé à un mineur et <strong>représenté de manière continue</strong> par un tuteur pour les actes de la vie civile.</li>
+</ul>
+
+<h4>3. La capacité des personnes morales</h4>
+<p>Le fonctionnement est très différent pour les sociétés ou les associations. Les personnes morales disposent d'une capacité de jouissance restreinte au <strong>principe de spécialité</strong>. Elles ne peuvent accomplir que les actes juridiques qui correspondent strictement à leur <strong>objet social</strong>, tel qu'il est défini dans leurs statuts (une société créée pour vendre des voitures ne peut pas ouvrir un salon de coiffure). Pour mettre en œuvre leur capacité d'exercice, ces groupements, n'ayant pas d'existence corporelle, ont recours à la <strong>représentation</strong> : ils agissent par l'intermédiaire de personnes physiques mandatées pour les diriger (gérant, président-directeur général).</p>
+
+<div class="info-box red"><strong>Enjeu DGFiP :</strong> Comprendre parfaitement ces notions de capacité et de représentation est indispensable pour l'administration fiscale afin de <strong>s'adresser au bon interlocuteur</strong> (le tuteur d'un majeur protégé ou le représentant légal d'une société) et d'éviter ainsi toute <strong>irrégularité ou erreur de procédure</strong> (nullité des actes, vices de notification).</div>
+</div></div>
+
+<!-- 3.4 -->
+<div class="card" id="c34"><div class="card-head" onclick="toggle(this)"><span class="badge badge-purple">3.4</span><h3>Les personnes morales</h3><span class="chevron">▼</span></div>
+<div class="card-body">
+<p>En droit civil, une personne morale est un <strong>groupement de personnes</strong>, ou plus rarement de biens (comme une fondation), doté d'une <strong>personnalité juridique distincte</strong> de celle de ses membres. En tant que « sujet de droit », au même titre qu'une personne physique, la personne morale est apte à être titulaire de droits et assujettie à des obligations.</p>
+
+<p>Le droit distingue deux grandes catégories de personnes morales :</p>
+<ul>
+<li><strong>Les personnes morales de droit public :</strong> L'État, les collectivités territoriales et les établissements publics (hôpitaux, universités…).</li>
+<li><strong>Les personnes morales de droit privé :</strong> Elles peuvent être à <strong>but lucratif</strong> (les sociétés civiles et commerciales qui cherchent à faire des bénéfices) ou à <strong>but non lucratif</strong> (les associations, les syndicats professionnels et les fondations).</li>
+</ul>
+
+<h4>1. Le cycle de vie de la personne morale</h4>
+<p>Contrairement à l'être humain, l'acquisition et la perte de la personnalité juridique pour un groupement répondent à un <strong>formalisme strict</strong> :</p>
+<ul>
+<li><strong>Le commencement :</strong> La personnalité juridique s'acquiert par des <strong>formalités de publicité</strong>. Une société acquiert cette personnalité dès son <strong>immatriculation au Registre national des entreprises (RNE)</strong>, une association lors de la parution de sa déclaration au <strong>Journal officiel</strong>, et un syndicat lors du <strong>dépôt de ses statuts</strong>. Sans cet accomplissement, le groupement est dépourvu d'autonomie juridique (pas de patrimoine, pas de nom propre) et se trouve frappé d'incapacité.</li>
+<li><strong>La fin :</strong> La personnalité juridique s'éteint au moment de la <strong>dissolution</strong> de la personne morale, qui peut intervenir pour des raisons <strong>légales, statutaires</strong> (arrivée du terme prévu dans les statuts), <strong>volontaires</strong> ou <strong>judiciaires</strong> (faillite). Pour être opposable aux tiers, cette fin doit être suivie d'une <strong>radiation</strong> du RNE ou d'une déclaration en préfecture/mairie.</li>
+</ul>
+
+<h4>2. L'identification de la personne morale</h4>
+<p>Afin de pouvoir interagir dans la vie juridique et économique, les fondateurs choisissent librement des éléments d'identification pour la personne morale :</p>
+<ul>
+<li><strong>Le nom :</strong> L'équivalent du nom de famille est la <strong>dénomination sociale</strong> (pour les sociétés commerciales) ou la <strong>raison sociale</strong> (pour les sociétés civiles professionnelles). Il peut être complété par un <strong>nom commercial</strong> (le nom sous lequel l'activité est connue du public) et par une <strong>enseigne</strong> (le logo ou l'inscription apposée sur un local).</li>
+<li><strong>Le domicile :</strong> Il s'agit du <strong>siège social</strong>. C'est le domicile unique de la personne morale, fixé dans ses statuts, qui correspond au lieu de rattachement territorial pour l'exercice de ses droits et obligations.</li>
+<li><strong>L'« état civil » et les identifiants :</strong> Toutes les informations juridiques et économiques des sociétés sont centralisées au <strong>Registre national des entreprises (RNE)</strong>, accessible publiquement. L'administration (l'Insee) leur attribue des identifiants chiffrés indispensables : le numéro <strong>SIREN</strong> (9 chiffres pour identifier l'entreprise) et le <strong>SIRET</strong> (14 chiffres pour identifier chacun de ses établissements physiques).</li>
+</ul>
+
+<h4>3. La capacité juridique et la représentation</h4>
+<p>Bien que la personne morale ait la capacité juridique d'être titulaire de droits, celle-ci diffère de celle des personnes physiques sur deux points majeurs :</p>
+<ul>
+<li><strong>Le principe de spécialité :</strong> La capacité de jouissance d'une personne morale est <strong>restreinte</strong>. Elle ne peut accomplir que les actes juridiques qui correspondent strictement à son <strong>objet social</strong>, tel qu'il est défini dans ses statuts. Par exemple, une société créée pour vendre des voitures ne peut pas ouvrir un salon de coiffure.</li>
+<li><strong>La représentation :</strong> N'ayant pas d'existence physique, une société ou une association ne peut agir elle-même. Elle met en œuvre sa capacité d'exercice par la <strong>représentation</strong>, c'est-à-dire par l'intermédiaire de personnes physiques mandatées pour la diriger (le gérant, le Président-directeur général, le secrétaire général, etc.) qui signent et agissent en son nom.</li>
+</ul>
+
+<h4>Complément : les principales formes de sociétés</h4>
+<table class="styled">
+<thead><tr><th>Forme</th><th>Type</th><th>Responsabilité des associés</th><th>Nombre d'associés</th><th>Régime fiscal par défaut</th></tr></thead>
+<tbody>
+<tr><td><strong>SARL</strong></td><td>Société de capitaux</td><td>Limitée aux apports</td><td>2 à 100</td><td>IS</td></tr>
+<tr><td><strong>EURL</strong></td><td>SARL unipersonnelle</td><td>Limitée aux apports</td><td>1</td><td>IR (option IS possible)</td></tr>
+<tr><td><strong>SA</strong></td><td>Société de capitaux</td><td>Limitée aux apports</td><td>≥ 2 (≥ 7 si cotée)</td><td>IS</td></tr>
+<tr><td><strong>SAS / SASU</strong></td><td>Société de capitaux</td><td>Limitée aux apports</td><td>≥ 1</td><td>IS (option IR temporaire possible)</td></tr>
+<tr><td><strong>SNC</strong></td><td>Société de personnes</td><td><strong>Illimitée et solidaire</strong></td><td>≥ 2</td><td>IR (option IS possible)</td></tr>
+<tr><td><strong>SCI</strong></td><td>Société civile</td><td>Illimitée (non solidaire)</td><td>≥ 2</td><td>IR (option IS possible)</td></tr>
+<tr><td><strong>EI</strong></td><td>Pas de personnalité morale</td><td>Patrimoine professionnel séparé (depuis 2022)</td><td>1</td><td>IR (BIC, BNC ou BA)</td></tr>
+</tbody>
+</table>
+
+<div class="info-box indigo"><strong>Distinction clé :</strong> L'<strong>entreprise individuelle (EI / micro-entreprise)</strong> n'a <strong>pas de personnalité morale distincte</strong> de celle de l'exploitant. L'entrepreneur et son entreprise ne font qu'un en droit. Depuis la loi du 14 février 2022, le patrimoine professionnel de l'EI est toutefois <strong>séparé par défaut</strong> de son patrimoine personnel (protection de l'entrepreneur).</div>
+</div></div>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 4 : FISCALITÉ DES PROFESSIONNELS     -->
+<!-- ============================================ -->
+<div class="section" id="s4">
+<div class="section-header"><div class="section-number">4</div><h2>Fiscalité des professionnels</h2></div>
+
+<!-- 4.1 -->
+<div class="card" id="c41"><div class="card-head" onclick="toggle(this)"><span class="badge badge-orange">4.1</span><h3>TVA — Taxe sur la Valeur Ajoutée</h3><span class="chevron">▼</span></div>
+<div class="card-body">
+<div class="info-box blue"><strong>Définition :</strong> La Taxe sur la Valeur Ajoutée (TVA) est un <strong>impôt indirect général sur la consommation</strong> qui s'applique sur le chiffre d'affaires. Elle occupe une place primordiale dans le système fiscal français, constituant la <strong>première recette fiscale de l'État</strong> (représentant environ <strong>29 % de ses recettes nettes</strong>), avec une assiette très large qui touche la quasi-totalité des biens et services.</div>
+
+<h4>Le mécanisme du paiement fractionné</h4>
+<p>Dans le contexte de la fiscalité des professionnels, la TVA se caractérise par son mécanisme de <strong>paiement fractionné</strong>, qui garantit le principe de <strong>neutralité</strong> de cet impôt pour les entreprises. Le professionnel n'en supporte pas le coût, mais agit comme un <strong>collecteur</strong> pour le compte de l'État :</p>
+<ul>
+<li><strong>La TVA collectée :</strong> Le professionnel applique un taux proportionnel au prix de vente hors taxes (HT) de ses biens ou services, et perçoit cette TVA auprès de ses <strong>clients</strong>.</li>
+<li><strong>La TVA déductible :</strong> En parallèle, le professionnel a le droit de déduire la TVA qui lui a été facturée par ses propres <strong>fournisseurs</strong> lors de ses achats.</li>
+<li><strong>La TVA nette :</strong> L'entreprise reverse à l'administration fiscale la <strong>différence</strong> entre la TVA collectée et la TVA déductible (ou bénéficie d'un « <strong>crédit de TVA</strong> » si la TVA déductible est supérieure).</li>
+</ul>
+<p>Ce mécanisme fait que l'entreprise ne reverse au final que la taxe correspondant à la « <strong>valeur ajoutée</strong> » qu'elle a produite. Bien que l'on qualifie les professionnels de « <strong>redevables légaux</strong> » (environ <strong>4,62 millions</strong> en France), les « <strong>redevables réels</strong> » sont en fait les <strong>consommateurs finaux</strong>, car ils sont les seuls à supporter la charge de la taxe sans pouvoir la récupérer.</p>
+
+<h4>Les taux de TVA applicables en France</h4>
+<table class="styled">
+<thead><tr><th>Taux</th><th>%</th><th>Application</th></tr></thead>
+<tbody>
+<tr><td><strong>Normal</strong></td><td><strong>20 %</strong></td><td>Taux de droit commun — majorité des biens et services.</td></tr>
+<tr><td><strong>Intermédiaire</strong></td><td><strong>10 %</strong></td><td>Restauration (sur place/emporter hors alcool), travaux de rénovation, transports, hébergement hôtelier.</td></tr>
+<tr><td><strong>Réduit</strong></td><td><strong>5,5 %</strong></td><td>Produits alimentaires de 1ère nécessité, livres, abonnements gaz/électricité, spectacles vivants, équipements handicapés.</td></tr>
+<tr><td><strong>Super-réduit</strong></td><td><strong>2,1 %</strong></td><td>Médicaments remboursables, presse d'information politique et générale, premières représentations théâtrales.</td></tr>
+</tbody>
+</table>
+
+<h4>Le fait générateur et l'exigibilité</h4>
+<p>Deux notions essentielles pour déterminer <strong>quand</strong> la TVA doit être déclarée :</p>
+<ul>
+<li><strong>Le fait générateur :</strong> C'est l'événement qui <strong>fait naître la créance fiscale</strong>. Pour les livraisons de biens, c'est la livraison ; pour les prestations de services, c'est l'achèvement de la prestation.</li>
+<li><strong>L'exigibilité :</strong> C'est le moment à partir duquel le Trésor peut <strong>réclamer le paiement</strong>. Pour les livraisons de biens, elle coïncide avec le fait générateur. Pour les prestations de services, l'exigibilité intervient en principe lors de l'<strong>encaissement du prix</strong> (mais l'entreprise peut opter pour l'exigibilité « sur les débits », c'est-à-dire à la facturation).</li>
+</ul>
+
+<h4>Le droit à déduction — Conditions</h4>
+<p>Pour qu'une TVA soit déductible, quatre conditions <strong>cumulatives</strong> doivent être réunies :</p>
+<ol>
+<li><strong>Condition de fond :</strong> Les biens ou services doivent être <strong>nécessaires à l'exploitation</strong> (utilisés pour les besoins d'opérations imposables).</li>
+<li><strong>Condition de forme :</strong> La TVA doit figurer sur une <strong>facture conforme</strong> (mentions obligatoires).</li>
+<li><strong>Condition de temps :</strong> La TVA n'est déductible qu'à partir du moment où elle est devenue <strong>exigible</strong> chez le fournisseur.</li>
+<li><strong>Absence d'exclusion légale :</strong> Certaines dépenses sont exclues du droit à déduction même si elles sont professionnelles (véhicules de tourisme, hébergement des dirigeants, cadeaux > 73 € TTC/an/bénéficiaire, certains carburants).</li>
+</ol>
+
+<h4>Les régimes d'imposition à la TVA</h4>
+<table class="styled">
+<thead><tr><th>Régime</th><th>Seuils CA (services / ventes)</th><th>Obligations déclaratives</th></tr></thead>
+<tbody>
+<tr><td><strong>Franchise en base</strong></td><td>≤ 36 800 € / ≤ 91 900 €</td><td>Dispense totale de TVA. Ne collecte pas, ne déduit pas. Mention obligatoire : « TVA non applicable, art. 293 B du CGI ».</td></tr>
+<tr><td><strong>Réel simplifié (RSI)</strong></td><td>Jusqu'à 254 000 € / 840 000 €</td><td>Déclaration <strong>annuelle (CA12)</strong> + 2 acomptes semestriels (juillet et décembre). Régularisation annuelle.</td></tr>
+<tr><td><strong>Réel normal (RN)</strong></td><td>> 254 000 € / > 840 000 €</td><td>Déclaration <strong>mensuelle (CA3 — n° 3310)</strong> + paiement simultané. Date limite : entre le 15 et le 24 du mois. (Si TVA annuelle < 4 000 € → trimestrielle possible.)</td></tr>
+</tbody>
+</table>
+
+<h4>L'environnement administratif</h4>
+<p>La Direction générale des finances publiques (DGFiP) est compétente pour recouvrer l'essentiel de la TVA due en France. Dans ce cadre, deux interlocuteurs majeurs se distinguent pour le professionnel :</p>
+<ul>
+<li><strong>Le Service des impôts des entreprises (SIE) :</strong> Il est l'interlocuteur fiscal unique pour la gestion des déclarations, l'encaissement des paiements, les questions courantes et les relances en cas de défaillance.</li>
+<li><strong>Le Pôle de contrôle expertise (PCE) :</strong> Il assure l'expertise technique, le traitement des contentieux complexes et effectue les contrôles sur pièces ou sur place des déclarations. Il est à noter que pour les opérations intracommunautaires, la DGFiP participe au contrôle <strong>conjointement avec la Direction des douanes (DGDDI)</strong>.</li>
+</ul>
+
+<h4>Les obligations déclaratives et de paiement</h4>
+<p>Les professionnels ont l'obligation stricte de souscrire leurs déclarations de TVA (comme la déclaration <strong>n° 3310-CA3</strong>) et de procéder au paiement de manière <strong>dématérialisée</strong>. Pour ces téléprocédures, deux modes de transmission existent :</p>
+<ul>
+<li><strong>Le mode EFI (Échange de formulaires informatisés) :</strong> Le professionnel saisit directement sa déclaration en ligne depuis son espace sur <strong>impots.gouv.fr</strong>.</li>
+<li><strong>Le mode EDI (Échange de données informatisées) :</strong> Les données sont transmises par un partenaire habilité, tel qu'un <strong>cabinet comptable</strong>.</li>
+</ul>
+<p>Lors du remplissage de ces déclarations, tous les montants reportés doivent être obligatoirement <strong>arrondis à l'euro le plus proche</strong>.</p>
+
+<div class="info-box green"><strong>La TVA intracommunautaire :</strong> Lors d'échanges de biens entre États membres de l'UE, un mécanisme spécifique s'applique. L'entreprise française qui acquiert un bien auprès d'un fournisseur d'un autre État membre doit <strong>autoliquider la TVA</strong> (elle déclare simultanément une TVA collectée et une TVA déductible, rendant l'opération neutre). Pour cela, chaque entreprise dispose d'un <strong>numéro de TVA intracommunautaire</strong> (FR + 2 chiffres clé + SIREN). Les opérations sont retracées dans une <strong>Déclaration européenne de services (DES)</strong> ou une <strong>Déclaration d'échanges de biens (DEB / EMEBI)</strong>.</div>
+</div></div>
+
+<!-- 4.2 -->
+<div class="card" id="c42"><div class="card-head" onclick="toggle(this)"><span class="badge badge-orange">4.2</span><h3>Bénéfices professionnels (BIC, BNC, BA)</h3><span class="chevron">▼</span></div>
+<div class="card-body">
+<div class="info-box blue"><strong>Principe :</strong> Dans le cadre de la fiscalité des professionnels, l'imposition des bénéfices dépend intimement de la <strong>forme juridique</strong> de l'entreprise. Pour une <strong>entreprise individuelle</strong>, le résultat fiscal constitue le revenu imposable tiré de l'activité, et il est soumis à l'<strong>impôt sur le revenu (IR)</strong> au niveau du foyer fiscal de l'exploitant.</div>
+
+<p>Afin de déterminer les règles d'imposition de ces bénéfices à l'IR, il est impératif d'analyser la <strong>nature de l'activité exercée</strong> pour la rattacher à l'une des trois catégories de revenus professionnels :</p>
+
+<h4>1. Les Bénéfices Industriels et Commerciaux (BIC)</h4>
+<p>Cette catégorie englobe les bénéfices issus d'activités exercées à <strong>titre habituel, de manière indépendante et dans un but lucratif</strong>. Elle comprend :</p>
+<ul>
+<li><strong>Les activités commerciales :</strong> Achat pour revendre, hôtellerie, restauration, agences immobilières, <strong>location meublée</strong>, banques et assurances.</li>
+<li><strong>Les activités industrielles :</strong> Activités caractérisées par l'importance des moyens mis en œuvre (transformation, extraction, construction, transport).</li>
+<li><strong>Les activités artisanales :</strong> Travailleur indépendant exerçant une activité manuelle exigeant une qualification (coiffeur, plombier, ébéniste).</li>
+</ul>
+
+<h4>2. Les Bénéfices Non Commerciaux (BNC)</h4>
+<p>Cette catégorie vise les revenus provenant d'activités où la <strong>part intellectuelle est prépondérante</strong>. On y trouve :</p>
+<ul>
+<li><strong>Les professions libérales :</strong> Pratique personnelle d'un art ou d'une science (médecins, experts-comptables, artistes peintres).</li>
+<li><strong>Les charges et offices :</strong> Activités des notaires, huissiers de justice (commissaires de justice).</li>
+<li><strong>Les autres activités lucratives :</strong> Toutes les activités qui ne peuvent pas être rattachées à une autre catégorie de revenus (droits d'auteur, arbitres sportifs, cartomanciens). Les BNC sont la <strong>catégorie « fourre-tout »</strong> du système fiscal.</li>
+</ul>
+
+<h4>3. Les Bénéfices Agricoles (BA)</h4>
+<p>Ils correspondent aux produits réalisés par les <strong>exploitants de biens ruraux</strong>. Cela inclut la culture de végétaux (exploitations forestières, champignonnières) et l'élevage d'animaux (apiculture, aviculture, pisciculture, activités hippiques).</p>
+
+<h4>Les régimes d'imposition des bénéfices</h4>
+<table class="styled">
+<thead><tr><th>Régime</th><th>BIC (ventes / services)</th><th>BNC</th><th>BA</th><th>Abattement forfaitaire</th></tr></thead>
+<tbody>
+<tr><td><strong>Micro</strong></td><td>≤ 188 700 € / ≤ 77 700 €</td><td>≤ 77 700 €</td><td>≤ 91 900 €</td><td>BIC : <strong>71 %</strong> (ventes) / <strong>50 %</strong> (services)<br>BNC : <strong>34 %</strong><br>BA : <strong>87 %</strong></td></tr>
+<tr><td><strong>Réel simplifié</strong></td><td>≤ 840 000 € / ≤ 254 000 €</td><td>—</td><td>≤ 391 000 €</td><td>Charges réelles. Liasse fiscale simplifiée.</td></tr>
+<tr><td><strong>Réel normal / Déclaration contrôlée</strong></td><td>> seuils ci-dessus</td><td>> 77 700 € (Déclaration contrôlée)</td><td>> 391 000 €</td><td>Charges réelles. Liasse fiscale complète.</td></tr>
+</tbody>
+</table>
+
+<h4>La détermination du bénéfice professionnel imposable</h4>
+<p>La méthode de calcul diffère légèrement selon la catégorie :</p>
+<ul>
+<li>Pour les libéraux (<strong>BNC</strong>), le résultat est calculé par la différence entre les <strong>recettes encaissées</strong> imposables et les <strong>dépenses effectuées</strong> déductibles.</li>
+<li>Pour les commerçants ou artisans (<strong>BIC</strong>) — tout comme pour les sociétés soumises à l'Impôt sur les Sociétés (IS) —, le bénéfice est la différence entre les <strong>produits acquis</strong> et les <strong>charges engagées</strong>.</li>
+</ul>
+<p>Pour ces derniers, le calcul part du résultat comptable auquel il faut apporter des corrections pour obtenir le résultat fiscal, car les <strong>règles comptables et fiscales divergent</strong> parfois :</p>
+
+<div class="info-box green"><strong>Formule du résultat fiscal (BIC / IS) :</strong><br>
+<strong>Résultat comptable</strong><br>
+<strong>+</strong> Réintégrations extra-comptables (ajout des charges comptabilisées mais non déductibles fiscalement, comme les <strong>amendes routières</strong>, l'IS lui-même, les amortissements excédentaires, les rémunérations excessives)<br>
+<strong>−</strong> Déductions extra-comptables (soustraction des produits comptabilisés mais non imposables, comme certaines <strong>plus-values exonérées</strong> ou des <strong>aides liées à l'implantation en zone fragile</strong>)<br>
+<strong>=</strong> <strong>Résultat fiscal</strong></div>
+
+<h4>Les obligations déclaratives</h4>
+<p>Les professionnels doivent déclarer leurs bénéfices de manière dématérialisée (<strong>télédéclaration</strong>) :</p>
+<ul>
+<li>Les titulaires de BIC utilisent la déclaration <strong>n° 2031</strong> accompagnée de leur <strong>liasse fiscale</strong> (bilan, compte de résultat).</li>
+<li>Les titulaires de BNC utilisent la déclaration <strong>n° 2035</strong> et ses tableaux annexes.</li>
+<li>Dans les deux cas, le <strong>délai de droit commun</strong> impose de souscrire cette déclaration au plus tard le <strong>2ème jour ouvré suivant le 1er mai</strong>, avec un <strong>délai supplémentaire de 15 jours</strong> lié à la télédéclaration.</li>
+<li>Une fois ce bénéfice catégoriel déclaré, l'entrepreneur individuel a l'obligation de reporter ce montant sur la <strong>déclaration complémentaire n° 2042-C-PRO</strong>, qui est annexée à sa déclaration de revenus personnelle globale.</li>
+</ul>
+
+<div class="info-box purple"><strong>Particularité de la micro-entreprise :</strong> Bien que la micro-entreprise soit une entreprise individuelle dont les bénéfices relèvent des BIC, BNC ou BA, elle bénéficie d'un <strong>régime fiscal et social très allégé</strong>. Le micro-entrepreneur peut notamment opter pour le <strong>prélèvement libératoire de l'IR</strong>, ce qui lui permet de payer ses impôts et ses cotisations sociales simultanément, en appliquant un <strong>simple pourcentage sur son chiffre d'affaires encaissé</strong> (1 %, 1,7 % ou 2,2 % selon l'activité). Condition : son revenu fiscal de référence N-2 ne doit pas dépasser un certain seuil.</div>
+
+<h4>Complément : les conditions de déductibilité des charges (BIC/IS)</h4>
+<p>Pour être déductible du résultat fiscal, une charge doit remplir <strong>cinq conditions cumulatives</strong> :</p>
+<ol>
+<li>Être engagée dans l'<strong>intérêt direct de l'exploitation</strong> (gestion normale).</li>
+<li>Correspondre à une <strong>charge effective</strong>, réelle et justifiée par des pièces comptables.</li>
+<li>Se rattacher à l'<strong>exercice au cours duquel elle a été engagée</strong> (principe de rattachement).</li>
+<li>Se traduire par une <strong>diminution de l'actif net</strong> de l'entreprise.</li>
+<li>Ne pas être <strong>exclue par une disposition expresse de la loi</strong> (ex : amendes, IS, fraction somptuaire de certaines dépenses).</li>
+</ol>
+
+<h4>Complément : les amortissements et les provisions</h4>
+<ul>
+<li><strong>Les amortissements :</strong> Constatation comptable de la <strong>dépréciation irréversible</strong> d'un actif immobilisé due à l'usure ou au temps. Principaux modes : linéaire (étalement régulier sur la durée d'utilisation) ou dégressif (amortissement accéléré les premières années — réservé à certains biens neufs). L'amortissement est une charge <strong>déductible</strong> dans la limite fixée par la loi. Un amortissement excédentaire (ex : suramortissement des véhicules au-delà du plafond) doit être <strong>réintégré</strong> dans le résultat fiscal.</li>
+<li><strong>Les provisions :</strong> Constatation comptable d'une <strong>dépréciation probable mais non définitive</strong> ou d'un risque futur (créance douteuse, litige en cours). Pour être déductibles, elles doivent être constituées pour faire face à des charges <strong>probables et clairement individualisées</strong>, comptabilisées avant la clôture de l'exercice.</li>
+</ul>
+</div></div>
+
+<!-- 4.3 -->
+<div class="card" id="c43"><div class="card-head" onclick="toggle(this)"><span class="badge badge-orange">4.3</span><h3>Gestion fiscale de l'entreprise</h3><span class="chevron">▼</span></div>
+<div class="card-body">
+<p>La gestion fiscale d'une entreprise s'articule autour de choix stratégiques liés à sa <strong>structure juridique</strong> et implique une rigueur absolue dans la détermination de ses résultats, ses obligations déclaratives et la gestion de la TVA.</p>
+
+<h4>1. Le choix de la structure et l'impôt applicable</h4>
+<p>La forme juridique choisie lors de la création détermine le mode d'imposition des bénéfices de l'entreprise :</p>
+
+<table class="styled">
+<thead><tr><th>Critère</th><th>Impôt sur le Revenu (IR)</th><th>Impôt sur les Sociétés (IS)</th></tr></thead>
+<tbody>
+<tr><td><strong>Qui est imposé ?</strong></td><td>L'exploitant / les associés (personnes physiques), au niveau de leur foyer fiscal.</td><td>La <strong>personne morale</strong> (la société), indépendamment de la nature de son activité.</td></tr>
+<tr><td><strong>Structures</strong></td><td>Entreprises individuelles, sociétés de personnes (SNC, SCI…).</td><td>Sociétés de capitaux (SA, SAS, SARL).</td></tr>
+<tr><td><strong>Catégorie de revenus</strong></td><td>BIC, BNC ou BA selon l'activité.</td><td>Résultat unique (civil ou commercial, sans distinction).</td></tr>
+<tr><td><strong>Barème / Taux</strong></td><td>Barème progressif de l'IR (0 % à 45 %).</td><td>Taux normal <strong>25 %</strong>.<br>Taux réduit PME <strong>15 %</strong> sur les 1ers 42 500 €*.</td></tr>
+<tr><td><strong>Traitement du déficit</strong></td><td>Imputable sur le revenu global du foyer (sous conditions et limitations).</td><td>Reportable en avant <strong>sans limitation de durée</strong> (ou report en arrière sur l'exercice précédent — « carry-back » — plafonné à 1 M€).</td></tr>
+</tbody>
+</table>
+<p style="font-size:.87rem;color:var(--muted);">* Conditions du taux réduit IS à 15 % : CA < 10 M€, capital entièrement libéré et détenu à ≥ 75 % par des personnes physiques.</p>
+
+<p>Un régime ultra-simplifié existe : la <strong>micro-entreprise</strong>, qui permet sous conditions d'opter pour un <strong>prélèvement libératoire</strong> (paiement simultané d'un pourcentage du chiffre d'affaires pour l'impôt et les charges sociales).</p>
+
+<div class="info-box orange"><strong>Options possibles :</strong> Le choix IR / IS n'est pas toujours figé. Certaines sociétés de personnes (SNC, SCI) peuvent <strong>opter pour l'IS</strong>. Inversement, certaines sociétés de capitaux (EURL, SARL de famille, SAS de moins de 5 ans) peuvent sous conditions opter temporairement pour l'IR. Ce choix est stratégique et dépend de la situation patrimoniale et fiscale des associés.</div>
+
+<h4>2. La détermination du résultat fiscal</h4>
+<p>Pour les entreprises soumises à l'IS ou aux BIC, l'impôt n'est pas calculé directement sur le bénéfice comptable, car les <strong>règles comptables et fiscales</strong> présentent des divergences. L'entreprise doit calculer son résultat fiscal en opérant des <strong>retraitements</strong> :</p>
+<div class="info-box green"><strong>Résultat comptable</strong><br>
+<strong>+</strong> Réintégrations extra-comptables (ajout des charges comptabilisées mais non déductibles fiscalement, comme les <strong>amendes</strong> pour infraction au code de la route, l'IS lui-même, les amortissements excédentaires, les dépenses somptuaires, les rémunérations excessives)<br>
+<strong>−</strong> Déductions extra-comptables (soustraction de produits comptabilisés mais exonérés d'impôt, comme certaines <strong>aides à l'implantation en zone fragile</strong>, les produits de participations sous régime mère-fille, certaines plus-values exonérées)<br>
+<strong>=</strong> <strong>Résultat fiscal</strong></div>
+
+<h4>3. Les obligations déclaratives et le paiement</h4>
+<p>Toutes les entreprises ont l'obligation stricte d'effectuer leurs déclarations et paiements d'impôts par voie <strong>dématérialisée</strong> (télédéclarations et télérèglements).</p>
+
+<h5>A. La déclaration des résultats</h5>
+<p>Elle se fait via des formulaires spécifiques accompagnés d'une <strong>liasse fiscale</strong> (bilan, compte de résultat) :</p>
+<table class="styled">
+<thead><tr><th>Impôt</th><th>Formulaire</th><th>Délai de dépôt</th></tr></thead>
+<tbody>
+<tr><td><strong>BIC (IR)</strong></td><td>n° <strong>2031</strong> + liasse fiscale</td><td>2ème jour ouvré suivant le 1er mai (+15j télédéclaration)</td></tr>
+<tr><td><strong>BNC (IR)</strong></td><td>n° <strong>2035</strong> + tableaux annexes</td><td>Idem</td></tr>
+<tr><td><strong>IS</strong></td><td>n° <strong>2065</strong> + liasse fiscale</td><td><strong>3 mois</strong> après la clôture de l'exercice (4 mois si clôture au 31/12)</td></tr>
+</tbody>
+</table>
+<p>Pour l'IR, l'entrepreneur doit obligatoirement reporter ce résultat sur sa déclaration personnelle annexe <strong>n° 2042-C-PRO</strong>.</p>
+
+<h5>B. Le paiement de l'IS</h5>
+<ul>
+<li><strong>4 acomptes trimestriels :</strong> 15 mars, 15 juin, 15 septembre, 15 décembre. Chaque acompte = 25 % de l'IS dû au titre de l'exercice précédent.</li>
+<li><strong>Solde de liquidation :</strong> Versé dans les <strong>3 mois et 15 jours</strong> suivant la clôture de l'exercice (ou le 15 mai pour les exercices clos au 31/12). Si les acomptes excèdent l'IS dû → excédent remboursable.</li>
+<li><strong>Dispense d'acomptes :</strong> Si l'IS de l'exercice précédent est inférieur à 3 000 €.</li>
+</ul>
+
+<h5>C. La gestion de la TVA</h5>
+<p>L'entreprise est le <strong>collecteur</strong> de cet impôt sur la consommation. Elle doit déclarer périodiquement (par exemple chaque mois au régime réel normal avec la déclaration <strong>n° 3310-CA3</strong>) la TVA collectée sur ses ventes et la TVA déductible sur ses achats, pour reverser la différence (la TVA nette) à l'État. Pour ces téléprocédures, l'entreprise utilise soit le mode <strong>EFI</strong> (saisie directe sur le site des impôts) soit le mode <strong>EDI</strong> (transmission par un partenaire comme un cabinet comptable).</p>
+
+<h4>4. Les autres impositions professionnelles</h4>
+<p>Au-delà de l'impôt sur les bénéfices et de la TVA, les entreprises sont soumises à d'autres impositions :</p>
+<table class="styled">
+<thead><tr><th>Impôt</th><th>Assiette</th><th>Observation</th></tr></thead>
+<tbody>
+<tr><td><strong>CFE</strong> (Cotisation foncière des entreprises)</td><td>Valeur locative des biens immobiliers utilisés</td><td>Composante de la CET. Due par toute personne exerçant une activité professionnelle non salariée.</td></tr>
+<tr><td><strong>CVAE</strong> (Cotisation sur la VA des entreprises)</td><td>Valeur ajoutée produite</td><td>Composante de la CET. Due si CA > 500 000 €. En cours de suppression progressive.</td></tr>
+<tr><td><strong>Taxe sur les salaires</strong></td><td>Masse salariale</td><td>Pour les employeurs non assujettis à la TVA (banques, assurances, associations).</td></tr>
+<tr><td><strong>Taxe foncière</strong></td><td>Valeur locative cadastrale</td><td>Due par les propriétaires de biens immobiliers professionnels.</td></tr>
+</tbody>
+</table>
+
+<h4>5. L'interlocuteur administratif</h4>
+<p>Pour gérer l'ensemble de ces aspects fiscaux, l'entreprise s'adresse à la Direction générale des finances publiques (DGFiP) :</p>
+<ul>
+<li><strong>Le SIE (Service des impôts des entreprises) :</strong> Il forme un <strong>guichet unique</strong> pour la réception des déclarations, les paiements et les questions courantes.</li>
+<li><strong>Le PCE (Pôle de contrôle expertise) :</strong> Il prend le relais pour les litiges complexes ou les <strong>contrôles</strong> (contrôle sur pièces, vérification de comptabilité sur place, examen de comptabilité à distance).</li>
+</ul>
+
+<h4>Complément : les plus-values professionnelles</h4>
+<p>Lors de la cession d'un élément d'actif immobilisé (fonds de commerce, immeuble, matériel), l'entreprise peut réaliser une <strong>plus-value</strong> (prix de cession > valeur nette comptable) ou une <strong>moins-value</strong> (prix de cession < VNC). Le régime d'imposition dépend de la durée de détention :</p>
+<ul>
+<li><strong>Plus-value à court terme</strong> (bien détenu depuis moins de 2 ans, ou fraction correspondant aux amortissements déduits) : Imposée au taux normal (barème IR ou IS à 25 %).</li>
+<li><strong>Plus-value à long terme</strong> (bien détenu depuis plus de 2 ans, fraction au-delà des amortissements) : Taux réduit (12,8 % pour les entreprises à l'IR + prélèvements sociaux, ou exonération partielle/totale sous conditions).</li>
+<li><strong>Exonérations :</strong> Des dispositifs spécifiques exonèrent les plus-values des petites entreprises (art. 151 septies — CA < seuils), en cas de départ à la retraite (art. 151 septies A), ou en fonction de la valeur des biens cédés (art. 238 quindecies — < 500 000 €).</li>
+</ul>
+</div></div>
+</div>
+
+</div>
+
+<button class="btt" id="btt" onclick="window.scrollTo({top:0})" title="Retour en haut">↑</button>
+<footer>Enseignements juridiques &amp; Fiscalité des professionnels — Guide complet de révision</footer>
+
+<script>
+function toggle(el){el.closest('.card').classList.toggle('open')}
+document.querySelectorAll('.card').forEach(c=>c.classList.add('open'));
+const btt=document.getElementById('btt');
+window.addEventListener('scroll',()=>{btt.classList.toggle('show',window.scrollY>400)});
+const sections=document.querySelectorAll('.section');
+const navLinks=document.querySelectorAll('.topnav .nav-links a');
+window.addEventListener('scroll',()=>{
+let current='';
+sections.forEach(s=>{if(window.scrollY>=s.offsetTop-120)current=s.id});
+navLinks.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+current)});
+});
+</script>
+</body>
+</html>

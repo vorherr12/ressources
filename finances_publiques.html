@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finances Publiques - DGFiP</title>
+<style>
+  :root {
+    --bg: #f6f7fb;
+    --card: #ffffff;
+    --accent1: #2c5282;
+    --accent2: #2b6cb0;
+    --accent3: #3182ce;
+    --highlight: #ebf4ff;
+    --border: #e2e8f0;
+    --text: #1a202c;
+    --muted: #64748b;
+    --green: #276749;
+    --green-bg: #f0fff4;
+    --orange: #c05621;
+    --orange-bg: #fffaf0;
+    --purple: #553c9a;
+    --purple-bg: #faf5ff;
+    --red: #9b2c2c;
+    --red-bg: #fff5f5;
+    --teal: #285e61;
+    --teal-bg: #e6fffa;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.75;
+    font-size: 16px;
+  }
+  /* --- TOP NAV --- */
+  .topnav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--accent1);
+    color: #fff;
+    padding: 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,.12);
+  }
+  .topnav-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center; gap: 1.5rem;
+    padding: .7rem 1.5rem;
+    flex-wrap: wrap;
+  }
+  .topnav .logo {
+    font-weight: 800; font-size: 1.15rem; letter-spacing: .02em;
+    white-space: nowrap;
+  }
+  .topnav .nav-links {
+    display: flex; gap: .25rem; flex-wrap: wrap;
+  }
+  .topnav .nav-links a {
+    color: rgba(255,255,255,.85); text-decoration: none;
+    padding: .35rem .75rem; border-radius: 6px;
+    font-size: .85rem; font-weight: 500; transition: .2s;
+  }
+  .topnav .nav-links a:hover, .topnav .nav-links a.active {
+    background: rgba(255,255,255,.18); color: #fff;
+  }
+  /* --- HERO --- */
+  .hero {
+    background: linear-gradient(135deg, var(--accent1), var(--accent3));
+    color: #fff; text-align: center;
+    padding: 3.5rem 1.5rem 3rem;
+  }
+  .hero h1 { font-size: 2.4rem; font-weight: 800; margin-bottom: .5rem; }
+  .hero p { font-size: 1.1rem; opacity: .88; max-width: 600px; margin: 0 auto; }
+  /* --- LAYOUT --- */
+  .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+  /* --- TOC --- */
+  .toc-card {
+    background: var(--card); border-radius: 14px;
+    padding: 2rem 2.25rem; margin-bottom: 2.5rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 4px rgba(0,0,0,.04);
+  }
+  .toc-card h2 {
+    font-size: 1.2rem; color: var(--accent1);
+    margin-bottom: 1rem; display: flex; align-items: center; gap: .5rem;
+  }
+  .toc-list { list-style: none; }
+  .toc-list > li { margin-bottom: .6rem; }
+  .toc-list > li > a {
+    font-weight: 700; color: var(--accent2); text-decoration: none;
+    font-size: 1.02rem;
+  }
+  .toc-list > li > a:hover { text-decoration: underline; }
+  .toc-list ul { list-style: none; margin-top: .25rem; padding-left: 1.25rem; }
+  .toc-list ul li { margin-bottom: .2rem; }
+  .toc-list ul a {
+    color: var(--muted); text-decoration: none; font-size: .93rem;
+  }
+  .toc-list ul a:hover { color: var(--accent2); text-decoration: underline; }
+  /* --- SECTION --- */
+  .section {
+    margin-bottom: 2.5rem;
+  }
+  .section-header {
+    display: flex; align-items: center; gap: .75rem;
+    margin-bottom: 1.5rem; padding-bottom: .75rem;
+    border-bottom: 3px solid var(--accent3);
+  }
+  .section-number {
+    background: var(--accent1); color: #fff;
+    width: 38px; height: 38px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1.1rem; flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 1.55rem; font-weight: 800; color: var(--accent1);
+  }
+  /* --- CARD --- */
+  .card {
+    background: var(--card);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 4px rgba(0,0,0,.04);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: box-shadow .2s;
+  }
+  .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.07); }
+  .card-head {
+    display: flex; align-items: center; gap: .75rem;
+    padding: 1.15rem 1.5rem;
+    cursor: pointer; user-select: none;
+    transition: background .15s;
+  }
+  .card-head:hover { background: var(--highlight); }
+  .card-head .badge {
+    font-size: .78rem; font-weight: 700;
+    padding: .2rem .65rem; border-radius: 6px;
+    white-space: nowrap;
+  }
+  .badge-blue { background: #dbeafe; color: var(--accent1); }
+  .badge-green { background: #d1fae5; color: var(--green); }
+  .badge-orange { background: #fed7aa; color: var(--orange); }
+  .badge-purple { background: #e9d5ff; color: var(--purple); }
+  .badge-red { background: #fecaca; color: var(--red); }
+  .badge-teal { background: #b2f5ea; color: var(--teal); }
+  .card-head h3 { font-size: 1.15rem; font-weight: 700; flex: 1; }
+  .card-head .chevron {
+    font-size: 1.1rem; color: var(--muted); transition: transform .25s;
+  }
+  .card.open .card-head .chevron { transform: rotate(180deg); }
+  .card-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height .4s ease, padding .3s ease;
+    padding: 0 1.75rem;
+  }
+  .card.open .card-body {
+    max-height: 30000px;
+    padding: .5rem 1.75rem 1.75rem;
+  }
+  /* --- CONTENT STYLING --- */
+  .card-body h4 {
+    font-size: 1.05rem; font-weight: 700;
+    color: var(--accent2);
+    margin: 1.5rem 0 .6rem;
+    padding-left: .5rem;
+    border-left: 3px solid var(--accent3);
+  }
+  .card-body h4:first-child { margin-top: .5rem; }
+  .card-body p { margin-bottom: .75rem; color: #2d3748; }
+  .card-body ul, .card-body ol {
+    margin: .5rem 0 1rem 1.25rem;
+  }
+  .card-body li { margin-bottom: .45rem; }
+  .card-body li::marker { color: var(--accent3); }
+  .card-body strong { color: var(--accent1); }
+  /* info boxes */
+  .info-box {
+    border-radius: 10px; padding: 1rem 1.25rem;
+    margin: 1rem 0; font-size: .95rem;
+    border-left: 4px solid;
+  }
+  .info-box.blue { background: var(--highlight); border-color: var(--accent3); }
+  .info-box.green { background: var(--green-bg); border-color: var(--green); }
+  .info-box.orange { background: var(--orange-bg); border-color: var(--orange); }
+  .info-box.purple { background: var(--purple-bg); border-color: var(--purple); }
+  .info-box.red { background: var(--red-bg); border-color: var(--red); }
+  .info-box.teal { background: var(--teal-bg); border-color: var(--teal); }
+  /* --- BACK TO TOP --- */
+  .btt {
+    position: fixed; bottom: 1.5rem; right: 1.5rem;
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--accent1); color: #fff;
+    border: none; font-size: 1.3rem; cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,.18);
+    display: none; align-items: center; justify-content: center;
+    transition: .2s;
+    z-index: 50;
+  }
+  .btt:hover { background: var(--accent3); transform: scale(1.08); }
+  .btt.show { display: flex; }
+  /* --- FOOTER --- */
+  footer {
+    text-align: center; padding: 2rem 1rem;
+    color: var(--muted); font-size: .85rem;
+    border-top: 1px solid var(--border);
+  }
+  /* --- RESPONSIVE --- */
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 1.7rem; }
+    .card-head { padding: 1rem 1.1rem; }
+    .card.open .card-body { padding: .5rem 1.1rem 1.25rem; }
+    .toc-card { padding: 1.25rem; }
+    .topnav-inner { gap: .75rem; padding: .5rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <div class="topnav-inner">
+    <span class="logo">📘 Finances Publiques</span>
+    <div class="nav-links">
+      <a href="#s1">Administrations</a>
+      <a href="#s2">Acteurs</a>
+      <a href="#s3">Principes</a>
+      <a href="#s4">Impôt / Revenu</a>
+      <a href="#s5">Responsabilité</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Finances Publiques</h1>
+  <p>Guide complet — Administrations, acteurs, principes budgétaires, impôt sur le revenu, responsabilité et contrôle.</p>
+</div>
+
+<div class="container">
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc-card">
+  <h2>📑 Sommaire</h2>
+  <ol class="toc-list">
+    <li>
+      <a href="#s1">Administrations publiques</a>
+      <ul>
+        <li><a href="#c11">1.1 — APUC (Centrales)</a></li>
+        <li><a href="#c12">1.2 — APUL (Locales)</a></li>
+        <li><a href="#c13">1.3 — ASSO (Sécurité Sociale)</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#s2">Acteurs du budget</a>
+      <ul>
+        <li><a href="#c21">2.1 — Ordonnateurs</a></li>
+        <li><a href="#c22">2.2 — Comptables Publics</a></li>
+        <li><a href="#c23">2.3 — Gestionnaires de Programme</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#s3">Principes budgétaires</a>
+      <ul>
+        <li><a href="#c31">3.1 — LOLF</a></li>
+        <li><a href="#c32">3.2 — Règles classiques</a></li>
+        <li><a href="#c33">3.3 — Gestion des crédits</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#s4">Impôt sur le revenu</a>
+      <ul>
+        <li><a href="#c41">4.1 — Déclarations</a></li>
+        <li><a href="#c42">4.2 — Foyer Fiscal</a></li>
+        <li><a href="#c43">4.3 — Revenus Catégoriels</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#s5">Responsabilité et contrôle</a>
+      <ul>
+        <li><a href="#c51">5.1 — Responsabilité et Contrôleurs</a></li>
+        <li><a href="#c52">5.2 — Instances de Jugement</a></li>
+        <li><a href="#c53">5.3 — Organismes de Contrôle</a></li>
+      </ul>
+    </li>
+  </ol>
+</div>
+
+<!-- ============================== -->
+<!-- SECTION 1 : ADMINISTRATIONS    -->
+<!-- ============================== -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <div class="section-number">1</div>
+    <h2>Administrations publiques</h2>
+  </div>
+
+  <!-- 1.1 APUC -->
+  <div class="card" id="c11">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-blue">1.1</span>
+      <h3>APUC — Administrations Publiques Centrales</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="info-box blue">
+        <strong>Définition clé :</strong> Les administrations publiques (APU) désignent l'ensemble des unités institutionnelles dont la fonction principale est de produire des <strong>services non marchands</strong> ou d'effectuer des <strong>opérations de redistribution</strong> du revenu et des richesses nationales. Elles se financent majoritairement par des <strong>contributions obligatoires</strong> (prélèvements fiscaux et sociaux).
+      </div>
+      <p>Ce vaste secteur des administrations publiques, soumis aux règles du décret de la <strong>gestion budgétaire et comptable publique (GBCP)</strong>, se divise en <strong>trois sous-secteurs</strong> :</p>
+      <ul>
+        <li>Les administrations publiques locales (<strong>APUL</strong>)</li>
+        <li>Les administrations de sécurité sociale (<strong>ASSO</strong>)</li>
+        <li>Les administrations publiques centrales (<strong>APUC</strong>)</li>
+      </ul>
+
+      <h4>Le périmètre et la composition des APUC</h4>
+      <p>Les APUC représentent le <strong>cœur de l'action étatique</strong> et regroupent les entités de l'État au niveau national. Elles sont constituées de deux composantes principales :</p>
+      <ol>
+        <li><strong>L'État stricto sensu :</strong> Cela englobe l'État lui-même, l'ensemble de ses ministères, ainsi que ses <strong>services déconcentrés</strong> (qui déploient l'action des ministères sur le territoire).</li>
+        <li><strong>Les ODAC (Organismes divers d'administration centrale) :</strong> Il s'agit d'établissements publics nationaux dont la particularité est d'être majoritairement financés par des <strong>subventions de l'État</strong>. Exemples concrets d'ODAC :
+          <ul>
+            <li>Météo France</li>
+            <li>Le CNRS (Centre national de la recherche scientifique)</li>
+            <li>Les universités</li>
+          </ul>
+        </li>
+      </ol>
+
+      <div class="info-box green">
+        <strong>En résumé :</strong> Dans le paysage des administrations publiques, les APUC englobent toute la machine administrative de l'État central (des ministères jusqu'à leurs relais locaux déconcentrés) ainsi que les opérateurs et établissements (les ODAC) qui dépendent financièrement de lui pour exécuter des missions de service public spécifiques.
+      </div>
+    </div>
+  </div>
+
+  <!-- 1.2 APUL -->
+  <div class="card" id="c12">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-green">1.2</span>
+      <h3>APUL — Administrations Publiques Locales</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="info-box blue">
+        <strong>Rappel :</strong> Le secteur des APU se divise en trois grandes branches : l'État et ses opérateurs (<strong>APUC</strong>), la sécurité sociale (<strong>ASSO</strong>), et les administrations publiques locales (<strong>APUL</strong>) qui incarnent l'action publique sur les territoires.
+      </div>
+
+      <h4>1. Le périmètre des APUL</h4>
+      <p>Les administrations publiques locales ne se limitent pas aux seules mairies. Elles sont constituées par :</p>
+      <ul>
+        <li><strong>L'ensemble des collectivités territoriales :</strong> les communes, les départements et les régions.</li>
+        <li><strong>Les établissements publics de coopération intercommunale (EPCI).</strong></li>
+        <li><strong>Les organismes divers d'administration locale (ODAL)</strong>, qui accomplissent des missions spécifiques au niveau local, tels que les caisses des écoles, les collèges et les lycées.</li>
+      </ul>
+
+      <h4>2. Une organisation spécifique des acteurs financiers</h4>
+      <p>Comme toute entité soumise aux règles de la comptabilité publique, les APUL reposent sur le principe de <strong>séparation des ordonnateurs</strong> (les décideurs) <strong>et des comptables</strong> (les payeurs). Toutefois, l'organisation des APUL présente des spécificités notables par rapport à l'État :</p>
+      <ul>
+        <li><strong>Absence d'ordonnateurs secondaires :</strong> Contrairement aux ministères, les collectivités territoriales et leurs établissements ne disposent que d'<strong>ordonnateurs principaux</strong>. L'ordonnateur principal est toujours le titulaire du pouvoir exécutif de la collectivité : le maire pour la commune, le président du conseil départemental ou régional, ou le président de l'organe délibérant pour un EPCI.</li>
+        <li><strong>Les comptables :</strong> Le maniement des fonds locaux est assuré par des <strong>agents de l'État appartenant à la DGFiP</strong> (par exemple, le comptable d'un Service de Gestion Comptable (SGC) pour une commune, ou un payeur départemental / régional).</li>
+      </ul>
+
+      <h4>3. Des règles budgétaires et de trésorerie particulièrement strictes</h4>
+      <p>Les APUL sont soumises à un encadrement financier rigoureux :</p>
+      <ul>
+        <li><strong>L'obligation de dépôt des fonds au Trésor :</strong> Les collectivités territoriales et leurs établissements ont l'interdiction formelle de placer leur argent dans des banques privées « classiques ». Elles sont tenues de déstrong>déposer leurs fonds auprès de l'État</strong>, sur un compte unique ouvert à la Banque de France et tenu par leur comptable public.</li>
+        <li><strong>Le principe de l'équilibre réel :</strong> La loi de finances de l'État accepte de voter un budget national en déficit. À l'inverse, les collectivités territoriales sont <strong>légalement tenues de voter et d'exécuter leurs budgets dans un équilibre réel et strict</strong>.</li>
+      </ul>
+
+      <h4>4. Vers une reddition des comptes unifiée et simplifiée (le CFU)</h4>
+      <p>Traditionnellement, la comptabilité des APUL est <strong>double</strong> : l'ordonnateur tient une « comptabilité administrative » pour suivre la consommation des crédits, tandis que le comptable tient une « comptabilité générale » pour retracer le patrimoine et la trésorerie.</p>
+      <p>En fin d'année, cela se traduit par la présentation d'un <strong>compte administratif</strong> par le maire et d'un <strong>compte de gestion</strong> par le comptable.</p>
+      <p>Afin de moderniser cette gestion, une expérimentation est en cours pour fusionner ces deux documents en un <strong>Compte financier unique (CFU)</strong>, dont la généralisation est annoncée pour l'exercice <strong>2026</strong>.</p>
+
+      <div class="info-box orange">
+        <strong>Point important :</strong> Le contrôle politique des finances locales est exercé par les <strong>assemblées délibérantes</strong> (le conseil municipal, par exemple), qui votent les budgets et évaluent leur exécution. Pour garantir l'indépendance de ce contrôle, lorsque l'assemblée vote le compte arrêtant l'exécution du budget (le compte administratif), <strong>l'ordonnateur (le maire) n'a pas le droit de participer aux débats</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- 1.3 ASSO -->
+  <div class="card" id="c13">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-teal">1.3</span>
+      <h3>ASSO — Administrations de Sécurité Sociale</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Les Administrations de Sécurité Sociale (ASSO) constituent l'une des trois grandes composantes du secteur des Administrations Publiques (APU), aux côtés des administrations centrales (APUC) et des administrations locales (APUL).</p>
+
+      <h4>1. Le périmètre des ASSO</h4>
+      <p>Le champ d'action des ASSO est spécifiquement dédié à la <strong>protection sociale et à la santé</strong>. Elles regroupent :</p>
+      <ul>
+        <li><strong>Les hôpitaux.</strong></li>
+        <li><strong>L'ensemble des régimes de Sécurité sociale</strong> (qu'il s'agisse des régimes généraux ou des régimes spéciaux).</li>
+        <li><strong>Les régimes de retraite complémentaire et l'assurance chômage.</strong></li>
+      </ul>
+
+      <h4>2. Le financement spécifique des ASSO : les prélèvements sociaux</h4>
+      <p>Le budget de la Sécurité sociale repose sur des mécanismes de financement qui lui sont propres. Contrairement à l'impôt sur le revenu qui tombe dans la caisse unique de l'État (selon le principe d'universalité), les ASSO sont notamment financées par des <strong>prélèvements sociaux dédiés</strong>.</p>
+      <p>Par exemple, les revenus du patrimoine (comme les revenus fonciers ou mobiliers) sont soumis à ces prélèvements sociaux à un <strong>taux global de 17,2 %</strong>. Ces prélèvements se décomposent ainsi :</p>
+      <ul>
+        <li><strong>CSG (Contribution Sociale Généralisée) :</strong> 9,2 % — la part la plus importante.</li>
+        <li><strong>CRDS (Contribution pour le Remboursement de la Dette Sociale) :</strong> 0,5 %</li>
+        <li><strong>PS (Prélèvement de solidarité) :</strong> 7,5 %</li>
+      </ul>
+
+      <div class="info-box teal">
+        <strong>À retenir :</strong> 9,2 % + 0,5 % + 7,5 % = <strong>17,2 %</strong> de prélèvements sociaux sur les revenus du patrimoine.
+      </div>
+
+      <h4>3. Les acteurs comptables des ASSO</h4>
+      <p>Comme pour le reste de la sphère publique, la gestion financière de certaines entités des ASSO est soumise aux règles de la comptabilité publique et au <strong>principe de séparation des ordonnateurs et des comptables</strong>.</p>
+      <p>Par exemple, au niveau local, le maniement des fonds des hôpitaux est assuré par des agents de la Direction générale des Finances publiques (DGFiP) : les <strong>responsables de trésorerie hospitalière</strong>, qui agissent en tant que comptables principaux pour la tenue des opérations de ces établissements.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== -->
+<!-- SECTION 2 : ACTEURS DU BUDGET  -->
+<!-- ============================== -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <div class="section-number">2</div>
+    <h2>Acteurs du budget</h2>
+  </div>
+
+  <!-- 2.1 Ordonnateurs -->
+  <div class="card" id="c21">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-purple">2.1</span>
+      <h3>Ordonnateurs</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="info-box blue">
+        <strong>Principe fondamental :</strong> L'exécution du budget repose sur la <strong>séparation des ordonnateurs et des comptables publics</strong>. L'ordonnateur incarne le <strong>décideur</strong> : c'est l'autorité compétente pour prescrire l'exécution des recettes et des dépenses, mais qui a l'<strong>interdiction formelle de manier les deniers publics</strong>.
+      </div>
+
+      <h4>1. Ordonnateurs principaux et secondaires</h4>
+      <p>L'organisation administrative distingue deux catégories :</p>
+      <ul>
+        <li><strong>Les ordonnateurs principaux :</strong> Ils ordonnent l'exécution du budget en premier lieu. Pour l'État, il s'agit des <strong>ministres</strong> ou du <strong>Premier ministre</strong>. Pour les collectivités territoriales (communes, départements, régions) et leurs établissements, l'ordonnateur principal est toujours le titulaire du pouvoir exécutif (ex: le maire ou le président du conseil régional).</li>
+        <li><strong>Les ordonnateurs secondaires :</strong> Ils sont chargés de seconder l'ordonnateur principal au plan local. Pour l'État, le <strong>préfet</strong> est le seul ordonnateur secondaire de droit, bien qu'il délègue souvent sa signature aux directeurs d'administrations déconcentrées (qui deviennent ordonnateurs secondaires délégués). <em>En revanche, il n'y a pas d'ordonnateur secondaire dans les collectivités territoriales.</em></li>
+      </ul>
+
+      <h4>2. Le rôle central dans l'exécution budgétaire</h4>
+      <p>L'ordonnateur intervient au tout début de la chaîne financière et tient une <strong>comptabilité dite « administrative » (ou budgétaire)</strong> pour suivre la consommation de ses crédits. Ses compétences exclusives :</p>
+      <ul>
+        <li><strong>En matière de dépense :</strong>
+          <ol>
+            <li><strong>Engagement</strong> — Il constate une obligation et réserve les crédits correspondants.</li>
+            <li><strong>Liquidation</strong> — Il vérifie la réalité de la dette (« service fait ») et en calcule le montant exact.</li>
+            <li><strong>Ordonnancement</strong> — Il donne l'ordre de payer au comptable via un mandat ou une demande de paiement.</li>
+          </ol>
+        </li>
+        <li><strong>En matière de recette :</strong>
+          <ol>
+            <li>Il <strong>constate les droits</strong> de son organisme (issus de la loi, d'un contrat ou d'une décision).</li>
+            <li>Il <strong>liquide la recette</strong> (calcule le montant que doit le redevable).</li>
+            <li>Il <strong>émet le titre de recette</strong> qui servira de base légale au recouvrement par le comptable.</li>
+          </ol>
+        </li>
+      </ul>
+
+      <h4>3. Les ordonnateurs de l'État sous la LOLF : la logique de performance</h4>
+      <p>Avec la <strong>LOLF</strong>, le budget de l'État est passé d'une logique de moyens à une logique de résultats. L'exécution des dépenses est pilotée par des ordonnateurs structurés autour des objectifs de performance :</p>
+      <ul>
+        <li><strong>Le RPROG (Responsable de Programme) :</strong> Situé en administration centrale, il assure le pilotage stratégique du programme, s'engage sur les objectifs de performance devant le Parlement et répartit les crédits.</li>
+        <li><strong>Le RBOP (Responsable de Budget Opérationnel de Programme) :</strong> Il décline ces objectifs et distribue les crédits au niveau local.</li>
+        <li><strong>Le RUO (Responsable d'Unité Opérationnelle) :</strong> Souvent chef d'un service déconcentré, il est le véritable ordonnateur de terrain qui met en œuvre concrètement la programmation en engageant, liquidant et émettant les ordres de payer.</li>
+      </ul>
+      <div class="info-box purple">
+        <strong>Fongibilité asymétrique :</strong> Tous ces gestionnaires bénéficient de la fongibilité asymétrique de leurs crédits — possibilité de réallouer des crédits de fonctionnement ou d'investissement, mais <strong>sans pouvoir augmenter les dépenses de personnel</strong>.
+      </div>
+
+      <h4>4. La responsabilité de l'ordonnateur</h4>
+      <p>Face au comptable public (qui contrôle la régularité de l'ordre mais ne juge jamais de son opportunité), l'ordonnateur assume l'<strong>opportunité de ses choix budgétaires</strong>.</p>
+      <p>Si le comptable refuse de payer une dépense qu'il juge irrégulière, l'ordonnateur peut parfois utiliser son <strong>droit de réquisition</strong> pour le contraindre à payer ; la responsabilité financière bascule alors <strong>intégralement et uniquement sur l'ordonnateur</strong>.</p>
+      <div class="info-box red">
+        <strong>Depuis le 1er janvier 2023</strong>, les ordonnateurs (à l'exception des ministres et des élus locaux) sont justiciables du nouveau régime unifié de <strong>Responsabilité financière des gestionnaires publics (RGP)</strong> devant la Cour des comptes. Ils peuvent être condamnés à des amendes (<strong>plafonnées à six mois de salaire</strong>) s'ils commettent une faute grave de gestion ayant causé un préjudice financier significatif. Si un ministre ou un élu local s'immisce dans le maniement des fonds publics sans en avoir le droit, il tombe sous le coup de la <strong>« gestion de fait »</strong> et s'expose aux mêmes sanctions.
+      </div>
+    </div>
+  </div>
+
+  <!-- 2.2 Comptables Publics -->
+  <div class="card" id="c22">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-purple">2.2</span>
+      <h3>Comptables Publics</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="info-box blue">
+        <strong>Définition :</strong> Le comptable public est un <strong>agent de droit public</strong> qui détient la charge exclusive du <strong>maniement des deniers publics</strong> et de la <strong>tenue des comptes</strong>. Il exécute les recettes et les dépenses selon les indications de l'ordonnateur (le décideur), mais <strong>ne lui est pas subordonné</strong>, ce qui garantit un contrôle mutuel. La grande majorité de ces acteurs appartient au ministère en charge du budget et dépend de la <strong>DGFiP</strong>.
+      </div>
+
+      <h4>1. Une hiérarchie et une typologie comptable précises</h4>
+      <ul>
+        <li><strong>Les comptables principaux :</strong> Responsables finaux de l'exécution financière d'un organisme, ils ont l'obligation de <strong>produire et rendre un compte annuel au juge financier</strong>.
+          <ul>
+            <li><em>Pour l'État :</em> Contrôleurs budgétaires et comptables ministériels (CBCM) au niveau central, ou Directeurs départementaux (DDFiP) au niveau local.</li>
+            <li><em>Pour les collectivités locales :</em> Responsables de Services de Gestion Comptable (SGC) ou payeurs départementaux et régionaux.</li>
+          </ul>
+        </li>
+        <li><strong>Les comptables secondaires :</strong> Ils assistent le comptable principal dans l'exécution du budget. Leurs opérations sont ensuite « centralisées » et intégrées dans la comptabilité du comptable principal. Exemple : les responsables de <strong>SIP</strong> (Services des Impôts des Particuliers) ou <strong>SIE</strong> (Services des Impôts des Entreprises) qui procèdent au recouvrement de la fiscalité.</li>
+      </ul>
+
+      <h4>2. Le rôle central de contrôle et d'exécution</h4>
+      <p>Le comptable intervient en bout de chaîne financière pour matérialiser les décisions de l'ordonnateur, après avoir exercé des contrôles rigoureux :</p>
+      <ul>
+        <li><strong>En matière de dépense :</strong> Avant de payer, le comptable vérifie la <strong>régularité de l'ordre</strong> (qualité de l'ordonnateur, validité de la dette, disponibilité des crédits) ainsi que le <strong>caractère libératoire du paiement</strong>. Il lui est <strong>formellement interdit de juger de l'opportunité de la dépense</strong>. Si le contrôle est satisfaisant, il « prend en charge » la dépense et la paie. En cas d'anomalie, il <strong>suspend le paiement</strong>. L'ordonnateur peut alors utiliser son pouvoir de « réquisition » pour le contraindre à payer, ce qui <strong>dégage intégralement la responsabilité du comptable</strong>.</li>
+        <li><strong>En matière de recette :</strong> Le comptable contrôle la régularité du titre de recette émis, le prend en charge, notifie le redevable (par exemple par l'envoi d'un avis d'impôt) et s'assure de son recouvrement, d'abord <strong>à l'amiable</strong> puis de manière <strong>forcée</strong> si nécessaire.</li>
+      </ul>
+
+      <h4>3. La tenue des comptes et la garde des fonds</h4>
+      <p>Outre les actes de paiement et d'encaissement, le comptable public est responsable de la comptabilité de son entité :</p>
+      <ul>
+        <li>Il tient la <strong>comptabilité budgétaire</strong> (qui retrace l'exécution du budget).</li>
+        <li>Il tient la <strong>comptabilité générale</strong> (qui décrit le patrimoine).</li>
+        <li>En vertu du <strong>principe d'unité de caisse</strong>, il assure la conservation et la garde exclusive des fonds (comptes bancaires uniques à la Banque de France, numéraire), des valeurs, ainsi que la conservation des pièces justificatives des opérations.</li>
+      </ul>
+
+      <h4>4. La responsabilité financière (RGP)</h4>
+      <p>Historiquement soumis à un régime lourd de « responsabilité personnelle et pécuniaire », le comptable public est désormais justiciable du nouveau régime unifié de <strong>Responsabilité financière des gestionnaires publics (RGP)</strong> en vigueur depuis le <strong>1er janvier 2023</strong>.</p>
+      <p>Devant la <strong>7ème Chambre de la Cour des comptes</strong>, il répond (au même titre que les ordonnateurs) de ses actes en cas de faute grave de gestion ayant causé un préjudice financier significatif. D'autres infractions comme le <strong>défaut de production des comptes</strong> peuvent également être sanctionnées. S'il est condamné, le comptable s'expose à une amende calculée selon son salaire et <strong>plafonnée à six mois de rémunération</strong>.</p>
+    </div>
+  </div>
+
+  <!-- 2.3 Gestionnaires de Programme -->
+  <div class="card" id="c23">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-purple">2.3</span>
+      <h3>Gestionnaires de Programme (RPROG, RBOP, RUO)</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="info-box blue">
+        <strong>Contexte :</strong> Avec la <strong>LOLF</strong>, la gestion budgétaire de l'État a évolué d'une logique de moyens vers une <strong>logique de résultats et de performance</strong>. Le budget est structuré en grandes <strong>missions</strong> déclinées en <strong>programmes</strong>. Pour piloter ces programmes, l'État s'appuie sur une chaîne hiérarchique de gestionnaires qui agissent tous en tant qu'<strong>ordonnateurs</strong>.
+      </div>
+
+      <h4>1. Le Responsable de Programme (RPROG) — Le pilote stratégique</h4>
+      <p>Situé au niveau de l'administration centrale, le RPROG incarne le niveau stratégique le plus élevé d'un programme.</p>
+      <ul>
+        <li><strong>Fixation et reddition des comptes :</strong> Il présente au Parlement les objectifs de performance et les lignes budgétaires dans un <strong>Projet Annuel de Performance (PAP)</strong>. Après l'exécution du budget, il justifie l'emploi des crédits et l'atteinte des objectifs via le <strong>Rapport Annuel de Performances (RAP)</strong>.</li>
+        <li><strong>Pilotage managérial et budgétaire :</strong> Le RPROG désigne les RBOP, leur fixe des objectifs et met à leur disposition les crédits nécessaires. Il est habilité à utiliser la <strong>fongibilité asymétrique</strong> des crédits.</li>
+      </ul>
+
+      <h4>2. Le Responsable de Budget Opérationnel de Programme (RBOP) — Le maillon intermédiaire</h4>
+      <p>Le RBOP peut agir soit au niveau de l'administration centrale, soit au niveau déconcentré (local).</p>
+      <ul>
+        <li>Il <strong>décline le pilotage stratégique</strong> du RPROG à son échelle.</li>
+        <li>Il désigne les RUO, détermine et fixe leurs objectifs et indicateurs de performance, et leur distribue les crédits.</li>
+        <li>Il dispose de l'autorisation de mettre en œuvre la <strong>fongibilité asymétrique</strong> des crédits au sein de son périmètre.</li>
+      </ul>
+
+      <h4>3. Le Responsable d'Unité Opérationnelle (RUO) — L'acteur de terrain</h4>
+      <p>Le RUO est généralement le chef d'un service central ou déconcentré de l'État.</p>
+      <ul>
+        <li>C'est l'<strong>exécutant concret</strong> de la programmation décidée par le RBOP.</li>
+        <li>C'est lui qui intervient au quotidien dans la chaîne de la dépense publique : il est responsable de l'<strong>engagement</strong>, de la <strong>liquidation</strong> et de l'<strong>émission des ordres de payer</strong>.</li>
+      </ul>
+
+      <h4>Place de ces gestionnaires parmi les acteurs du budget</h4>
+      <p>Dans l'architecture budgétaire de l'État, le <strong>ministre</strong> est l'ordonnateur principal de droit. Ne pouvant pas gérer seul l'ensemble des enveloppes budgétaires, il délègue sa mission à des <strong>Ordonnateurs Principaux Délégués (OPD)</strong>, tels que les directeurs généraux en administration centrale. Au niveau local, ces derniers délèguent à leur tour à des <strong>Ordonnateurs Secondaires Délégués</strong> (sous l'autorité des préfets, ordonnateurs secondaires de droit).</p>
+      <p>Les RPROG, RBOP et RUO s'insèrent dans cette chaîne de délégation. Ils incarnent la figure de l'ordonnateur dans le principe fondamental de séparation des ordonnateurs et des comptables publics. Leurs actes d'exécution (notamment ceux du RUO qui émet les ordres de payer) sont ensuite transmis au <strong>comptable public</strong> (souvent un agent de la DGFiP), qui se charge exclusivement de contrôler la régularité de la dépense et de manier les fonds pour procéder au paiement effectif.</p>
+      <div class="info-box red">
+        <strong>Responsabilité :</strong> L'ensemble de ces gestionnaires (ordonnateurs comme comptables) sont soumis au régime unifié de <strong>Responsabilité Financière des Gestionnaires Publics (RGP)</strong> en cas de faute grave ayant entraîné un préjudice financier.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== -->
+<!-- SECTION 3 : PRINCIPES          -->
+<!-- ============================== -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <div class="section-number">3</div>
+    <h2>Principes budgétaires</h2>
+  </div>
+
+  <!-- 3.1 LOLF -->
+  <div class="card" id="c31">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-orange">3.1</span>
+      <h3>LOLF — La « Constitution financière » de l'État</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="info-box blue">
+        <strong>La LOLF</strong> (Loi organique relative aux lois de finances), entrée en vigueur en <strong>2006</strong> et réformée en <strong>2021</strong>, a profondément modernisé l'application des grands principes budgétaires en faisant passer le budget de l'État d'une <strong>logique de moyens</strong> à une <strong>logique de résultats et de performance</strong>.
+      </div>
+
+      <h4>1. Le principe de spécialité : la fongibilité asymétrique</h4>
+      <p>Historiquement, les crédits étaient votés et fléchés par nature de dépense de manière très stricte. L'<strong>article 7 de la LOLF</strong> a modifié ce principe : l'unité de vote et de spécialisation des crédits est devenue le <strong>programme</strong> (qui regroupe les actions d'une politique publique au sein d'une mission).</p>
+      <p>Pour donner plus de liberté d'action aux gestionnaires, la LOLF a instauré la <strong>fongibilité asymétrique</strong>. À l'intérieur de leur programme, les gestionnaires peuvent réallouer librement les crédits entre les dépenses de fonctionnement, d'investissement et d'intervention. Cette fongibilité est « asymétrique » car il leur est <strong>formellement interdit d'utiliser ces crédits pour augmenter les dépenses de personnel</strong> (le titre 2 constituant un plafond impératif).</p>
+
+      <h4>2. Le principe d'annualité : la pluri-annualité des investissements</h4>
+      <p>Pour assouplir le cadre strict de l'année civile face aux projets de long terme, la LOLF a introduit la <strong>dissociation des crédits</strong> :</p>
+      <ul>
+        <li><strong>Autorisations d'engagement (AE) :</strong> Fixent la limite supérieure des dépenses pouvant être engagées sur plusieurs années.</li>
+        <li><strong>Crédits de paiement (CP) :</strong> Constituent la limite des décaissements réalisables dans l'année.</li>
+      </ul>
+      <p>La LOLF encadre également strictement les conditions de <strong>report des crédits non consommés</strong> à l'année suivante.</p>
+
+      <h4>3. Le principe de sincérité : la certification des comptes</h4>
+      <p>L'<strong>article 32 de la LOLF</strong> exige que les comptes de l'État soient <strong>réguliers, sincères et donnent une image fidèle</strong> de son patrimoine et de sa situation financière. Pour s'en assurer et éclairer le Parlement, la LOLF a confié à la <strong>Cour des comptes</strong> la mission de <strong>certifier les comptes de l'État</strong>.</p>
+
+      <h4>4. Le principe d'équilibre : une notion macroéconomique</h4>
+      <p>Selon l'<strong>article 1er de la LOLF</strong>, l'équilibre budgétaire de l'État ne signifie pas l'absence de déficit (contrairement à l'équilibre réel exigé pour les collectivités locales). Il correspond à une <strong>trajectoire maîtrisée des déficits et de la dette publique</strong>, évaluée de manière sincère au regard du contexte économique et des objectifs des politiques publiques.</p>
+
+      <h4>5. La transparence et le « chaînage vertueux »</h4>
+      <p>La LOLF oblige les administrations à <strong>justifier leurs dépenses « au premier euro »</strong>. Pour évaluer le budget :</p>
+      <ul>
+        <li><strong>En prévision :</strong> Le Gouvernement présente des <strong>Projets Annuels de Performance (PAP)</strong> contenant des objectifs chiffrés pour chaque programme.</li>
+        <li><strong>En exécution :</strong> Les gestionnaires rendent compte des résultats obtenus via les <strong>Rapports Annuels de Performances (RAP)</strong>.</li>
+      </ul>
+      <div class="info-box orange">
+        <strong>Le chaînage vertueux (art. 41 LOLF) :</strong> Le projet de budget de l'année (loi de finances initiale) <strong>ne peut pas être discuté</strong> par le Parlement tant que celui-ci n'a pas examiné les résultats et approuvé les comptes de l'année précédente.
+      </div>
+    </div>
+  </div>
+
+  <!-- 3.2 Règles Classiques -->
+  <div class="card" id="c32">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-orange">3.2</span>
+      <h3>Règles budgétaires classiques</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Les règles classiques qui structurent les finances publiques ont pour objectif historique et démocratique de <strong>garantir le pouvoir de contrôle du Parlement</strong> sur les deniers de l'État. Dans le cadre de la LOLF, ces principes ont été conservés mais profondément aménagés.</p>
+      <p>On distingue <strong>quatre règles budgétaires classiques fondamentales</strong>, auxquelles la LOLF a ajouté les exigences de sincérité et d'équilibre :</p>
+
+      <h4>1. Le principe d'annualité</h4>
+      <div class="info-box blue">
+        <strong>Formule :</strong> « Un seul budget par an, un budget pour un an. »
+      </div>
+      <p>La loi de finances autorise la perception des recettes et l'exécution des dépenses pour la durée stricte d'une <strong>année civile</strong>. Aménagements :</p>
+      <ul>
+        <li><strong>Réduction du cadre annuel :</strong> Les <strong>lois de finances rectificatives (LFR)</strong> peuvent modifier l'autorisation en cours d'année.</li>
+        <li><strong>Élargissement du cadre annuel :</strong> Dissociation entre <strong>Autorisations d'engagement (AE)</strong> (limite des dépenses engageables, y compris sur plusieurs années) et <strong>Crédits de paiement (CP)</strong> (limite des décaissements de l'année). Mécanismes de <strong>report de crédits</strong> à l'année suivante.</li>
+      </ul>
+
+      <h4>2. Le principe d'unité</h4>
+      <p>Pour faciliter le contrôle parlementaire, la règle de l'unité exige que l'ensemble exhaustif des recettes et des charges de l'État soit retracé dans un <strong>document unique : le budget général</strong>.</p>
+      <p>En pratique, la loi de finances possède une <strong>structure tripartite</strong> :</p>
+      <ul>
+        <li>Le <strong>budget général</strong></li>
+        <li>Les <strong>budgets annexes</strong> (pour les services publics produisant des biens ou services donnant lieu à des redevances)</li>
+        <li>Les <strong>comptes spéciaux</strong></li>
+      </ul>
+
+      <h4>3. Le principe d'universalité</h4>
+      <p>Ce principe, selon lequel l'ensemble des recettes couvre l'ensemble des dépenses, repose sur deux règles strictes :</p>
+      <ul>
+        <li><strong>La règle de non-contraction :</strong> Il est interdit de compenser une recette et une dépense. Elles doivent être inscrites pour leur <strong>montant brut intégral</strong>. Exception notable : le <strong>prélèvement sur recettes (PSR)</strong>, qui rétrocède une part des impôts aux collectivités ou à l'UE.</li>
+        <li><strong>La règle de non-affectation :</strong> Toutes les recettes tombent dans une <strong>caisse unique</strong> sans attribution d'une recette précise à une dépense particulière. Exceptions : les <strong>fonds de concours</strong> ou l'affectation de certains produits (comme une partie des amendes radars allouée au désendettement).</li>
+      </ul>
+
+      <h4>4. Le principe de spécialité</h4>
+      <p>Ce principe ne concerne que les <strong>dépenses</strong> : chaque crédit voté par le Parlement l'est pour un objet et un montant précis. Avec la LOLF, l'unité d'application est devenue le <strong>programme</strong>.</p>
+      <p>Ce principe a été considérablement assoupli par l'instauration de la <strong>fongibilité asymétrique</strong> : les ordonnateurs disposent de la liberté de réaffecter leurs crédits au sein d'un programme entre les dépenses de fonctionnement, d'investissement ou d'intervention. Les crédits de personnel (<strong>titre 2</strong>) constituent un <strong>plafond strict</strong> qui ne peut être augmenté.</p>
+
+      <h4>Principes complémentaires modernes</h4>
+      <ul>
+        <li><strong>Le principe de sincérité :</strong> Il impose l'exhaustivité, la cohérence et l'exactitude des informations financières. Lors de l'exécution, cette sincérité fait l'objet d'une <strong>certification obligatoire par la Cour des comptes</strong>.</li>
+        <li><strong>Le principe d'équilibre :</strong> À la différence des collectivités territoriales tenues à un équilibre réel, l'équilibre de l'État n'interdit pas le déficit. Il se définit de manière macro-économique, comme une <strong>trajectoire maîtrisée et soutenable</strong> de la dette et des déficits.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3.3 Gestion des Crédits -->
+  <div class="card" id="c33">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-orange">3.3</span>
+      <h3>Gestion des Crédits</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>La gestion des crédits est l'<strong>application concrète</strong> des ressources budgétaires allouées par la loi de finances. Elle s'inscrit dans le respect des grands principes budgétaires, modernisés par la LOLF pour offrir plus de liberté d'action et une logique de performance.</p>
+
+      <h4>1. Le principe de spécialité : fongibilité et souplesse de gestion</h4>
+      <ul>
+        <li>L'unité de spécialisation et de vote des crédits est le <strong>programme</strong>.</li>
+        <li>Les gestionnaires (RPROG au niveau national, RBOP au niveau local) disposent de la <strong>fongibilité asymétrique</strong>. L'État leur confie deux enveloppes : une dédiée au <strong>personnel (titre 2)</strong> et une <strong>enveloppe globalisée</strong> pour le reste (fonctionnement, investissement, intervention). Ils peuvent réaffecter librement les crédits, mais <strong>il est impossible d'augmenter les dépenses de personnel</strong> qui constituent un plafond impératif.</li>
+        <li>D'autres <strong>mouvements de gestion</strong> peuvent déroger à la spécialité en cours d'année :
+          <ul>
+            <li><strong>Virements de crédits :</strong> Modifient la répartition entre programmes d'un même ministère.</li>
+            <li><strong>Transferts de crédits :</strong> Changent le service responsable de l'exécution sans modifier la destination de la dépense.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h4>2. Le principe d'annualité : AE/CP et gestion dans le temps</h4>
+      <ul>
+        <li><strong>La dissociation AE / CP :</strong> Pour toutes les dépenses (hors personnel), les crédits sont divisés en :
+          <ul>
+            <li><strong>Autorisations d'engagement (AE) :</strong> Limite supérieure des dépenses pouvant être engagées (même sur plusieurs années).</li>
+            <li><strong>Crédits de paiement (CP) :</strong> Limite supérieure des dépenses pouvant être effectivement décaissées dans l'année.</li>
+          </ul>
+        </li>
+        <li><strong>Les reports de crédits :</strong> Mécanisme permettant aux ministres, sous certaines conditions strictes, d'ajouter les crédits non consommés en fin d'année à la dotation budgétaire de l'année suivante.</li>
+      </ul>
+
+      <h4>3. Le suivi de la gestion : la comptabilité budgétaire</h4>
+      <p>Au quotidien, la gestion des crédits par les ordonnateurs est retracée par la <strong>comptabilité budgétaire</strong>, qui suit la vie de l'autorisation parlementaire :</p>
+      <ul>
+        <li><strong>Le suivi des ouvertures de crédits :</strong> Enregistre tous les événements qui augmentent, diminuent ou modifient le montant des AE et CP mis à la disposition des gestionnaires (par exemple suite à un virement de crédits) <em>sans pour autant les consommer</em>.</li>
+        <li><strong>Le suivi de la consommation des crédits :</strong> Dès qu'un ordonnateur signe un contrat (engagement juridique), il <strong>consomme des AE</strong>, ce qui diminue d'autant les crédits disponibles pour engager d'autres actions. Une fois le « service fait » (prestation réalisée), le comptable procède au paiement, ce qui <strong>consomme cette fois-ci les CP</strong>.</li>
+      </ul>
+
+      <div class="info-box green">
+        <strong>En synthèse :</strong> La gestion des crédits n'est plus un simple exercice comptable rigide. En aménageant les principes classiques de spécialité et d'annualité, l'État a donné à ses gestionnaires (RPROG, RBOP, RUO) des outils flexibles (<strong>fongibilité, distinction AE/CP</strong>) pour allouer l'argent public là où il est le plus performant pour atteindre les objectifs de leurs politiques publiques.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== -->
+<!-- SECTION 4 : IMPÔT SUR LE REVENU -->
+<!-- ============================== -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <div class="section-number">4</div>
+    <h2>Impôt sur le revenu</h2>
+  </div>
+
+  <!-- 4.1 Déclarations -->
+  <div class="card" id="c41">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-green">4.1</span>
+      <h3>Déclarations</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="info-box blue">
+        <strong>Rappel :</strong> L'impôt sur le revenu (IR) est un impôt <strong>annuel, global et personnalisé</strong>. Toute personne titulaire de revenus imposables est tenue de souscrire une déclaration.
+      </div>
+
+      <h4>1. La déclaration n° 2042 et ses déclinaisons</h4>
+      <p>Le document central est la <strong>déclaration d'ensemble des revenus n° 2042</strong>, qui se décompose en quatre pages essentielles :</p>
+      <ul>
+        <li><strong>Page 1 — État civil et adresse :</strong> Permet d'identifier le contribuable.</li>
+        <li><strong>Page 2 — Situation familiale :</strong> Permet de définir la composition du foyer fiscal (célibataire, marié, pacsé, personnes à charge), ce qui est crucial pour déterminer le <strong>nombre de parts et le quotient familial</strong>.</li>
+        <li><strong>Page 3 — Revenus :</strong> Recense les revenus de base (Traitements et Salaires — TS, Revenus de Capitaux Mobiliers — RCM).</li>
+        <li><strong>Page 4 — Charges et Revenus Fonciers :</strong> Revenus fonciers (RF), certaines charges déductibles (pensions alimentaires) et certaines réductions ou crédits d'impôt fréquents.</li>
+      </ul>
+      <p>Pour les situations fiscales plus complexes, des formulaires complémentaires existent :</p>
+      <ul>
+        <li><strong>n° 2042 RICI :</strong> Dédiée aux autres réductions et crédits d'impôt (frais de garde, cotisations syndicales, investissements locatifs, etc.).</li>
+        <li><strong>n° 2042 C :</strong> Accueille les revenus et charges non prévus sur la déclaration principale (plus-values, autres revenus fonciers).</li>
+        <li><strong>n° 2042 C PRO :</strong> Spécifiquement réservée aux revenus des professions non salariées (BIC, BNC, BA).</li>
+        <li><strong>Déclarations annexes et spéciales :</strong> Certains revenus nécessitent des formulaires distincts (ex: <strong>2044</strong> pour les revenus fonciers au régime réel, <strong>2074</strong> pour les plus-values) dont le résultat est ensuite reporté sur la 2042 ou la 2042 C. Les travailleurs indépendants doivent également souscrire des déclarations spéciales de résultats (<strong>2031, 2035</strong>) auprès du Service des impôts des entreprises (SIE).</li>
+      </ul>
+
+      <h4>2. Modernisation et simplification</h4>
+      <ul>
+        <li><strong>Déclaration pré-identifiée et pré-remplie :</strong> Pour les contribuables connus de la DGFiP, la déclaration est pré-remplie grâce aux données transmises par des « tiers déclarants » (employeurs, caisses de retraite, organismes sociaux, banques). Le contribuable doit simplement <strong>contrôler, rectifier ou compléter</strong> ces informations.</li>
+        <li><strong>Déclaration automatique (n° 2042 AUTO) :</strong> Instituée par la loi de finances pour 2020, elle permet aux usagers dont les informations pré-remplies sont complètes d'être <strong>dispensés de toute démarche</strong>. La validation est tacite. <em>(10,5 millions de foyers en ont bénéficié en 2024.)</em></li>
+        <li><strong>Parcours déclaratif unifié :</strong> Depuis 2021, les travailleurs indépendants bénéficient d'une fusion de leurs déclarations fiscale et sociale. Leurs revenus saisis sur le site des impôts sont automatiquement transmis à l'Urssaf.</li>
+      </ul>
+
+      <h4>3. Les primo-déclarants et la déclaration « à plat »</h4>
+      <p>Pour un contribuable inconnu de la DGFiP (un « primo-déclarant »), l'administration fournit une <strong>déclaration vierge, dite « à plat »</strong>. Pour lutter contre les fraudes, cette déclaration s'accompagne obligatoirement d'un <strong>questionnaire pour vérifier la domiciliation</strong>. Sans ce questionnaire, la déclaration n'est pas traitée.</p>
+
+      <h4>4. Modalités de souscription et délais</h4>
+      <p>La souscription en ligne est aujourd'hui <strong>obligatoire pour tous les foyers équipés d'un accès internet</strong>. Moyens de déclaration :</p>
+      <ul>
+        <li><strong>impots.gouv.fr</strong> (via numéro fiscal ou FranceConnect)</li>
+        <li><strong>Application smartphone</strong> (situations simples)</li>
+        <li><strong>Procédure dématérialisée EDI-IR</strong> (via un expert-comptable)</li>
+        <li><strong>Déclaration papier :</strong> uniquement pour les personnes indiquant être dans l'incapacité de déclarer en ligne.</li>
+      </ul>
+      <p><strong>Dates limites :</strong></p>
+      <ul>
+        <li><strong>Papier :</strong> Date limite unique nationale (ex: 20 mai 2025 pour les revenus 2024).</li>
+        <li><strong>En ligne :</strong> Délai supplémentaire échelonné selon le département de résidence (fin mai à début juin).</li>
+      </ul>
+
+      <h4>5. Le principe de déclaration unique par foyer (et ses exceptions)</h4>
+      <p>En règle générale, <strong>une seule déclaration</strong> est souscrite pour cumuler l'ensemble des revenus du contribuable et de ses personnes à charge. Cependant, des <strong>événements de la vie</strong> obligent à déposer plusieurs déclarations la même année :</p>
+      <ul>
+        <li><strong>Année de la majorité d'un enfant :</strong> Si l'enfant ne demande pas son rattachement, il doit déposer sa propre déclaration (à plat) pour les revenus perçus entre sa date d'anniversaire et le 31 décembre.</li>
+        <li><strong>Mariage ou PACS :</strong> Les nouveaux conjoints font l'objet d'une imposition commune pour toute l'année, mais ils conservent l'option de souscrire deux déclarations séparées l'année de leur union.</li>
+        <li><strong>Séparation, divorce ou rupture de PACS :</strong> Chacun souscrit une déclaration séparée pour l'ensemble de ses revenus de l'année.</li>
+        <li><strong>Décès d'un conjoint :</strong> Nécessite deux déclarations : une commune pour la période du 1er janvier à la date du décès, et une au nom du conjoint survivant pour la période du décès au 31 décembre.</li>
+      </ul>
+
+      <div class="info-box green">
+        <strong>À retenir :</strong> L'étape de la déclaration est la clé de voûte de l'IR : c'est elle qui fige la <strong>composition du foyer fiscal</strong> (page 2) et agrège les <strong>revenus catégoriels</strong> (pages 3, 4 et annexes) afin de permettre à l'administration de déterminer le <strong>Revenu Net Global Imposable (RNGI)</strong>, de calculer le <strong>quotient familial</strong>, puis d'appliquer le <strong>barème progressif</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- 4.2 Foyer Fiscal -->
+  <div class="card" id="c42">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-green">4.2</span>
+      <h3>Foyer Fiscal</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="info-box blue">
+        <strong>Concept central :</strong> L'IR est un impôt annuel, global et <strong>hautement personnalisé</strong>. Cette personnalisation repose sur le <strong>foyer fiscal</strong>, dont la composition détermine la capacité contributive du ménage, conditionne les obligations déclaratives et impacte directement le calcul de l'impôt grâce au mécanisme du <strong>quotient familial</strong>.
+      </div>
+
+      <h4>1. La composition du Foyer Fiscal</h4>
+      <p>Le foyer fiscal regroupe deux composantes principales : le(s) contribuable(s) et les personnes à charge. La situation de famille est généralement appréciée au <strong>1er janvier</strong> de l'année d'imposition, ou au <strong>31 décembre</strong> si les charges de famille ont augmenté en cours d'année (ex: naissance).</p>
+      <ul>
+        <li><strong>Le contribuable :</strong> Personne seule (célibataire, séparée, divorcée, veuve) ou couple soumis à une <strong>imposition commune</strong> (mariés ou pacsés).</li>
+        <li><strong>Les personnes à charge « de droit » :</strong>
+          <ul>
+            <li>Enfants mineurs (moins de 18 ans au 1er janvier)</li>
+            <li>Enfants infirmes (quel que soit leur âge ou leurs revenus)</li>
+            <li>Enfants mineurs recueillis</li>
+          </ul>
+        </li>
+        <li><strong>Les personnes à charge « par rattachement » :</strong> Sous certaines conditions, des enfants majeurs peuvent choisir de rester dans le foyer fiscal de leurs parents :
+          <ul>
+            <li>Enfants de moins de <strong>21 ans</strong></li>
+            <li>Enfants étudiants de moins de <strong>25 ans</strong></li>
+            <li>Enfants accomplissant un service national volontaire</li>
+          </ul>
+          En contrepartie, les parents doivent <strong>intégrer les revenus annuels</strong> de cet enfant majeur à leur propre déclaration.
+        </li>
+      </ul>
+
+      <h4>2. Le principe de l'imposition unique (et ses exceptions)</h4>
+      <p>En règle générale, une seule imposition est établie pour l'ensemble des revenus du foyer fiscal. Toutefois, les <strong>événements de la vie</strong> viennent rompre ce principe :</p>
+      <ul>
+        <li><strong>Mariage ou PACS :</strong> Imposition commune (un seul foyer fiscal), avec option de deux déclarations séparées l'année de l'union.</li>
+        <li><strong>Séparation, divorce ou rupture de PACS :</strong> Chaque ex-conjoint forme un nouveau foyer fiscal distinct et dépose une déclaration séparée pour l'ensemble de l'année.</li>
+        <li><strong>Année de la majorité :</strong> L'enfant qui a 18 ans en cours d'année est rattaché à ses parents jusqu'à son anniversaire. Après, il devient son propre foyer fiscal (sauf choix du rattachement).</li>
+        <li><strong>Décès :</strong> Deux déclarations : une commune pour la période précédant le décès, et une au nom du conjoint survivant pour le reste de l'année.</li>
+      </ul>
+
+      <h4>3. Le Quotient Familial : le lien direct avec le calcul de l'impôt</h4>
+      <div class="info-box purple">
+        <strong>Formule :</strong> Quotient Familial = Revenu Net Global Imposable (RNGI) ÷ Nombre de parts
+      </div>
+      <p><strong>L'attribution des parts :</strong></p>
+      <ul>
+        <li>Célibataire : <strong>1 part</strong></li>
+        <li>Couple marié/pacsé : <strong>2 parts</strong></li>
+        <li>1er et 2e enfant : <strong>+ 0,5 part</strong> chacun</li>
+        <li>À partir du 3e enfant : <strong>+ 1 part</strong> par enfant</li>
+      </ul>
+      <p><strong>Les situations particulières :</strong></p>
+      <ul>
+        <li><strong>Parent isolé</strong> (case T) : + 0,5 part pour une personne vivant seule et élevant seule un enfant.</li>
+        <li><strong>Invalidité</strong> (carte mobilité inclusion) : + 0,5 part.</li>
+        <li><strong>Personnes veuves</strong> ayant des personnes à charge : conservent le même nombre de parts que si elles étaient encore mariées.</li>
+      </ul>
+
+      <h4>L'atténuation de la progressivité et le plafonnement</h4>
+      <p>Une fois le quotient familial déterminé, c'est sur ce montant qu'est appliqué le <strong>barème progressif de l'impôt (de 0 % à 45 %)</strong> avant d'être remultiplié par le nombre de parts. Cette méthode permet d'<strong>atténuer fortement la progressivité</strong> de l'impôt pour les grandes familles.</p>
+      <div class="info-box red">
+        <strong>Plafonnement du quotient familial :</strong> Si le RNGI du foyer dépasse un certain seuil, l'économie d'impôt procurée par chaque demi-part supplémentaire liée aux personnes à charge est strictement plafonnée à <strong>1 791 € par demi-part</strong>. L'administration calcule alors un impôt « plafonné », signalé par un <strong>astérisque (*)</strong> sur l'avis d'imposition.
+      </div>
+    </div>
+  </div>
+
+  <!-- 4.3 Revenus Catégoriels -->
+  <div class="card" id="c43">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-green">4.3</span>
+      <h3>Revenus Catégoriels</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Dans l'architecture de l'IR, les revenus catégoriels constituent la <strong>matière première</strong> de la base d'imposition. Chaque catégorie obéit à des règles de calcul spécifiques pour passer d'un montant « brut » à un montant « net ».</p>
+
+      <h4>1. Les 8 catégories de revenus</h4>
+      <ol>
+        <li><strong>TS</strong> — Traitements, salaires, pensions et rentes viagères</li>
+        <li><strong>RCM</strong> — Revenus de capitaux mobiliers</li>
+        <li><strong>PV</strong> — Plus-values et gains divers</li>
+        <li><strong>RF</strong> — Revenus fonciers</li>
+        <li><strong>BIC</strong> — Bénéfices industriels et commerciaux</li>
+        <li><strong>BNC</strong> — Bénéfices non commerciaux</li>
+        <li><strong>BA</strong> — Bénéfices agricoles</li>
+        <li><strong>Art. 62 CGI</strong> — Rémunérations des gérants de sociétés</li>
+      </ol>
+
+      <h4>2. Du revenu brut au revenu net catégoriel</h4>
+      <p>Pour chaque catégorie, le revenu net est obtenu en déduisant du revenu brut les <strong>dépenses engagées en vue de l'acquisition ou de la conservation de ce revenu</strong>. Ces dépenses sont évaluées soit de manière forfaitaire, soit pour leur montant réel :</p>
+      <ul>
+        <li><strong>Traitements et Salaires (TS) :</strong>
+          <ul>
+            <li>Régime de droit commun : <strong>déduction forfaitaire de 10 %</strong> (frais professionnels).</li>
+            <li>Option : déduction des <strong>frais réels</strong> justifiés.</li>
+          </ul>
+        </li>
+        <li><strong>Revenus Fonciers (RF) :</strong>
+          <ul>
+            <li>Loyers ≤ 15 000 € (régime <strong>micro-foncier</strong>) : abattement forfaitaire de <strong>30 %</strong>.</li>
+            <li>Au-delà : <strong>régime réel</strong> (déduction des charges réelles).</li>
+          </ul>
+        </li>
+        <li><strong>Travailleurs indépendants (BIC, BNC, BA) :</strong> Des régimes « micro » existent avec des abattements forfaitaires :
+          <ul>
+            <li>BIC achat-revente : <strong>71 %</strong></li>
+            <li>BIC prestations de services : <strong>50 %</strong></li>
+            <li>BNC : <strong>34 %</strong></li>
+          </ul>
+          Au-delà de certains seuils de chiffre d'affaires, le <strong>régime réel</strong> oblige à déposer une déclaration de résultat professionnelle.
+        </li>
+      </ul>
+
+      <h4>3. La gestion des déficits catégoriels</h4>
+      <p>La soustraction de charges réelles peut aboutir à un résultat négatif : c'est le <strong>déficit net catégoriel</strong> (les régimes forfaitaires, eux, ne peuvent pas générer de déficit).</p>
+      <p>Règle stricte d'imputation :</p>
+      <ol>
+        <li>Le déficit doit être imputé <strong>en priorité sur les revenus de la même catégorie</strong> réalisés la même année par les autres membres du foyer.</li>
+        <li>Si un reliquat subsiste, il peut ensuite (sauf exceptions) venir <strong>diminuer les revenus positifs des autres catégories</strong>.</li>
+      </ol>
+
+      <h4>4. L'intégration dans le Revenu Global</h4>
+      <p>La détermination des revenus nets catégoriels est la toute <strong>première étape</strong> du calcul de l'impôt. La chaîne de calcul complète :</p>
+      <div class="info-box green">
+        <strong>Somme algébrique des revenus nets catégoriels</strong><br>
+        → <strong>Revenu Global</strong><br>
+        → − Déficits antérieurs = <strong>Revenu Brut Global</strong><br>
+        → − Charges déductibles = <strong>Revenu Net Global</strong><br>
+        → − Abattements spécifiques = <strong>Revenu Net Global Imposable (RNGI)</strong><br>
+        → ÷ Nombre de parts = <strong>Quotient Familial</strong><br>
+        → Application du <strong>barème progressif</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== -->
+<!-- SECTION 5 : RESPONSABILITÉ     -->
+<!-- ============================== -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <div class="section-number">5</div>
+    <h2>Responsabilité et contrôle</h2>
+  </div>
+
+  <!-- 5.1 Responsabilité et Contrôleurs -->
+  <div class="card" id="c51">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-red">5.1</span>
+      <h3>Responsabilité et Contrôleurs (RGP)</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="info-box blue">
+        <strong>Le RGP</strong> (Régime de Responsabilité des Gestionnaires Publics), entré en vigueur le <strong>1er janvier 2023</strong> à la suite de l'ordonnance du 23 mars 2022, constitue une réforme majeure. Il vient compléter les responsabilités « classiques » (civile, pénale et disciplinaire) en sanctionnant les <strong>véritables erreurs de gestion</strong> plutôt que les simples manquements formels.
+      </div>
+
+      <h4>1. Un régime unifié pour tous les acteurs</h4>
+      <p>Historiquement, la responsabilité financière pesait quasi exclusivement sur le comptable public via la « responsabilité personnelle et pécuniaire ». Le RGP a supprimé ce système. Désormais, le régime est <strong>unifié</strong> et s'applique à l'ensemble des gestionnaires publics :</p>
+      <ul>
+        <li><strong>Les comptables publics.</strong></li>
+        <li><strong>Les ordonnateurs</strong> (fonctionnaires, agents de l'État et des collectivités, membres de cabinets ministériels).</li>
+        <li><strong>L'exception politique :</strong> Les ministres et les élus locaux (comme les maires) en sont exclus. Toutefois, s'ils s'immiscent irrégulièrement dans le maniement des deniers publics, ils tombent sous le coup de la <strong>« gestion de fait »</strong> et deviennent alors pleinement justiciables du RGP.</li>
+      </ul>
+
+      <h4>2. Le ciblage des fautes : juger les personnes, non plus les comptes</h4>
+      <p>Le RGP réserve l'intervention du juge aux cas d'une <strong>gravité avérée</strong>. Les fautes sanctionnées sont :</p>
+      <ul>
+        <li>Les <strong>infractions graves</strong> aux règles d'exécution des recettes, des dépenses ou de gestion des biens ayant causé un <strong>préjudice financier significatif</strong>.</li>
+        <li>Des <strong>infractions spécifiques même sans préjudice financier</strong> :
+          <ul>
+            <li>Absence de production des comptes</li>
+            <li>Inexécution d'une décision de justice conduisant à une astreinte</li>
+            <li>Engagement d'une dépense sans délégation ou sans respect du contrôle budgétaire</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h4>3. Un régime de sanctions strictement encadré</h4>
+      <ul>
+        <li>Amendes individuelles <strong>proportionnées</strong> à la gravité des faits.</li>
+        <li>Calculées en fonction de la rémunération et <strong>plafonnées à six mois de salaire</strong>.</li>
+        <li>Amendes <strong>non assurables</strong> et <strong>non rémissibles</strong>.</li>
+      </ul>
+
+      <h4>4. L'organisation juridictionnelle du contrôle</h4>
+      <p>Le contrôle juridictionnel du RGP s'articule autour de juridictions spécialisées garantissant les droits de la défense (procédure inquisitoriale, écrite et contradictoire) :</p>
+      <ul>
+        <li><strong>Première instance :</strong> La <strong>7ème chambre de la Cour des comptes</strong> (Chambre du Contentieux).</li>
+        <li><strong>Appel (suspensif) :</strong> Devant la <strong>Cour d'appel financière</strong>.</li>
+        <li><strong>Cassation :</strong> Devant le <strong>Conseil d'État</strong>, juge administratif suprême.</li>
+        <li><strong>Déclenchement :</strong> Les poursuites sont engagées par le <strong>procureur général</strong>, qui peut être saisi par des ministres, présidents d'assemblées, services d'inspection, préfets ou directeurs de la DGFiP.</li>
+      </ul>
+
+      <h4>5. L'articulation avec le contrôle mutuel au quotidien</h4>
+      <p>Le RGP maintient intact le <strong>principe de séparation des ordonnateurs et des comptables</strong>. Si le comptable refuse de payer une dépense irrégulière, l'ordonnateur peut le forcer via un <strong>« ordre de réquisition »</strong>. Dans ce cas, le comptable est <strong>dégagé de sa responsabilité</strong>, celle-ci est intégralement transférée sur l'ordonnateur seul.</p>
+      <div class="info-box orange">
+        <strong>Le droit de signalement :</strong> La réforme a remplacé l'ancien « devoir d'alerte » par un <strong>droit de signalement</strong> : le comptable peut signaler à l'ordonnateur une opération risquant de constituer une faute grave au sens du RGP. Si l'ordonnateur ne régularise pas, le directeur local de la DGFiP peut utiliser la procédure du <strong>« déféré »</strong> pour saisir directement le Procureur général.
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.2 Instances de Jugement -->
+  <div class="card" id="c52">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-red">5.2</span>
+      <h3>Instances de Jugement</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Le RGP, qui remplace l'ancienne responsabilité personnelle et pécuniaire des comptables, a pour philosophie de <strong>juger des personnes</strong> (ordonnateurs ou comptables) et non de simples comptes, en ciblant les fautes d'une <strong>gravité avérée</strong>.</p>
+      <p>L'organisation juridictionnelle s'articule autour de <strong>trois instances</strong> garantissant les droits de la défense (procédure inquisitoriale, écrite et contradictoire) :</p>
+
+      <h4>1. Première Instance : la 7ème Chambre de la Cour des comptes</h4>
+      <p>Lorsque le procureur général décide de poursuivre un agent, l'affaire est renvoyée devant la <strong>Chambre du Contentieux (7ème Chambre)</strong>.</p>
+      <ul>
+        <li><strong>Composition :</strong> Formation unique de membres de la Cour des comptes et de magistrats des Chambres régionales et territoriales des comptes.</li>
+        <li><strong>L'audience :</strong> Publique (huis-clos possible selon les circonstances).</li>
+        <li><strong>Les décisions :</strong> Après un <strong>délibéré secret</strong>, les juges rendent un arrêt motivé pouvant se traduire par :
+          <ul>
+            <li>Une <strong>relaxe</strong> (responsabilité non avérée)</li>
+            <li>Une <strong>amende</strong> (individuelle, plafonnée à six mois de salaire, non assurable)</li>
+            <li>Une <strong>dispense de peine</strong> (si le dommage a été réparé et le trouble a cessé)</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h4>2. L'Appel : la Cour d'appel financière</h4>
+      <p>La personne mise en cause dispose d'un <strong>délai de deux mois</strong> pour faire appel. Cet appel a un <strong>effet suspensif</strong>.</p>
+      <ul>
+        <li><strong>Composition mixte :</strong> Présidée par le <strong>Premier Président de la Cour des comptes</strong>. Elle regroupe :
+          <ul>
+            <li>4 membres du Conseil d'État</li>
+            <li>4 membres de la Cour des comptes</li>
+            <li>2 personnalités qualifiées désignées pour leur expérience en gestion publique</li>
+          </ul>
+        </li>
+      </ul>
+
+      <h4>3. La Cassation : le Conseil d'État</h4>
+      <p>L'ultime recours se fait devant le <strong>Conseil d'État</strong>, qui statue en tant que <strong>juge administratif suprême</strong> de l'ordre financier.</p>
+
+      <div class="info-box red">
+        <strong>Le rôle de ces instances dans le contrôle global :</strong> Elles sanctionnent l'ensemble des acteurs publics (sauf ministres et élus locaux, sauf « gestion de fait ») pour des <strong>fautes graves de gestion ayant causé un préjudice financier significatif</strong>. Elles interviennent aussi pour réprimer des infractions ciblées : défaut de production des comptes, inexécution d'une décision de justice, engagement d'une dépense sans délégation.
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.3 Organismes de Contrôle -->
+  <div class="card" id="c53">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-red">5.3</span>
+      <h3>Organismes de Contrôle</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>L'exécution du budget et le maniement des deniers publics exigent un système de contrôle rigoureux. Les sources mettent en évidence <strong>trois grandes catégories</strong> d'organismes de contrôle intervenant à différents stades et avec des prérogatives distinctes.</p>
+
+      <h4>1. Les Organismes de Contrôle Administratif</h4>
+      <p>Le contrôle s'effectue d'abord au sein même de la sphère administrative (contrôle interne et audit) :</p>
+      <ul>
+        <li><strong>L'Inspection Générale des Finances (IGF) :</strong> L'un des grands corps de contrôle de l'administration. L'IGF exerce un contrôle financier transversal sur l'ensemble du secteur public, ciblant à la fois les ordonnateurs et les comptables. Elle effectue des contrôles de régularité <strong>« sur pièces » et « sur place »</strong>. Au-delà du simple contrôle de conformité, elle mène des <strong>missions d'évaluation et de conseil</strong> pour apprécier l'efficacité et l'efficience des politiques publiques et proposer des leviers de réforme au Gouvernement.</li>
+        <li><strong>Les services d'audit interne :</strong> Chaque administration dispose de ses propres corps de contrôle pour évaluer les risques liés à ses missions. À la DGFiP, par exemple, il existe une <strong>mission nationale « risques et audit »</strong> rattachée au Directeur Général, relayée localement dans les directions départementales.</li>
+      </ul>
+
+      <h4>2. Les Organismes de Contrôle Politique</h4>
+      <p>L'autorisation de lever l'impôt et de dépenser l'argent public étant un <strong>acte démocratique</strong>, les assemblées élues exercent un contrôle politique fondamental :</p>
+      <ul>
+        <li><strong>Le Parlement (pour l'État) :</strong> Les députés et sénateurs peuvent interroger le gouvernement ou créer des commissions d'enquête sur des questions financières. En fin de cycle, le Parlement contrôle l'exécution en votant la <strong>loi relative aux résultats de la gestion et portant approbation des comptes</strong>. Il s'appuie sur les <strong>Rapports Annuels de Performances (RAP)</strong> pour évaluer si les objectifs ont été atteints.</li>
+        <li><strong>Les assemblées délibérantes (pour les collectivités locales) :</strong> Les conseils municipaux, départementaux ou régionaux contrôlent l'ordonnateur local. Ce contrôle culmine lors du vote du <strong>compte administratif</strong>. Fait marquant : <strong>l'ordonnateur n'a pas le droit de participer aux débats</strong> lors de ce vote.</li>
+      </ul>
+
+      <h4>3. Les Organismes de Contrôle Juridictionnel (le juge financier)</h4>
+      <p>Le contrôle ultime, notamment pour engager la responsabilité financière des acteurs (RGP), appartient aux <strong>juridictions financières indépendantes</strong> :</p>
+      <ul>
+        <li><strong>La Cour des comptes :</strong> Rôle pivot à deux niveaux :
+          <ul>
+            <li>Mission constitutionnelle de <strong>certifier les comptes de l'État</strong> (régularité, sincérité, fidélité) pour éclairer le Parlement.</li>
+            <li>Abrite le <strong>juge du nouveau régime de responsabilité (RGP)</strong>.</li>
+          </ul>
+        </li>
+        <li><strong>La 7ème Chambre (Chambre du Contentieux) :</strong> Juridiction de première instance pour juger les <strong>fautes graves de gestion</strong> ayant causé un préjudice financier. Composition mixte : membres de la Cour des comptes et magistrats des Chambres régionales et territoriales.</li>
+        <li><strong>La Cour d'appel financière :</strong> Juridiction mixte présidée par le Premier Président de la Cour des comptes pour les appels.</li>
+        <li><strong>Le Conseil d'État :</strong> Juge administratif suprême pour les pourvois en cassation.</li>
+      </ul>
+
+      <div class="info-box teal">
+        <strong>Le rôle du Procureur général :</strong> Il fait le lien entre les différents contrôles. Il peut être saisi par les ministres, le Parlement, les préfets, les directeurs de la DGFiP ou encore l'IGF, afin de <strong>déclencher des poursuites juridictionnelles</strong> contre un agent ayant commis une faute.
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- .container -->
+
+<!-- BACK TO TOP -->
+<button class="btt" id="btt" onclick="window.scrollTo({top:0})" title="Retour en haut">↑</button>
+
+<!-- FOOTER -->
+<footer>
+  Finances Publiques — DGFiP
+</footer>
+
+<script>
+function toggle(el) {
+  el.closest('.card').classList.toggle('open');
+}
+
+// Expand all cards by default for reading; uncomment below to start collapsed
+document.querySelectorAll('.card').forEach(c => c.classList.add('open'));
+
+// Back to top button
+const btt = document.getElementById('btt');
+window.addEventListener('scroll', () => {
+  btt.classList.toggle('show', window.scrollY > 400);
+});
+
+// Highlight active nav on scroll
+const sections = document.querySelectorAll('.section');
+const navLinks = document.querySelectorAll('.topnav .nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>

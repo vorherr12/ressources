@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>SIMPA DGFiP - Simulateur de Paie</title>
+    <style>
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#0d1117;color:#e6edf3;font-size:13px;line-height:1.4}
+        .app{display:grid;grid-template-columns:380px 1fr;height:100vh}
+        .sidebar{background:#161b22;border-right:1px solid #30363d;overflow-y:auto;padding:16px}
+        .main{overflow-y:auto;padding:20px}
+        h1{font-size:15px;color:#58a6ff;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #30363d}
+        h2{font-size:12px;color:#8b949e;margin:16px 0 8px;text-transform:uppercase;letter-spacing:0.5px}
+        .form-group{margin-bottom:12px}
+        .form-group label{display:block;margin-bottom:4px;color:#8b949e;font-size:11px}
+        select,input[type="number"],input[type="text"]{width:100%;padding:6px 10px;font-size:13px;color:#e6edf3;background:#0d1117;border:1px solid #30363d;border-radius:4px}
+        select:focus,input:focus{outline:none;border-color:#58a6ff}
+        .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+        .checkbox{display:flex;align-items:center;gap:6px;margin:8px 0}
+        .checkbox input{width:auto}
+        .checkbox label{color:#e6edf3;font-size:12px}
+        table{width:100%;border-collapse:collapse;font-size:12px}
+        th,td{padding:6px 10px;border:1px solid #30363d;text-align:right}
+        th{background:#21262d;color:#8b949e;font-weight:600;text-align:center}
+        td:first-child{text-align:left;color:#8b949e}
+        .highlight td{background:rgba(46,160,67,0.15);color:#3fb950;font-weight:600}
+        .negative{color:#f85149}
+        .mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+        .summary{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px}
+        .summary-card{background:#21262d;border:1px solid #30363d;border-radius:6px;padding:10px;text-align:center}
+        .summary-card .value{font-size:16px;font-weight:700;color:#3fb950;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+        .summary-card .label{font-size:10px;color:#8b949e;margin-top:4px}
+        .info{background:rgba(56,139,253,0.1);border:1px solid #388bfd66;border-radius:4px;padding:8px 12px;margin-bottom:12px;font-size:11px;color:#58a6ff}
+        .section{background:#161b22;border:1px solid #30363d;border-radius:6px;margin-bottom:16px}
+        .section-header{background:#21262d;padding:10px 16px;border-bottom:1px solid #30363d;font-weight:600;font-size:12px;color:#8b949e}
+        .section-body{padding:16px}
+        .params-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .input-addon{display:flex}
+        .input-addon input{border-radius:4px 0 0 4px;border-right:0}
+        .input-addon span{background:#21262d;border:1px solid #30363d;border-radius:0 4px 4px 0;padding:6px 10px;color:#8b949e;font-size:12px}
+    </style>
+</head>
+<body>
+<div class="app">
+    <div class="sidebar">
+        <h1>SIMPA DGFiP — Janvier 2024</h1>
+        
+        <div class="info">Valeur point indice 100 : 5 907,34 € | PC : 11,10% | CSG déd. : 6,80%</div>
+        
+        <h2>Situation administrative</h2>
+        <div class="form-group">
+            <label>Grade - Échelon</label>
+            <select id="grade" onchange="calc()"></select>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label>Barème</label>
+                <select id="bareme" onchange="calc()">
+                    <option value="province">Province</option>
+                    <option value="idf">Île-de-France</option>
+                    <option value="reunion">La Réunion</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Résidence</label>
+                <select id="residence" onchange="calc()">
+                    <option value="0">Zone 3 (0%)</option>
+                    <option value="1">Zone 2 (1%)</option>
+                    <option value="3">Zone 1 (3%)</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label>SFT (enfants)</label>
+                <select id="sft" onchange="calc()">
+                    <option value="0">Non</option>
+                    <option value="1">1 enfant</option>
+                    <option value="2">2 enfants</option>
+                    <option value="3">3 enfants</option>
+                    <option value="4">4 enfants</option>
+                    <option value="5">5 enfants</option>
+                    <option value="6">6 enfants</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Points NBI</label>
+                <input type="number" id="nbi" value="0" min="0" oninput="calc()">
+            </div>
+        </div>
+        
+        <h2>Fonctions et affectations</h2>
+        <div class="form-group">
+            <label>Fonction spécifique</label>
+            <select id="fonction" onchange="calc()"></select>
+        </div>
+        
+        <h2>Options</h2>
+        <div class="checkbox">
+            <input type="checkbox" id="surcot" checked onchange="calc()">
+            <label for="surcot">Surcotisation temps partiel</label>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label>Remb. transport</label>
+                <input type="number" id="transport" value="62.77" step="0.01" oninput="calc()">
+            </div>
+            <div class="form-group">
+                <label>Participation PSC</label>
+                <input type="number" id="psc" value="15" step="0.01" oninput="calc()">
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label>Mutuelle</label>
+                <input type="number" id="mutuelle" value="93.76" step="0.01" oninput="calc()">
+            </div>
+            <div class="form-group">
+                <label>Premuo</label>
+                <input type="number" id="premuo" value="10.03" step="0.01" oninput="calc()">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Indemnité compensatrice CSG</label>
+            <input type="number" id="iccsg" value="28.25" step="0.01" oninput="calc()">
+        </div>
+        <div class="form-group">
+            <label>Taux PAS (%)</label>
+            <div class="input-addon">
+                <input type="number" id="pas" value="5.5" step="0.1" min="0" max="45" oninput="calc()">
+                <span>%</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main">
+        <div class="summary" id="summary"></div>
+        
+        <div class="section">
+            <div class="section-header">Simulation par quotité de travail</div>
+            <div class="section-body">
+                <table id="results"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const P = {
+    ptIndice: 5907.34/12/100,
+    ptIndicePR: 5556.35/12/100,
+    ptACF: 55.05/12,
+    pc: 0.111,
+    surcot: 0.3165,
+    pcIMT: 0.20,
+    imt: 106.76,
+    csgNonDed: 0.024,
+    csgDed: 0.068,
+    crds: 0.005,
+    assietteCSG: 0.9825,
+    rafpTaux: 0.05,
+    rafpAssiette: 0.20,
+    transfert: 0.0087,
+    indicePlancher: 313,
+    indicePlancherSFT: 454,
+    indicePlafondSFT: 722,
+    sft1: 2.29,
+    sftFixe2: 10.67,
+    sftFixe3: 15.24,
+    sftFixeSupp: 4.57,
+    sftProp2: 0.03,
+    sftProp3: 0.08,
+    sftPropSupp: 0.06,
+    coefReunion: 1.138
+};
+
+const GRADES = [
+    {id:"AA 2-1",cat:"C",inm:366,pr:1690.77,ifts:150.09,acf:1541.40},
+    {id:"AA 2-2",cat:"C",inm:367,pr:1690.77,ifts:150.50,acf:1541.40},
+    {id:"AA 2-3",cat:"C",inm:368,pr:1690.77,ifts:150.91,acf:1541.40},
+    {id:"AA 2-4",cat:"C",inm:369,pr:1690.77,ifts:151.32,acf:1541.40},
+    {id:"AA 2-5",cat:"C",inm:370,pr:1690.77,ifts:151.73,acf:1541.40},
+    {id:"AA 2-6",cat:"C",inm:374,pr:1690.77,ifts:153.37,acf:1541.40},
+    {id:"AA 2-7",cat:"C",inm:378,pr:1690.77,ifts:155.01,acf:1541.40},
+    {id:"AA 2-8",cat:"C",inm:381,pr:1690.77,ifts:156.24,acf:1541.40},
+    {id:"AA 2-9",cat:"C",inm:383,pr:1690.77,ifts:157.06,acf:1541.40},
+    {id:"AA 2-10",cat:"C",inm:385,pr:1690.77,ifts:157.88,acf:1541.40},
+    {id:"AA 2-11",cat:"C",inm:387,pr:1690.77,ifts:158.70,acf:1541.40},
+    {id:"AAP 2-1",cat:"C",inm:367,pr:1809.39,ifts:150.50,acf:1541.40},
+    {id:"AAP 2-2",cat:"C",inm:368,pr:1809.39,ifts:150.91,acf:1541.40},
+    {id:"AAP 2-3",cat:"C",inm:369,pr:1809.39,ifts:151.32,acf:1541.40},
+    {id:"AAP 2-4",cat:"C",inm:370,pr:1809.39,ifts:151.73,acf:1541.40},
+    {id:"AAP 2-5",cat:"C",inm:371,pr:1809.39,ifts:152.14,acf:1541.40},
+    {id:"AAP 2-6",cat:"C",inm:376,pr:1809.39,ifts:154.19,acf:1541.40},
+    {id:"AAP 2-7",cat:"C",inm:380,pr:1809.39,ifts:155.83,acf:1541.40},
+    {id:"AAP 2-8",cat:"C",inm:384,pr:1809.39,ifts:157.47,acf:1541.40},
+    {id:"AAP 2-9",cat:"C",inm:388,pr:1809.39,ifts:159.11,acf:1541.40},
+    {id:"AAP 2-10",cat:"C",inm:390,pr:1809.39,ifts:159.93,acf:1541.40},
+    {id:"AAP 2-11",cat:"C",inm:392,pr:1809.39,ifts:160.75,acf:1541.40},
+    {id:"AAP 2-12",cat:"C",inm:395,pr:1809.39,ifts:162.98,acf:1541.40},
+    {id:"AAP 1-1",cat:"C",inm:388,pr:1927.77,ifts:159.11,acf:1541.40},
+    {id:"AAP 1-2",cat:"C",inm:392,pr:1927.77,ifts:160.75,acf:1541.40},
+    {id:"AAP 1-3",cat:"C",inm:396,pr:1927.77,ifts:162.39,acf:1541.40},
+    {id:"AAP 1-4",cat:"C",inm:400,pr:1927.77,ifts:164.03,acf:1541.40},
+    {id:"AAP 1-5",cat:"C",inm:403,pr:1927.77,ifts:165.26,acf:1541.40},
+    {id:"AAP 1-6",cat:"C",inm:410,pr:1927.77,ifts:168.13,acf:1541.40},
+    {id:"AAP 1-7",cat:"C",inm:417,pr:1927.77,ifts:171.00,acf:1541.40},
+    {id:"AAP 1-8",cat:"C",inm:423,pr:1927.77,ifts:173.46,acf:1541.40},
+    {id:"AAP 1-9",cat:"C",inm:427,pr:1927.77,ifts:175.10,acf:1541.40},
+    {id:"AAP 1-10",cat:"C",inm:432,pr:1927.77,ifts:177.15,acf:1541.40},
+    {id:"C 2-1",cat:"B",inm:370,pr:2160.00,ifts:151.73,acf:2477.25},
+    {id:"C 2-2",cat:"B",inm:371,pr:2160.00,ifts:152.14,acf:2477.25},
+    {id:"C 2-3",cat:"B",inm:373,pr:2160.00,ifts:152.96,acf:2477.25},
+    {id:"C 2-4",cat:"B",inm:376,pr:2160.00,ifts:154.19,acf:2477.25},
+    {id:"C 2-5",cat:"B",inm:381,pr:2160.00,ifts:156.24,acf:2477.25},
+    {id:"C 2-6",cat:"B",inm:388,pr:2160.00,ifts:159.11,acf:2477.25},
+    {id:"C 2-7",cat:"B",inm:396,pr:2160.00,ifts:162.39,acf:2477.25},
+    {id:"C 2-8",cat:"B",inm:404,pr:2160.00,ifts:165.67,acf:2477.25},
+    {id:"C 2-9",cat:"B",inm:411,pr:2160.00,ifts:168.54,acf:2477.25},
+    {id:"C 2-10",cat:"B",inm:415,pr:2160.00,ifts:170.18,acf:2477.25},
+    {id:"C 2-11",cat:"B",inm:430,pr:2688.00,ifts:176.33,acf:2477.25},
+    {id:"C 2-12",cat:"B",inm:441,pr:2688.00,ifts:180.84,acf:2477.25},
+    {id:"C 2-13",cat:"B",inm:454,pr:2688.00,ifts:186.17,acf:2477.25},
+    {id:"C 1-1",cat:"B",inm:404,pr:2880.00,ifts:165.67,acf:2477.25},
+    {id:"C 1-2",cat:"B",inm:416,pr:2880.00,ifts:170.59,acf:2477.25},
+    {id:"C 1-3",cat:"B",inm:428,pr:2880.00,ifts:175.51,acf:2477.25},
+    {id:"C 1-4",cat:"B",inm:439,pr:2880.00,ifts:180.02,acf:2477.25},
+    {id:"C 1-5",cat:"B",inm:446,pr:2880.00,ifts:182.89,acf:2477.25},
+    {id:"C 1-6",cat:"B",inm:453,pr:2880.00,ifts:185.76,acf:2477.25},
+    {id:"C 1-7",cat:"B",inm:461,pr:2880.00,ifts:189.04,acf:2477.25},
+    {id:"C 1-8",cat:"B",inm:469,pr:2880.00,ifts:192.32,acf:2477.25},
+    {id:"C 1-9",cat:"B",inm:478,pr:3420.00,ifts:196.01,acf:2477.25},
+    {id:"C 1-10",cat:"B",inm:485,pr:3420.00,ifts:198.88,acf:2477.25},
+    {id:"C 1-11",cat:"B",inm:509,pr:3420.00,ifts:208.72,acf:2477.25},
+    {id:"C 1-12",cat:"B",inm:539,pr:3420.00,ifts:221.03,acf:2477.25},
+    {id:"CP 1",cat:"B",inm:397,pr:3060.00,ifts:162.80,acf:2532.30},
+    {id:"CP 2",cat:"B",inm:409,pr:3060.00,ifts:167.72,acf:2532.30},
+    {id:"CP 3",cat:"B",inm:424,pr:3060.00,ifts:173.87,acf:2532.30},
+    {id:"CP 4",cat:"B",inm:446,pr:3060.00,ifts:182.89,acf:2532.30},
+    {id:"CP 5",cat:"B",inm:470,pr:3060.00,ifts:192.73,acf:2532.30},
+    {id:"CP 6",cat:"B",inm:489,pr:3060.00,ifts:200.52,acf:2532.30},
+    {id:"CP 7",cat:"B",inm:513,pr:3828.84,ifts:210.37,acf:2532.30},
+    {id:"CP 8",cat:"B",inm:539,pr:3828.84,ifts:221.03,acf:2532.30},
+    {id:"CP 9",cat:"B",inm:556,pr:3828.84,ifts:228.00,acf:2532.30},
+    {id:"CP 10",cat:"B",inm:574,pr:3828.84,ifts:235.38,acf:2532.30},
+    {id:"CP 11",cat:"B",inm:592,pr:3828.84,ifts:242.76,acf:2532.30},
+    {id:"Technicien Géomètre 1",cat:"B",inm:373,pr:2850.00,ifts:152.96,acf:2532.30},
+    {id:"Technicien Géomètre 2",cat:"B",inm:374,pr:2850.00,ifts:153.37,acf:2532.30},
+    {id:"Technicien Géomètre 3",cat:"B",inm:375,pr:2850.00,ifts:153.78,acf:2532.30},
+    {id:"Technicien Géomètre 4",cat:"B",inm:376,pr:2850.00,ifts:154.19,acf:2532.30},
+    {id:"Technicien Géomètre 5",cat:"B",inm:377,pr:3150.00,ifts:154.60,acf:2532.30},
+    {id:"Technicien Géomètre 6",cat:"B",inm:386,pr:3150.00,ifts:158.29,acf:2532.30},
+    {id:"Technicien Géomètre 7",cat:"B",inm:401,pr:3150.00,ifts:164.44,acf:2532.30},
+    {id:"Technicien Géomètre 8",cat:"B",inm:420,pr:3150.00,ifts:172.23,acf:2532.30},
+    {id:"Technicien Géomètre 9",cat:"B",inm:436,pr:3150.00,ifts:178.79,acf:2532.30},
+    {id:"Technicien Géomètre 10",cat:"B",inm:446,pr:3150.00,ifts:182.89,acf:2532.30},
+    {id:"Technicien Géomètre 11",cat:"B",inm:462,pr:3150.00,ifts:189.45,acf:2532.30},
+    {id:"Technicien Géomètre 12",cat:"B",inm:482,pr:3150.00,ifts:197.65,acf:2532.30},
+    {id:"Technicien Géomètre 13",cat:"B",inm:508,pr:3150.00,ifts:208.31,acf:2532.30},
+    {id:"Géomètre 1",cat:"B",inm:376,pr:3450.00,ifts:154.19,acf:2532.30},
+    {id:"Géomètre 2",cat:"B",inm:377,pr:3450.00,ifts:154.60,acf:2532.30},
+    {id:"Géomètre 3",cat:"B",inm:384,pr:3450.00,ifts:157.47,acf:2532.30},
+    {id:"Géomètre 4",cat:"B",inm:395,pr:3450.00,ifts:161.98,acf:2532.30},
+    {id:"Géomètre 5",cat:"B",inm:406,pr:3450.00,ifts:166.49,acf:2532.30},
+    {id:"Géomètre 6",cat:"B",inm:421,pr:3450.00,ifts:172.64,acf:2532.30},
+    {id:"Géomètre 7",cat:"B",inm:441,pr:3450.00,ifts:180.84,acf:2532.30},
+    {id:"Géomètre 8",cat:"B",inm:457,pr:3450.00,ifts:187.40,acf:2532.30},
+    {id:"Géomètre 9",cat:"B",inm:466,pr:3450.00,ifts:191.09,acf:2532.30},
+    {id:"Géomètre 10",cat:"B",inm:485,pr:3450.00,ifts:198.88,acf:2532.30},
+    {id:"Géomètre 11",cat:"B",inm:509,pr:3450.00,ifts:208.72,acf:2532.30},
+    {id:"Géomètre 12",cat:"B",inm:539,pr:3450.00,ifts:221.03,acf:2532.30},
+    {id:"Géomètre Principal 1",cat:"B",inm:397,pr:3450.00,ifts:162.80,acf:2532.30},
+    {id:"Géomètre Principal 2",cat:"B",inm:409,pr:3450.00,ifts:167.72,acf:2532.30},
+    {id:"Géomètre Principal 3",cat:"B",inm:424,pr:3450.00,ifts:173.87,acf:2532.30},
+    {id:"Géomètre Principal 4",cat:"B",inm:446,pr:3450.00,ifts:182.89,acf:2532.30},
+    {id:"Géomètre Principal 5",cat:"B",inm:470,pr:3450.00,ifts:192.73,acf:2532.30},
+    {id:"Géomètre Principal 6",cat:"B",inm:489,pr:3450.00,ifts:200.52,acf:2532.30},
+    {id:"Géomètre Principal 7",cat:"B",inm:513,pr:3450.00,ifts:210.37,acf:2532.30},
+    {id:"Géomètre Principal 8",cat:"B",inm:539,pr:3450.00,ifts:221.03,acf:2532.30},
+    {id:"Géomètre Principal 9",cat:"B",inm:556,pr:3450.00,ifts:228.00,acf:2532.30},
+    {id:"Géomètre Principal 10",cat:"B",inm:574,pr:3450.00,ifts:235.38,acf:2532.30},
+    {id:"Géomètre Principal 11",cat:"B",inm:592,pr:3450.00,ifts:242.76,acf:2532.30},
+    {id:"Insp 1",cat:"A",inm:395,pr:4062.04,ifts:161.98,acf:4183.80},
+    {id:"Insp 2",cat:"A",inm:415,pr:4062.04,ifts:170.18,acf:4183.80},
+    {id:"Insp 3",cat:"A",inm:435,pr:4062.04,ifts:178.38,acf:4183.80},
+    {id:"Insp 4",cat:"A",inm:455,pr:4062.04,ifts:186.58,acf:4183.80},
+    {id:"Insp 5",cat:"A",inm:485,pr:4062.04,ifts:198.88,acf:4183.80},
+    {id:"Insp 6",cat:"A",inm:518,pr:4062.04,ifts:212.42,acf:4183.80},
+    {id:"Insp 7",cat:"A",inm:550,pr:4971.46,ifts:225.54,acf:4183.80},
+    {id:"Insp 8",cat:"A",inm:585,pr:4971.46,ifts:239.89,acf:4183.80},
+    {id:"Insp 9",cat:"A",inm:623,pr:5920.42,ifts:255.47,acf:4183.80},
+    {id:"Insp 10",cat:"A",inm:658,pr:5920.42,ifts:269.82,acf:4183.80},
+    {id:"Insp 11",cat:"A",inm:678,pr:5920.42,ifts:278.03,acf:4183.80},
+    {id:"Insp spécialisé 1",cat:"A",inm:585,pr:5920.42,ifts:239.89,acf:4183.80},
+    {id:"Insp spécialisé 2",cat:"A",inm:623,pr:5920.42,ifts:255.47,acf:4183.80},
+    {id:"Insp spécialisé 3",cat:"A",inm:658,pr:5920.42,ifts:269.82,acf:4183.80},
+    {id:"Insp spécialisé 4",cat:"A",inm:696,pr:5920.42,ifts:285.40,acf:4183.80},
+    {id:"I Div. CN 1er échelon FC",cat:"A+",inm:628,pr:6276.12,ifts:257.52,acf:4183.80},
+    {id:"I Div. CN 2ème échelon FC",cat:"A+",inm:665,pr:6276.12,ifts:272.69,acf:4183.80},
+    {id:"I Div. CN 3ème échelon FC",cat:"A+",inm:701,pr:6276.12,ifts:287.46,acf:4183.80},
+    {id:"I Div. CN 1er échelon",cat:"A+",inm:664,pr:6276.12,ifts:272.29,acf:4183.80},
+    {id:"I Div. CN 2ème échelon",cat:"A+",inm:701,pr:6276.12,ifts:287.46,acf:4183.80},
+    {id:"I Div. CN 3ème échelon",cat:"A+",inm:735,pr:6276.12,ifts:301.40,acf:4183.80},
+    {id:"I Div. CN 4ème échelon",cat:"A+",inm:763,pr:6276.12,ifts:312.88,acf:4183.80},
+    {id:"I Div. HC 1er échelon FC",cat:"A+",inm:701,pr:6780.67,ifts:287.46,acf:4183.80},
+    {id:"I Div. HC 2ème échelon FC",cat:"A+",inm:735,pr:6780.67,ifts:301.40,acf:4183.80},
+    {id:"I Div. HC 3ème échelon FC",cat:"A+",inm:776,pr:6780.67,ifts:318.21,acf:4183.80},
+    {id:"I Div. HC 1er échelon",cat:"A+",inm:735,pr:6780.67,ifts:301.40,acf:4183.80},
+    {id:"I Div. HC 2ème échelon",cat:"A+",inm:776,pr:6780.67,ifts:318.21,acf:4183.80},
+    {id:"I Div. HC 3ème échelon",cat:"A+",inm:818,pr:6780.67,ifts:335.44,acf:4183.80},
+    {id:"I Div. HC échelon spécial",cat:"A+",inm:830,pr:6780.67,ifts:340.36,acf:4183.80},
+    {id:"IP 1",cat:"A+",inm:505,pr:7430.00,ifts:207.08,acf:4183.80},
+    {id:"IP 2",cat:"A+",inm:551,pr:7430.00,ifts:225.95,acf:4183.80},
+    {id:"IP 3",cat:"A+",inm:600,pr:7430.00,ifts:246.04,acf:4183.80},
+    {id:"IP 4",cat:"A+",inm:655,pr:7430.00,ifts:268.59,acf:4183.80},
+    {id:"IP 5",cat:"A+",inm:702,pr:7950.00,ifts:287.87,acf:4183.80},
+    {id:"IP 6",cat:"A+",inm:750,pr:7950.00,ifts:307.55,acf:4183.80},
+    {id:"IP 7",cat:"A+",inm:783,pr:8830.00,ifts:321.08,acf:4183.80},
+    {id:"IP 8",cat:"A+",inm:811,pr:8830.00,ifts:332.56,acf:4183.80},
+    {id:"IP 9",cat:"A+",inm:821,pr:8830.00,ifts:336.66,acf:4183.80},
+    {id:"IP 10",cat:"A+",inm:826,pr:8830.00,ifts:338.72,acf:4183.80},
+    {id:"AFiP Adj. 1er échelon",cat:"A+",inm:668,pr:11620.68,ifts:273.92,acf:4183.80},
+    {id:"AFiP Adj. 2ème échelon",cat:"A+",inm:714,pr:11620.68,ifts:292.78,acf:4183.80},
+    {id:"AFiP Adj. 3ème échelon",cat:"A+",inm:762,pr:11620.68,ifts:312.47,acf:4183.80},
+    {id:"AFiP Adj. 4ème échelon",cat:"A+",inm:816,pr:14725.92,ifts:334.62,acf:4183.80},
+    {id:"AFiP Adj. 5ème échelon",cat:"A+",inm:858,pr:14725.92,ifts:351.84,acf:4183.80},
+    {id:"AFiP Adj. 6ème échelon",cat:"A+",inm:890,pr:14725.92,ifts:364.96,acf:4183.80},
+    {id:"AFiP 1er échelon",cat:"A+",inm:728,pr:10581.40,ifts:298.53,acf:0},
+    {id:"AFiP 2ème échelon",cat:"A+",inm:782,pr:10581.40,ifts:320.67,acf:0},
+    {id:"AFiP 3ème échelon",cat:"A+",inm:835,pr:10581.40,ifts:342.41,acf:0},
+    {id:"AFiP 4ème échelon HEA 1",cat:"A+",inm:895,pr:10581.40,ifts:367.01,acf:0},
+    {id:"AFiP 4ème échelon HEA 2",cat:"A+",inm:930,pr:10581.40,ifts:381.36,acf:0},
+    {id:"AFiP 4ème échelon HEA 3",cat:"A+",inm:977,pr:10581.40,ifts:400.64,acf:0},
+    {id:"AFiP 5ème échelon HEB 1",cat:"A+",inm:977,pr:10581.40,ifts:400.64,acf:0},
+    {id:"AFiP 5ème échelon HEB 2",cat:"A+",inm:1018,pr:10581.40,ifts:417.45,acf:0},
+    {id:"AFiP 5ème échelon HEB 3",cat:"A+",inm:1072,pr:10581.40,ifts:439.59,acf:0}
+];
+
+const FONCTIONS = [
+    {id:0,label:"Agent en fonction",prime:0},
+    {id:51,label:"Agent A, B ou C en SIP, SIE, trésoreries, Direction",prime:0},
+    {id:41,label:"Informaticien",prime:0},
+    {id:200,label:"Informaticien - Dactylocodeur : 1ère année",prime:162.13},
+    {id:201,label:"Informaticien - Dactylocodeur : 2ème et 3ème année",prime:170.97},
+    {id:202,label:"Informaticien - Dactylocodeur : à partir de la 4ème année",prime:191.60},
+    {id:203,label:"Informaticien - Moniteur : 1ère et 2ème année",prime:206.34},
+    {id:204,label:"Informaticien - Moniteur : de la 3ème à la 5ème année",prime:235.82},
+    {id:205,label:"Informaticien - Moniteur : à partir de la 6ème année",prime:241.72},
+    {id:206,label:"Informaticien - Agent de traitement : 1ère année",prime:162.13},
+    {id:207,label:"Informaticien - Agent de traitement : 2ème et 3ème année",prime:170.97},
+    {id:208,label:"Informaticien - Agent de traitement : à partir de la 4ème année",prime:191.60},
+    {id:209,label:"Informaticien - Programmeur et pupitreur : 1ère année",prime:274.14},
+    {id:210,label:"Informaticien - Programmeur et pupitreur : moins de 2 ans et 6 mois",prime:318.36},
+    {id:211,label:"Informaticien - Programmeur et pupitreur : après 2 ans et 6 mois",prime:368.47},
+    {id:212,label:"Informaticien - Chef programmeur : de la 1ère à la 3ème année",prime:418.58},
+    {id:213,label:"Informaticien - Chef programmeur : à partir de la 4ème année",prime:451.01},
+    {id:214,label:"Informaticien - Chef d'exploitation : de la 1ère à la 3ème année",prime:433.32},
+    {id:215,label:"Informaticien - Chef d'exploitation : à partir de la 4ème année",prime:554.18},
+    {id:216,label:"Informaticien - Programmeur système : 1ère année",prime:409.74},
+    {id:217,label:"Informaticien - Programmeur système : moins de 2 ans et 6 mois",prime:477.54},
+    {id:218,label:"Informaticien - Programmeur système : après 2 ans et 6 mois",prime:554.18},
+    {id:219,label:"Informaticien - Analyste : 1ère et 2ème année",prime:244.66},
+    {id:220,label:"Informaticien - Analyste : 3ème et 4ème année",prime:277.09},
+    {id:221,label:"Informaticien - Analyste : à partir de la 5ème année",prime:347.84},
+    {id:222,label:"Informaticien - Chef de projet : 1ère année",prime:409.74},
+    {id:223,label:"Informaticien - Chef de projet : moins de 2 ans et 6 mois",prime:453.96},
+    {id:224,label:"Informaticien - Chef de projet : après 2 ans et 6 mois",prime:554.18},
+    {id:27,label:"BCR",prime:14},
+    {id:28,label:"Centre de contact, CIS, CGSR, TCA",prime:20},
+    {id:32,label:"DIRCOFI – Brigade",prime:15},
+    {id:33,label:"DNEF – BII",prime:30},
+    {id:34,label:"DVNI, DNVSF, DNEF – Brigade (de 2 à 9 ans)",prime:30},
+    {id:35,label:"DRESG – BRP",prime:15},
+    {id:36,label:"SDNC photogrammètre",prime:37},
+    {id:37,label:"Collaborateur des délégués du DG",prime:8},
+    {id:38,label:"SDNC géomètre ou assistant",prime:45},
+    {id:39,label:"DRESG – BNEE",prime:30},
+    {id:42,label:"Action sociale",prime:16.22},
+    {id:43,label:"Centre Editique Meyzieu",prime:54.87},
+    {id:45,label:"Centre encaissement",prime:36.74},
+    {id:46,label:"DVNI, DNVSF, DNEF – Direction",prime:5},
+    {id:47,label:"DGE – Toutes structures (+ de 1 an)",prime:10},
+    {id:24,label:"Équipe de renfort",prime:20},
+    {id:25,label:"Géomètre ou assistant",prime:45},
+    {id:31,label:"Huissier ou agent commissionné",prime:15},
+    {id:50,label:"SPF – Agent (avant le 31/08/2016)",prime:25.38},
+    {id:57,label:"Inspecteur en Direction (DDFiP ou DRFiP)",prime:37}
+];
+
+const Q = [{l:"100%",q:1,r:1},{l:"90%",q:0.9,r:32/35},{l:"80%",q:0.8,r:6/7},{l:"70%",q:0.7,r:0.7},{l:"60%",q:0.6,r:0.6},{l:"50%",q:0.5,r:0.5}];
+
+function init(){
+    const gs = document.getElementById('grade');
+    GRADES.forEach((g,i)=>{
+        const o = document.createElement('option');
+        o.value = i;
+        o.textContent = `${g.id} — INM ${g.inm} — Cat. ${g.cat}`;
+        gs.appendChild(o);
+    });
+    gs.value = 66; // CP 8
+    
+    const fs = document.getElementById('fonction');
+    FONCTIONS.forEach((f,i)=>{
+        const o = document.createElement('option');
+        o.value = i;
+        o.textContent = f.label;
+        fs.appendChild(o);
+    });
+    fs.value = 14; // Programmeur après 2 ans 6 mois
+    
+    calc();
+}
+
+function fmt(n){return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})}
+
+function calcSFT(inm, nb){
+    if(nb===0) return 0;
+    if(nb===1) return P.sft1;
+    const tb = inm * P.ptIndice;
+    const plancher = P.indicePlancherSFT * P.ptIndice;
+    const plafond = P.indicePlafondSFT * P.ptIndice;
+    const base = Math.min(Math.max(tb, plancher), plafond);
+    if(nb===2) return P.sftFixe2 + base * P.sftProp2;
+    if(nb===3) return P.sftFixe3 + base * P.sftProp3;
+    return P.sftFixe3 + base * P.sftProp3 + (nb-3) * (P.sftFixeSupp + base * P.sftPropSupp);
+}
+
+function calc(){
+    const g = GRADES[document.getElementById('grade').value];
+    const bareme = document.getElementById('bareme').value;
+    const residence = parseFloat(document.getElementById('residence').value)/100;
+    const sftNb = parseInt(document.getElementById('sft').value);
+    const nbi = parseInt(document.getElementById('nbi').value)||0;
+    const fonction = FONCTIONS[document.getElementById('fonction').value];
+    const surcot = document.getElementById('surcot').checked;
+    const transport = parseFloat(document.getElementById('transport').value)||0;
+    const psc = parseFloat(document.getElementById('psc').value)||0;
+    const mutuelle = parseFloat(document.getElementById('mutuelle').value)||0;
+    const premuo = parseFloat(document.getElementById('premuo').value)||0;
+    const iccsg = parseFloat(document.getElementById('iccsg').value)||0;
+    const tauxPAS = parseFloat(document.getElementById('pas').value)/100||0;
+    
+    const coefBareme = bareme==='reunion' ? P.coefReunion : 1;
+    const prMajore = bareme==='idf' ? 1.05 : 1;
+    
+    const inm = g.inm;
+    const traitBase = inm * P.ptIndice;
+    const prAnnuel = g.pr * prMajore;
+    const prMens = prAnnuel / 12;
+    const iftsMens = g.ifts;
+    const acfMens = g.acf / 12;
+    const sft = calcSFT(inm, sftNb);
+    const nbiMont = nbi * P.ptIndice;
+    const indRes = Math.max(inm, P.indicePlancher) * P.ptIndice * residence;
+    const primeInfo = fonction.prime;
+    
+    const rows = [
+        {l:"Traitement brut",v:[]},
+        {l:"Indemnité de résidence",v:[]},
+        {l:"SFT",v:[]},
+        {l:"NBI",v:[]},
+        {l:"Indemnité compensatrice CSG",v:[]},
+        {l:"Pension civile (11,10%)",v:[],neg:1},
+        {l:"Surcotisation TP",v:[],neg:1},
+        {l:"PC sur IMT (20%)",v:[],neg:1},
+        {l:"IMT",v:[]},
+        {l:"IFTS / IAT",v:[]},
+        {l:"Prime de rendement",v:[]},
+        {l:"ACF Technicité",v:[]},
+        {l:"Prime fonction informatique",v:[]},
+        {l:"Participation PSC",v:[]},
+        {l:"Remboursement transport",v:[]},
+        {l:"RAFP (5%)",v:[],neg:1},
+        {l:"CSG déductible (6,80%)",v:[],neg:1},
+        {l:"CSG non déductible (2,40%)",v:[],neg:1},
+        {l:"CRDS (0,50%)",v:[],neg:1},
+        {l:"Transfert primes/points",v:[],neg:1},
+        {l:"Mutuelle",v:[],neg:1},
+        {l:"Premuo",v:[],neg:1},
+        {l:"Total brut",v:[],bold:1},
+        {l:"Total retenues",v:[],neg:1},
+        {l:"Net imposable",v:[],bold:1},
+        {l:"Net avant PAS",v:[],bold:1},
+        {l:"PAS",v:[],neg:1},
+        {l:"Net après PAS",v:[],hl:1}
+    ];
+    
+    const netApres = [];
+    
+    Q.forEach(qt=>{
+        const q = qt.q;
+        const r = qt.r;
+        
+        const trait = traitBase * r * coefBareme;
+        const ir = indRes * r * coefBareme;
+        const sftQ = sft * r;
+        const nbiQ = nbiMont * r;
+        const iccsgQ = iccsg * r;
+        const pc = trait * P.pc;
+        
+        let surcotPC = 0;
+        if(surcot && q < 1) surcotPC = traitBase * coefBareme * (1-q) * P.surcot;
+        
+        const imt = P.imt * r;
+        const pcIMT = imt * P.pcIMT;
+        const ifts = iftsMens * r;
+        const pr = prMens * r;
+        const acf = acfMens * r;
+        const pInfo = primeInfo * r;
+        const pscQ = psc;
+        const transportQ = transport;
+        
+        const primes = ifts + pr + acf + pInfo;
+        const assiettePrimes = Math.min(primes, trait * P.rafpAssiette);
+        const rafp = assiettePrimes * P.rafpTaux;
+        
+        const totalBrut = trait + ir + sftQ + nbiQ + iccsgQ + imt + ifts + pr + acf + pInfo + pscQ + transportQ;
+        const assietteCSG = (trait + ir + sftQ + nbiQ + imt + primes + pscQ) * P.assietteCSG;
+        const csgDed = assietteCSG * P.csgDed;
+        const csgNonDed = assietteCSG * P.csgNonDed;
+        const crds = assietteCSG * P.crds;
+        const transfert = primes * P.transfert;
+        
+        const totalRet = pc + surcotPC + pcIMT + rafp + csgDed + csgNonDed + crds + transfert + mutuelle + premuo;
+        const netImposable = totalBrut - csgDed - pc - surcotPC - pcIMT - rafp - transfert;
+        const netAvantPAS = totalBrut - totalRet;
+        const pas = netImposable * tauxPAS;
+        const netApresPAS = netAvantPAS - pas;
+        
+        netApres.push(netApresPAS);
+        
+        rows[0].v.push(trait);
+        rows[1].v.push(ir);
+        rows[2].v.push(sftQ);
+        rows[3].v.push(nbiQ);
+        rows[4].v.push(iccsgQ);
+        rows[5].v.push(-pc);
+        rows[6].v.push(-surcotPC);
+        rows[7].v.push(-pcIMT);
+        rows[8].v.push(imt);
+        rows[9].v.push(ifts);
+        rows[10].v.push(pr);
+        rows[11].v.push(acf);
+        rows[12].v.push(pInfo);
+        rows[13].v.push(pscQ);
+        rows[14].v.push(transportQ);
+        rows[15].v.push(-rafp);
+        rows[16].v.push(-csgDed);
+        rows[17].v.push(-csgNonDed);
+        rows[18].v.push(-crds);
+        rows[19].v.push(-transfert);
+        rows[20].v.push(-mutuelle);
+        rows[21].v.push(-premuo);
+        rows[22].v.push(totalBrut);
+        rows[23].v.push(-totalRet);
+        rows[24].v.push(netImposable);
+        rows[25].v.push(netAvantPAS);
+        rows[26].v.push(-pas);
+        rows[27].v.push(netApresPAS);
+    });
+    
+    // Summary
+    let summaryHTML = '';
+    Q.forEach((qt,i)=>{
+        summaryHTML += `<div class="summary-card"><div class="value">${fmt(netApres[i])}</div><div class="label">Net ${qt.l}</div></div>`;
+    });
+    document.getElementById('summary').innerHTML = summaryHTML;
+    
+    // Table
+    let html = '<tr><th>Élément</th>';
+    Q.forEach(qt=>{ html += `<th>${qt.l}</th>`; });
+    html += '</tr>';
+    
+    rows.forEach(row=>{
+        const cls = row.hl ? 'highlight' : '';
+        html += `<tr class="${cls}"><td>${row.l}</td>`;
+        row.v.forEach(v=>{
+            const val = Math.abs(v) < 0.01 ? '-' : fmt(v);
+            const cellCls = v < 0 ? 'negative mono' : 'mono';
+            html += `<td class="${cellCls}">${val}</td>`;
+        });
+        html += '</tr>';
+    });
+    
+    document.getElementById('results').innerHTML = html;
+}
+
+init();
+</script>
+</body>
+</html>

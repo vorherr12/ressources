@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Management — Support</title>
+<style>
+  :root {
+    --bg: #f5f6fa;
+    --card: #ffffff;
+    --accent1: #1e3a5f;
+    --accent2: #2a5298;
+    --accent3: #4a90d9;
+    --highlight: #eaf2fd;
+    --border: #e0e4ec;
+    --text: #1a202c;
+    --muted: #5a6a80;
+    --green: #1a7a4c;
+    --green-bg: #edfaf3;
+    --orange: #b45309;
+    --orange-bg: #fef8ee;
+    --purple: #5b21b6;
+    --purple-bg: #f5f0ff;
+    --red: #991b1b;
+    --red-bg: #fef2f2;
+    --teal: #0f766e;
+    --teal-bg: #ecfdf5;
+    --indigo: #3730a3;
+    --indigo-bg: #eef2ff;
+    --pink: #9d174d;
+    --pink-bg: #fdf2f8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:16px;}
+
+  .topnav{position:sticky;top:0;z-index:100;background:var(--accent1);color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.15);}
+  .topnav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:1.2rem;padding:.65rem 1.5rem;flex-wrap:wrap;}
+  .topnav .logo{font-weight:800;font-size:1.1rem;white-space:nowrap;}
+  .topnav .nav-links{display:flex;gap:.2rem;flex-wrap:wrap;}
+  .topnav .nav-links a{color:rgba(255,255,255,.82);text-decoration:none;padding:.3rem .65rem;border-radius:6px;font-size:.82rem;font-weight:500;transition:.2s;}
+  .topnav .nav-links a:hover,.topnav .nav-links a.active{background:rgba(255,255,255,.16);color:#fff;}
+
+  .hero{background:linear-gradient(135deg,var(--accent1),var(--accent3));color:#fff;text-align:center;padding:3.2rem 1.5rem 2.8rem;}
+  .hero h1{font-size:2.3rem;font-weight:800;margin-bottom:.4rem;}
+  .hero p{font-size:1.05rem;opacity:.88;max-width:650px;margin:0 auto;}
+
+  .container{max-width:960px;margin:0 auto;padding:2rem 1.25rem 4rem;}
+
+  .toc-card{background:var(--card);border-radius:14px;padding:2rem 2.25rem;margin-bottom:2.5rem;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);}
+  .toc-card h2{font-size:1.2rem;color:var(--accent1);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+  .toc-list{list-style:none;counter-reset:toc-sec;}
+  .toc-list>li{margin-bottom:.6rem;}
+  .toc-list>li>a{font-weight:700;color:var(--accent2);text-decoration:none;font-size:1.01rem;}
+  .toc-list>li>a:hover{text-decoration:underline;}
+  .toc-list ul{list-style:none;margin-top:.2rem;padding-left:1.25rem;}
+  .toc-list ul li{margin-bottom:.15rem;}
+  .toc-list ul a{color:var(--muted);text-decoration:none;font-size:.92rem;}
+  .toc-list ul a:hover{color:var(--accent2);text-decoration:underline;}
+
+  .section{margin-bottom:2.5rem;}
+  .section-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:3px solid var(--accent3);}
+  .section-number{background:var(--accent1);color:#fff;width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;flex-shrink:0;}
+  .section-header h2{font-size:1.5rem;font-weight:800;color:var(--accent1);}
+
+  .card{background:var(--card);border-radius:14px;border:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.04);margin-bottom:1.5rem;overflow:hidden;transition:box-shadow .2s;}
+  .card:hover{box-shadow:0 4px 16px rgba(0,0,0,.07);}
+  .card-head{display:flex;align-items:center;gap:.75rem;padding:1.1rem 1.5rem;cursor:pointer;user-select:none;transition:background .15s;}
+  .card-head:hover{background:var(--highlight);}
+  .card-head .badge{font-size:.76rem;font-weight:700;padding:.18rem .6rem;border-radius:6px;white-space:nowrap;}
+  .badge-blue{background:#dbeafe;color:var(--accent1);}
+  .badge-green{background:#d1fae5;color:var(--green);}
+  .badge-orange{background:#fed7aa;color:var(--orange);}
+  .badge-purple{background:#e9d5ff;color:var(--purple);}
+  .badge-red{background:#fecaca;color:var(--red);}
+  .badge-teal{background:#b2f5ea;color:var(--teal);}
+  .badge-indigo{background:#c7d2fe;color:var(--indigo);}
+  .badge-pink{background:#fbcfe8;color:var(--pink);}
+  .card-head h3{font-size:1.12rem;font-weight:700;flex:1;}
+  .card-head .chevron{font-size:1.1rem;color:var(--muted);transition:transform .25s;}
+  .card.open .card-head .chevron{transform:rotate(180deg);}
+  .card-body{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease;padding:0 1.75rem;}
+  .card.open .card-body{max-height:80000px;padding:.5rem 1.75rem 1.75rem;}
+
+  .card-body h4{font-size:1.03rem;font-weight:700;color:var(--accent2);margin:1.4rem 0 .55rem;padding-left:.5rem;border-left:3px solid var(--accent3);}
+  .card-body h4:first-child{margin-top:.5rem;}
+  .card-body h5{font-size:.97rem;font-weight:700;color:var(--accent1);margin:1rem 0 .4rem;}
+  .card-body p{margin-bottom:.7rem;color:#2d3748;}
+  .card-body ul,.card-body ol{margin:.4rem 0 .9rem 1.25rem;}
+  .card-body li{margin-bottom:.4rem;}
+  .card-body li::marker{color:var(--accent3);}
+  .card-body strong{color:var(--accent1);}
+
+  .info-box{border-radius:10px;padding:.9rem 1.2rem;margin:1rem 0;font-size:.94rem;border-left:4px solid;}
+  .info-box.blue{background:var(--highlight);border-color:var(--accent3);}
+  .info-box.green{background:var(--green-bg);border-color:var(--green);}
+  .info-box.orange{background:var(--orange-bg);border-color:var(--orange);}
+  .info-box.purple{background:var(--purple-bg);border-color:var(--purple);}
+  .info-box.red{background:var(--red-bg);border-color:var(--red);}
+  .info-box.teal{background:var(--teal-bg);border-color:var(--teal);}
+  .info-box.indigo{background:var(--indigo-bg);border-color:var(--indigo);}
+  .info-box.pink{background:var(--pink-bg);border-color:var(--pink);}
+
+  table.styled{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.92rem;border-radius:10px;overflow:hidden;border:1px solid var(--border);}
+  table.styled th{background:var(--accent1);color:#fff;padding:.65rem .8rem;text-align:left;font-weight:600;font-size:.85rem;}
+  table.styled td{padding:.6rem .8rem;border-bottom:1px solid var(--border);vertical-align:top;}
+  table.styled tr:nth-child(even){background:#f8fafc;}
+  table.styled tr:last-child td{border-bottom:none;}
+
+  .vs-table{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:1rem 0;border-radius:10px;overflow:hidden;border:1px solid var(--border);}
+  .vs-col{padding:1rem 1.2rem;}
+  .vs-col h5{margin-top:0;text-align:center;font-size:.95rem;padding-bottom:.4rem;border-bottom:2px solid var(--border);margin-bottom:.6rem;}
+  .vs-col ul{margin-left:1rem;font-size:.93rem;}
+  .vs-col:first-child{background:#eef2ff;}
+  .vs-col:last-child{background:#fef8ee;}
+
+  .btt{position:fixed;bottom:1.5rem;right:1.5rem;width:44px;height:44px;border-radius:50%;background:var(--accent1);color:#fff;border:none;font-size:1.3rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.18);display:none;align-items:center;justify-content:center;transition:.2s;z-index:50;}
+  .btt:hover{background:var(--accent3);transform:scale(1.08);}
+  .btt.show{display:flex;}
+
+  footer{text-align:center;padding:2rem 1rem;color:var(--muted);font-size:.85rem;border-top:1px solid var(--border);}
+
+  @media(max-width:640px){
+    .hero h1{font-size:1.65rem;}
+    .card-head{padding:.9rem 1rem;}
+    .card.open .card-body{padding:.4rem 1rem 1.2rem;}
+    .toc-card{padding:1.2rem;}
+    .topnav-inner{gap:.6rem;padding:.45rem .9rem;}
+    .vs-table{grid-template-columns:1fr;}
+    table.styled{font-size:.83rem;}
+    table.styled th,table.styled td{padding:.5rem .6rem;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <span class="logo">🎯 Management</span>
+    <div class="nav-links">
+      <a href="#s1">Posture</a>
+      <a href="#s2">Communication</a>
+      <a href="#s3">Mobilisation</a>
+      <a href="#s4">Situations complexes</a>
+      <a href="#s5">Changement</a>
+      <a href="#s6">Distance</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>Support Management</h1>
+  <p>Guide complet — Posture managériale, communication, mobilisation d'équipe, gestion des conflits, conduite du changement et management à distance.</p>
+</div>
+
+<div class="container">
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc-card">
+  <h2>📑 Sommaire</h2>
+  <ol class="toc-list">
+    <li>
+      <a href="#s1">Le modèle managérial et la posture</a>
+      <ul>
+        <li><a href="#c11">1.1 — Définition du Manager</a></li>
+        <li><a href="#c12">1.2 — Modèle Managérial DGFiP</a></li>
+        <li><a href="#c13">1.3 — Styles de Management Adaptatif (Hersey-Blanchard)</a></li>
+        <li><a href="#c14">1.4 — Qualités essentielles (Règle des 4C)</a></li>
+        <li><a href="#c15">1.5 — Rôle du Leader</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#s2">La communication efficace</a>
+      <ul>
+        <li><a href="#c21">2.1 — Fondamentaux de la communication</a></li>
+        <li><a href="#c22">2.2 — Animation de réunions</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#s3">Mobilisation et développement d'équipe</a>
+      <ul>
+        <li><a href="#c31">3.1 — La motivation</a></li>
+        <li><a href="#c32">3.2 — La délégation</a></li>
+        <li><a href="#c33">3.3 — Le développement des compétences</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#s4">Gestion des situations relationnelles complexes</a>
+      <ul>
+        <li><a href="#c41">4.1 — La gestion des conflits</a></li>
+        <li><a href="#c42">4.2 — L'entretien de recadrage</a></li>
+        <li><a href="#c43">4.3 — La prévention des RPS</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#s5">Conduite et accompagnement du changement</a>
+      <ul>
+        <li><a href="#c51">5.1 — Comprendre le changement</a></li>
+        <li><a href="#c52">5.2 — Accompagner le changement</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#s6">Management à distance</a>
+      <ul>
+        <li><a href="#c61">6.1 — Poser le cadre de fonctionnement</a></li>
+        <li><a href="#c62">6.2 — Maintenir le lien social</a></li>
+        <li><a href="#c63">6.3 — Les outils numériques</a></li>
+      </ul>
+    </li>
+  </ol>
+</div>
+
+<!-- ======================================= -->
+<!-- SECTION 1 : MODÈLE MANAGÉRIAL & POSTURE -->
+<!-- ======================================= -->
+<div class="section" id="s1">
+  <div class="section-header">
+    <div class="section-number">1</div>
+    <h2>Le modèle managérial et la posture</h2>
+  </div>
+
+  <!-- 1.1 -->
+  <div class="card" id="c11">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-blue">1.1</span>
+      <h3>Définition du Manager (Diriger, Gérer, Administrer)</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="info-box blue">
+        <strong>Définition universelle :</strong> Le management est l'art de <strong>diriger des équipes</strong> et de <strong>prendre les décisions nécessaires</strong> à la réalisation de ses objectifs.
+      </div>
+      <p>Les fonctions classiques du manager s'articulent autour de l'action et de l'organisation :</p>
+      <ul>
+        <li><strong>Gérer ou Administrer :</strong> Les synonymes les plus proches du management. Cela englobe des compétences spécifiques telles que <strong>organiser, prendre des décisions, déléguer, prioriser et contrôler</strong>. Le manager doit notamment structurer et organiser les relations de travail.</li>
+        <li><strong>Diriger :</strong> Cela consiste à définir des <strong>enjeux, des missions et des priorités</strong>. C'est la dimension stratégique du rôle : fixer le cap, formuler des objectifs clairs et s'assurer que les efforts convergent dans la bonne direction.</li>
+        <li><strong>Animer :</strong> Le management implique aussi d'animer pour <strong>informer, mobiliser et soutenir</strong> son équipe. C'est la dimension humaine et relationnelle du rôle, qui vise à entretenir la dynamique collective.</li>
+      </ul>
+      <div class="info-box orange">
+        <strong>Distinction clé :</strong> Un très bon manager, respecté et reconnu pour ses qualités organisationnelles, peut cependant être <strong>dénué de Leadership</strong>. Le management relève de l'autorité formelle et des processus ; le leadership relève de l'influence et de l'inspiration.
+      </div>
+
+      <h4>Les quatre grandes fonctions du management (PODC)</h4>
+      <p>La littérature managériale classique (Fayol, puis reprise par de nombreux auteurs) synthétise le rôle du manager en quatre fonctions fondamentales, souvent mémorisées par l'acronyme <strong>PODC</strong> :</p>
+      <ol>
+        <li><strong>Planifier :</strong> Définir les objectifs, anticiper l'activité, élaborer des stratégies et fixer un calendrier d'action.</li>
+        <li><strong>Organiser :</strong> Structurer le travail, répartir les tâches, allouer les ressources (humaines, matérielles, budgétaires) et établir les procédures.</li>
+        <li><strong>Diriger (Commander) :</strong> Mobiliser les équipes, communiquer, prendre des décisions, motiver et résoudre les conflits.</li>
+        <li><strong>Contrôler :</strong> Suivre les résultats, mesurer les écarts par rapport aux objectifs, évaluer la performance et mettre en place des actions correctives.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 1.2 -->
+  <div class="card" id="c12">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-blue">1.2</span>
+      <h3>Modèle Managérial DGFiP</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Le Modèle Managérial de la DGFiP est le fruit d'un <strong>chantier collaboratif</strong> (environ 1 800 cadres consultés). Il vise trois objectifs : <strong>accompagner les transformations</strong>, les <strong>nouveaux schémas de carrière</strong> et l'<strong>évolution des pratiques</strong>.</p>
+      <div class="info-box indigo">
+        <strong>Définition centrale :</strong> « Porter ses orientations stratégiques dans des domaines à forte expertise technique, conduire les transformations tout en veillant à <strong>embarquer ses équipes</strong> vers la réalisation des objectifs fixés, dans les <strong>meilleures conditions de travail possibles</strong>. »
+      </div>
+
+      <h4>Les Quatre Profils de managers</h4>
+      <table class="styled">
+        <thead><tr><th>Profil</th><th>Rôle et missions</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Manager Stratégique</strong></td><td>Incarne les orientations, force de proposition en innovation, accompagne le changement au niveau le plus élevé.</td></tr>
+          <tr><td><strong>Manager de Managers</strong></td><td>Fixe le cap, pilote les missions, donne du sens et suscite l'adhésion des encadrants intermédiaires.</td></tr>
+          <tr><td><strong>Manager Transverse / Directeur de Projet</strong></td><td>Chef d'orchestre qui fédère autour d'un projet, fixe le calendrier et interagit avec le réseau d'acteurs.</td></tr>
+          <tr><td><strong>Manager de Proximité</strong></td><td>Décline la stratégie localement, pilote l'activité, soutient et motive les équipes au quotidien. <em>(Vocation des Inspecteurs / Cadres A)</em></td></tr>
+        </tbody>
+      </table>
+
+      <h4>Les Trois Axes de Compétences</h4>
+      <ul>
+        <li><strong>Conception / Vision :</strong> Anticiper l'activité, décliner la stratégie, innover.</li>
+        <li><strong>Action :</strong> Piloter l'activité, déléguer, décider, piloter la performance.</li>
+        <li><strong>Relation :</strong> Animer pour fédérer, accompagner, dialoguer.</li>
+      </ul>
+      <div class="info-box green">
+        <strong>À retenir :</strong> Ces trois axes forment un triptyque indissociable. Un manager efficace à la DGFiP ne peut exceller sur un seul axe et négliger les autres : la <strong>vision</strong> sans l'<strong>action</strong> reste théorique, et l'<strong>action</strong> sans la <strong>relation</strong> déshumanise le travail.
+      </div>
+    </div>
+  </div>
+
+  <!-- 1.3 -->
+  <div class="card" id="c13">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-blue">1.3</span>
+      <h3>Styles de Management Adaptatif (Hersey-Blanchard)</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="info-box blue">
+        <strong>Principe :</strong> Un bon manager <strong>adapte son style</strong> à la situation et à la <strong>maturité professionnelle</strong> de chaque collaborateur. Selon Hersey et Blanchard, la maturité se mesure sur deux axes : la <strong>Compétence</strong> (savoir-faire) et la <strong>Motivation</strong> (vouloir-faire).
+      </div>
+
+      <table class="styled">
+        <thead>
+          <tr><th>Maturité du collaborateur</th><th>Style du Manager</th><th>Posture</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>A1 :</strong> Faible compétence / Faible engagement<br><em>Ne sait pas faire – ne veut pas faire</em></td>
+            <td><strong>S1 : Directif</strong><br>(Structurer, diriger)</td>
+            <td>Très organisationnel – Peu relationnel.<br>Le leader donne des instructions et prend les décisions.<br>→ <strong>« JE décide »</strong></td>
+          </tr>
+          <tr>
+            <td><strong>A2 :</strong> Compétence modérée / Motivation croissante<br><em>Ne sait pas bien faire – veut bien faire</em></td>
+            <td><strong>S2 : Persuasif</strong><br>(Mobiliser, consulter)</td>
+            <td>Très organisationnel – Très relationnel.<br>Le leader décide mais explique ses choix pour convaincre.<br>→ <strong>« JE décide mais j'explique »</strong></td>
+          </tr>
+          <tr>
+            <td><strong>A3 :</strong> Forte compétence / Engagement variable<br><em>Sait faire – ne veut pas toujours faire</em></td>
+            <td><strong>S3 : Participatif</strong><br>(Associer, faciliter)</td>
+            <td>Peu organisationnel – Très relationnel.<br>Le leader partage la prise de décision.<br>→ <strong>« NOUS décidons ensemble »</strong></td>
+          </tr>
+          <tr>
+            <td><strong>A4 :</strong> Forte compétence / Fort engagement<br><em>Sait très bien faire – veut faire</em></td>
+            <td><strong>S4 : Délégatif</strong><br>(Responsabiliser)</td>
+            <td>Peu organisationnel – Peu relationnel.<br>Le leader transmet la responsabilité de la décision.<br>→ <strong>« VOUS décidez »</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-box red">
+        <strong>Important :</strong> Les styles <strong>S1</strong> et <strong>S2</strong> (très organisationnels) ne doivent pas être permanents car ils <strong>freinent l'autonomie</strong>. L'objectif du manager est de <strong>faire progresser</strong> chaque collaborateur vers les niveaux S3/S4, développant ainsi efficacité et responsabilisation au sein de l'équipe.
+      </div>
+
+      <h4>Comment diagnostiquer la maturité ?</h4>
+      <p>Pour choisir le bon style, le manager doit évaluer chaque collaborateur <strong>tâche par tâche</strong> (et non globalement) en se posant deux questions :</p>
+      <ol>
+        <li><strong>Compétence :</strong> L'agent possède-t-il les connaissances, l'expérience et les savoir-faire nécessaires pour cette mission précise ?</li>
+        <li><strong>Motivation :</strong> L'agent manifeste-t-il de l'engagement, de la confiance en soi et de la volonté pour accomplir cette tâche ?</li>
+      </ol>
+      <p>Un même collaborateur peut être en A4 sur une mission qu'il maîtrise parfaitement et en A1 sur une nouvelle tâche qu'il découvre. Le management situationnel est donc une posture <strong>dynamique et évolutive</strong>.</p>
+    </div>
+  </div>
+
+  <!-- 1.4 -->
+  <div class="card" id="c14">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-blue">1.4</span>
+      <h3>Qualités essentielles — La Règle des 4C</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>L'encadrant doit veiller à la mise en œuvre de la <strong>règle des 4C</strong>, socle de sa crédibilité managériale :</p>
+      <ol>
+        <li><strong>Cohérence :</strong> Condition <em>sine qua non</em> pour emporter l'adhésion. Le style doit être aligné avec les actes. « Faites ce que je dis ET ce que je fais. » Un manager incohérent (qui prône la ponctualité mais arrive en retard) perd toute crédibilité.</li>
+        <li><strong>Courage :</strong> Relayer les décisions hiérarchiques même impopulaires, faire face à l'imprévu, accepter les critiques, être franc sur ce qui ne va pas (feedback correctif). Le courage, c'est aussi savoir dire non et arbitrer.</li>
+        <li><strong>Clarté :</strong> Communiquer clairement pour assurer la qualité des relations. Des consignes ambiguës génèrent de la confusion, de la frustration et des erreurs. La clarté porte sur les objectifs, les rôles, les attentes et les délais.</li>
+        <li><strong>Considération :</strong> Respecter les idées, les propositions et reconnaître les efforts fournis — pas uniquement les résultats. C'est traiter chaque agent comme un individu à part entière, avec ses besoins et ses aspirations.</li>
+      </ol>
+      <div class="info-box purple">
+        <strong>Qualités complémentaires :</strong> <strong>Positivisme</strong> (voir les solutions avant les problèmes, créer un climat de confiance) et <strong>Pragmatisme</strong> (être un « Homme/Femme solution », ancré dans le concret et l'opérationnel plutôt que dans la théorie).
+      </div>
+    </div>
+  </div>
+
+  <!-- 1.5 -->
+  <div class="card" id="c15">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-blue">1.5</span>
+      <h3>Rôle du Leader — Donner du sens, Faire éclore le talent</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Le Cadre A doit chercher à être <strong>à la fois Manager et Leader</strong>. Ces deux rôles sont complémentaires mais distincts :</p>
+
+      <div class="vs-table">
+        <div class="vs-col">
+          <h5>👔 Manager</h5>
+          <ul>
+            <li>Désigné par la hiérarchie</li>
+            <li>Autorité <strong>formelle</strong> (statut)</li>
+            <li>Centré sur la <strong>tâche</strong></li>
+            <li>Planifier, allouer, contrôler</li>
+            <li>Gère la <strong>complexité</strong></li>
+          </ul>
+        </div>
+        <div class="vs-col">
+          <h5>🌟 Leader</h5>
+          <ul>
+            <li>Reconnu par l'équipe</li>
+            <li>Autorité <strong>d'influence</strong> (relationnelle)</li>
+            <li>Centré sur la <strong>relation</strong></li>
+            <li>Développer une vision, inspirer, motiver</li>
+            <li>Gère le <strong>changement</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <h4>Donner du sens et Inspirer la Vision</h4>
+      <p>Le manager de proximité est légitime par sa capacité à <strong>donner du sens au quotidien</strong>, plus que par son expertise technique.</p>
+      <ul>
+        <li><strong>Donner du sens</strong> = « Traduire » la commande hiérarchique en <strong>expliquant les enjeux</strong> pour susciter l'adhésion. Cela répond au besoin fondamental du collaborateur de comprendre <em>pourquoi</em> il fait ce qu'il fait.</li>
+        <li>Le sens est un <strong>levier de motivation déterminant</strong> : un agent qui comprend la finalité de son travail s'engage davantage qu'un agent qui exécute mécaniquement des tâches.</li>
+      </ul>
+
+      <h4>Faire éclore le talent</h4>
+      <p>Le rôle du « boss » n'est pas de guider des exécutants, mais de <strong>tirer parti de l'intelligence collective</strong> :</p>
+      <ul>
+        <li><strong>Développer les compétences</strong> et aptitudes relationnelles de chaque membre de l'équipe.</li>
+        <li><strong>Favoriser les initiatives</strong>, l'autonomie et la responsabilisation.</li>
+        <li><strong>Créer un environnement de confiance</strong> où l'erreur est une source d'apprentissage, pas de sanction.</li>
+        <li><strong>Repérer les potentiels</strong> et proposer des opportunités de développement (missions transverses, tutorat, référent technique).</li>
+      </ul>
+      <div class="info-box green">
+        <strong>En résumé :</strong> Le manager gère le présent ; le leader prépare l'avenir. Le Cadre A accompli est celui qui sait <strong>stabiliser le quotidien</strong> (management) tout en <strong>projetant son équipe vers demain</strong> (leadership).
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================= -->
+<!-- SECTION 2 : COMMUNICATION EFFICACE      -->
+<!-- ======================================= -->
+<div class="section" id="s2">
+  <div class="section-header">
+    <div class="section-number">2</div>
+    <h2>La communication efficace</h2>
+  </div>
+
+  <div class="info-box blue" style="margin-bottom:1.5rem;">
+    <strong>Enjeu :</strong> Communiquer est le processus par lequel une information est transmise d'un élément à un autre, visant à satisfaire les besoins fondamentaux d'être <strong>reconnu, entendu et compris</strong>. Bien que simple en apparence, l'efficacité de la communication est souvent réduite par des obstacles (bruits, filtres), entraînant une transmission partielle du message. Le management efficace à la DGFiP repose intrinsèquement sur la maîtrise de cette compétence centrale.
+  </div>
+
+  <!-- 2.1 -->
+  <div class="card" id="c21">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-green">2.1</span>
+      <h3>Les fondamentaux de la communication</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Le processus de communication implique un <strong>Émetteur</strong> et un <strong>Récepteur</strong>. L'efficacité dépend de l'encodage et du décodage, en veillant à utiliser un <strong>code commun</strong>. Le canal (oral, écrit, visuel) et le contexte (lieu, moment, relation) influencent également la qualité de la transmission.</p>
+
+      <h4>2.1.1 — L'écoute active et la reformulation</h4>
+
+      <h5>A. L'Écoute Active</h5>
+      <p>L'écoute est un <strong>processus mental</strong> (et non un simple réflexe auditif) qui requiert un effort conscient. Pour pratiquer l'écoute active, le manager doit :</p>
+      <ul>
+        <li><strong>Se centrer totalement</strong> sur celui qui parle (posture ouverte, contact visuel).</li>
+        <li><strong>Écouter silencieusement</strong>, sans interrompre.</li>
+        <li><strong>Mettre entre parenthèses</strong> ses propres idées et jugements (suspendre son cadre de référence).</li>
+        <li><strong>Juger le contenu</strong> (le fond), et non le contenant (la forme, le ton, la personne).</li>
+        <li><strong>Utiliser des mots de validation</strong> : « je vois », « je comprends », « d'accord », accompagnés de hochements de tête.</li>
+        <li><strong>Poser des questions ouvertes</strong> pour approfondir : « Pouvez-vous me donner un exemple ? », « Qu'entendez-vous par… ? »</li>
+      </ul>
+
+      <h5>B. La Reformulation</h5>
+      <p>C'est un outil de <strong>contrôle et de validation</strong>. Elle consiste à redire avec d'autres mots ce qui a été exprimé.</p>
+      <ul>
+        <li><strong>Son rôle :</strong> Prouver l'écoute, vérifier la compréhension et rassurer l'émetteur.</li>
+        <li><strong>Les techniques :</strong>
+          <ul>
+            <li><strong>Reflet :</strong> Utilise des synonymes. <em>(« Si je comprends bien, vous dites que… »)</em></li>
+            <li><strong>Résumé :</strong> Condense un long discours en quelques phrases clés.</li>
+            <li><strong>Recentrage :</strong> Clarifie les points clés et remet le dialogue sur le sujet principal.</li>
+          </ul>
+        </li>
+        <li><strong>Impératif :</strong> L'interlocuteur doit toujours pouvoir <strong>valider ou corriger</strong> la reformulation.</li>
+      </ul>
+
+      <h4>2.1.2 — La communication non-verbale</h4>
+      <p>La communication en face-à-face ne repose pas que sur les mots. Selon la <strong>règle de Mehrabian</strong> (pour l'expression d'un sentiment), l'impact du message est hiérarchisé ainsi :</p>
+      <table class="styled">
+        <thead><tr><th>Canal</th><th>Part de l'impact</th><th>Éléments</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Visuel (Non-verbal)</strong></td><td><strong>55 %</strong></td><td>Expression corporelle, visage, posture, regard, gestes, distance</td></tr>
+          <tr><td><strong>Vocal (Para-verbal)</strong></td><td><strong>38 %</strong></td><td>Intonation, débit, volume, silences, rythme</td></tr>
+          <tr><td><strong>Verbal</strong></td><td><strong>7 %</strong></td><td>Les mots eux-mêmes</td></tr>
+        </tbody>
+      </table>
+      <div class="info-box orange">
+        <strong>Au téléphone :</strong> L'absence de visuel rend le <strong>para-verbal</strong> (la voix, le sourire qui s'entend) primordial pour la bonne réception du message. En visioconférence, l'activation de la caméra rétablit partiellement le canal visuel et améliore significativement la qualité de l'échange.
+      </div>
+
+      <h4>2.1.3 — Le feedback constructif</h4>
+      <p>Le feedback est l'écho de la communication. Il permet de <strong>réguler l'échange</strong> et de faire progresser le collaborateur.</p>
+
+      <h5>A. Les types de Feedback</h5>
+      <ul>
+        <li><strong>Feedback Positif (Reconnaissance) :</strong> Doit être <strong>visible, sincère et factuel</strong>. Il peut porter sur la personne, le savoir-faire, l'effort ou le résultat. Il doit être donné <strong>rapidement</strong> après le fait observé et peut être délivré en public.</li>
+        <li><strong>Feedback Correctif (Recadrage) :</strong> En cas d'erreur, il ne faut <strong>jamais s'en prendre à la personne mais à son travail</strong>. Règle d'or : rester factuel et réaliser l'entretien <strong>en privé</strong>. Toujours commencer par un élément positif avant d'aborder le point d'amélioration.</li>
+      </ul>
+
+      <h5>B. La Méthode DESC</h5>
+      <p>C'est l'outil de référence pour le recadrage constructif et la gestion de conflits :</p>
+      <ul>
+        <li><strong>D — Description des faits :</strong> Énoncer les faits objectifs, sans jugement ni interprétation.</li>
+        <li><strong>E — Explication :</strong> Expliquer les conséquences concrètes (sur l'équipe, le service, l'usager).</li>
+        <li><strong>S — Solutions :</strong> Rechercher <strong>ensemble</strong> une solution pour l'avenir (impliquer le collaborateur).</li>
+        <li><strong>C — Conclusion / Conséquences :</strong> Valider un plan d'action et s'engager (qui fait quoi pour quand).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2.2 -->
+  <div class="card" id="c22">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-green">2.2</span>
+      <h3>L'animation de réunions</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <div class="info-box blue">
+        <strong>Principe :</strong> Savoir conduire une réunion est un <strong>acte de management</strong>. Une réunion existe dès que trois personnes collaborent pour faire avancer un sujet. Une réunion mal préparée ou mal conduite est un gaspillage de temps collectif et un facteur de démotivation.
+      </div>
+
+      <h4>2.2.1 — Préparation et ordre du jour</h4>
+      <p>Une réunion efficace se joue <strong>avant qu'elle ne commence</strong>.</p>
+      <ul>
+        <li><strong>Définir le TOP :</strong>
+          <ul>
+            <li><strong>T</strong>hème — De quoi parle-t-on ?</li>
+            <li><strong>O</strong>bjectif — Que veut-on obtenir à la fin ? (Décider ? Informer ? Résoudre ? Créer ?)</li>
+            <li><strong>P</strong>lan — Comment va-t-on procéder ? (Déroulé, timing)</li>
+          </ul>
+        </li>
+        <li><strong>L'Ordre du Jour (ODJ) :</strong> C'est la feuille de route. Il doit être <strong>communiqué à l'avance</strong> pour permettre à chacun de se préparer.</li>
+        <li><strong>Les Participants (Règle CRI) :</strong> N'inviter que les personnes <strong>C</strong>ompétentes, <strong>R</strong>esponsables et <strong>I</strong>ntéressées par le sujet. Trop de participants tue l'efficacité.</li>
+        <li><strong>Logistique :</strong> Vérifier la salle, le matériel de projection, la connexion pour les participants distants. Prévoir une durée raisonnable (idéalement 45 à 90 min).</li>
+      </ul>
+
+      <h4>2.2.2 — Techniques d'animation</h4>
+      <p>L'animateur est le <strong>garant du cadre et de la dynamique</strong> de la réunion. Il remplit trois fonctions :</p>
+      <ol>
+        <li><strong>Production :</strong> Faire avancer le groupe vers l'objectif. Poser les bonnes questions, synthétiser les apports.</li>
+        <li><strong>Facilitation :</strong> Aider chacun à s'exprimer, reformuler pour clarifier, distribuer la parole de manière équitable.</li>
+        <li><strong>Régulation :</strong> Gérer le climat, les tensions, le temps et les digressions. Recadrer avec tact si nécessaire.</li>
+      </ol>
+      <p><strong>Les styles d'animation :</strong></p>
+      <ul>
+        <li><strong>Directif :</strong> Pour l'information descendante, les annonces, les consignes. L'animateur parle, les participants écoutent et posent des questions.</li>
+        <li><strong>Participatif :</strong> Pour la résolution de problèmes, le brainstorming ou la recherche d'idées. L'animateur facilite, le groupe produit.</li>
+      </ul>
+
+      <h4>2.2.3 — Gestion des participants difficiles</h4>
+      <p>L'animateur doit gérer les personnalités pour maintenir un climat positif :</p>
+      <ul>
+        <li><strong>Le Passif :</strong> Le stimuler par des questions ouvertes directes (« Qu'en pensez-vous, Jean ? »). Valoriser ses interventions.</li>
+        <li><strong>Le Bavard :</strong> Le canaliser en reformulant synthétiquement ses propos (« Merci, si je résume votre point… ») ou en lui rappelant le temps. Lui confier un rôle (secrétaire de séance).</li>
+        <li><strong>L'Agressif :</strong> Ne pas entrer dans le jeu de l'escalade. Accuser réception de son émotion (« Je comprends votre frustration »), puis recentrer sur les faits.</li>
+        <li><strong>Le Hors-sujet :</strong> Le noter sur un « parking » (liste de sujets à traiter ultérieurement) et recentrer le débat.</li>
+      </ul>
+      <div class="info-box purple">
+        <strong>Méthode ADRAV</strong> — Pour sortir d'une impasse en réunion, trier les éléments :<br>
+        <strong>A</strong>ccord — Ce sur quoi on est d'accord.<br>
+        <strong>D</strong>ésaccord — Les vrais points de blocage.<br>
+        <strong>R</strong>ien <strong>À</strong> <strong>V</strong>oir — Les hors-sujets à écarter.
+      </div>
+
+      <h4>2.2.4 — Compte-rendu et suivi d'actions</h4>
+      <p>Une réunion sans suite est une réunion inutile.</p>
+      <ol>
+        <li><strong>La Synthèse :</strong> En fin de séance, valider collectivement les décisions prises.</li>
+        <li><strong>Le Relevé de Décisions :</strong> Appliquer la règle du <strong>« Qui fait Quoi pour Quand ? »</strong></li>
+        <li><strong>Le Compte-rendu (CR) :</strong> Trace écrite indispensable, à diffuser <strong>rapidement</strong> (idéalement sous 48h).</li>
+        <li><strong>Le Suivi :</strong> Le manager doit ensuite <strong>piloter la réalisation</strong> des actions actées lors des points d'étape suivants.</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================= -->
+<!-- SECTION 3 : MOBILISATION & DÉVELOPPEMENT -->
+<!-- ======================================= -->
+<div class="section" id="s3">
+  <div class="section-header">
+    <div class="section-number">3</div>
+    <h2>Mobilisation et développement d'équipe</h2>
+  </div>
+
+  <div class="info-box blue" style="margin-bottom:1.5rem;">
+    La mobilisation et le développement d'équipe sont au cœur du rôle du manager à la DGFiP. La légitimité du Cadre A repose sur sa capacité à <strong>motiver, fédérer et faire grandir</strong> ses collaborateurs, incarnant ainsi l'axe <strong>« Relation »</strong> du modèle managérial (Animer, Fédérer, Accompagner).
+  </div>
+
+  <!-- 3.1 -->
+  <div class="card" id="c31">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-purple">3.1</span>
+      <h3>La motivation</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>L'implication de chaque membre est essentielle pour atteindre les objectifs collectifs. La motivation, souvent <strong>intrinsèque</strong> (liée à l'accomplissement de soi), est un enjeu majeur du management quotidien.</p>
+
+      <h4>3.1.1 — Les leviers de motivation</h4>
+      <p>Le manager dispose de <strong>8 leviers principaux</strong> pour agir sur la motivation individuelle et collective :</p>
+      <ol>
+        <li><strong>Donner du sens</strong> (expliquer le <em>pourquoi</em>).</li>
+        <li><strong>Manager par objectifs</strong> (clarifier les attentes).</li>
+        <li><strong>Responsabiliser</strong> (donner de l'autonomie).</li>
+        <li><strong>Communiquer</strong> sur les résultats et les progrès.</li>
+        <li><strong>Donner des signes de reconnaissance.</strong></li>
+        <li><strong>Former</strong> et offrir des perspectives de carrière.</li>
+        <li><strong>Veiller aux conditions de travail</strong> et au climat relationnel.</li>
+        <li><strong>Agir sur la rémunération</strong> (levier plus limité pour le manager de proximité dans la fonction publique).</li>
+      </ol>
+      <div class="info-box orange">
+        <strong>Attention :</strong> Il est crucial d'aligner les objectifs avec les compétences que le collaborateur <strong>se reconnaît</strong> pour favoriser l'engagement. Un objectif perçu comme inatteignable démotive ; un objectif trop facile ennuie. La théorie du « flow » (Csikszentmihalyi) montre que l'engagement maximal se situe dans la zone où le défi est <strong>légèrement supérieur</strong> aux compétences perçues.
+      </div>
+
+      <h4>3.1.2 — Les signes de reconnaissance</h4>
+      <p>La reconnaissance est un besoin fondamental de respect et de dignité. Elle ne doit pas se limiter aux seuls résultats mais <strong>valoriser aussi les efforts</strong>. On distingue <strong>4 formes complémentaires</strong> :</p>
+      <ul>
+        <li><strong>Reconnaissance existentielle :</strong> Porte sur l'individu en tant qu'humain (ex: saluer, écouter, être disponible, s'intéresser à la personne).</li>
+        <li><strong>Reconnaissance de la pratique :</strong> Souligne le savoir-faire et les compétences professionnelles (ex: « Votre méthode est très efficace »).</li>
+        <li><strong>Reconnaissance de l'investissement :</strong> Valorise les efforts et l'énergie déployée, <strong>indépendamment du succès final</strong> (ex: « Je vois que vous avez beaucoup travaillé sur ce dossier »).</li>
+        <li><strong>Reconnaissance des résultats :</strong> Félicite l'atteinte des objectifs.</li>
+      </ul>
+      <div class="info-box green">
+        <strong>Exemple concret :</strong> Proposer à un agent compétent de devenir <strong>Référent</strong> ou <strong>Tuteur</strong> est un puissant signe de reconnaissance de son expertise. De même, lui confier une mission transverse ou le faire intervenir en réunion de service valorise sa contribution.
+      </div>
+
+      <h4>3.1.3 — Donner du sens au travail</h4>
+      <p>C'est le levier déterminant pour la légitimité du manager de proximité. « Donner du sens » signifie <strong>traduire la commande hiérarchique</strong> pour susciter l'adhésion. Cela se fait en 3 étapes :</p>
+      <ol>
+        <li><strong>Compréhension :</strong> Le manager doit lui-même comprendre et accepter la commande avant de pouvoir la transmettre avec conviction.</li>
+        <li><strong>Explication :</strong> Clarifier les attendus et les modalités de réalisation (le quoi, le comment, le quand).</li>
+        <li><strong>Vision partagée :</strong> Relier la tâche à la stratégie globale de la DGFiP (« la chaîne des tâches ») pour montrer l'utilité du travail de chacun dans le résultat collectif.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 3.2 -->
+  <div class="card" id="c32">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-purple">3.2</span>
+      <h3>La délégation</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>La délégation est une compétence clé de l'axe <strong>« Action »</strong> (Savoir faire faire). Elle vise à <strong>libérer du temps</strong> pour le manager et à <strong>développer l'autonomie</strong> du collaborateur. Déléguer n'est pas se décharger : c'est un acte managérial structuré.</p>
+
+      <h4>3.2.1 — Pourquoi et quoi déléguer</h4>
+      <ul>
+        <li><strong>Pourquoi déléguer ?</strong>
+          <ul>
+            <li>Libérer du temps pour les missions stratégiques et le pilotage.</li>
+            <li>Développer les compétences et l'autonomie de l'agent.</li>
+            <li>Renforcer la motivation par la responsabilisation.</li>
+            <li>Préparer la relève et assurer la continuité de service.</li>
+          </ul>
+        </li>
+        <li><strong>Quoi déléguer ?</strong> Des tâches <strong>définies, claires et limitées</strong>. Elles doivent être attractives et formatrices (éviter de ne déléguer que les tâches ingrates). Le manager doit conserver les actes qui relèvent de son autorité propre (évaluation, sanction, arbitrages stratégiques).</li>
+        <li><strong>Les pré-requis :</strong> Déléguer implique de transmettre les <strong>moyens nécessaires</strong> (informations, outils, autorité, accès) et de définir clairement le périmètre de la mission.</li>
+      </ul>
+
+      <h4>3.2.2 — À qui déléguer (Compétence / Motivation)</h4>
+      <p>La délégation <strong>ne s'impose pas</strong>, elle <strong>se négocie</strong>. Le choix du délégataire repose sur :</p>
+      <ul>
+        <li>Les <strong>compétences</strong> (acquises ou potentielles).</li>
+        <li>La <strong>motivation</strong> et l'envie de responsabilités.</li>
+        <li>La <strong>disponibilité</strong> (charge de travail actuelle).</li>
+      </ul>
+      <div class="info-box indigo">
+        <strong>Lien avec Hersey-Blanchard :</strong> Le style <strong>Délégatif (S4)</strong> est idéal pour un collaborateur de niveau <strong>Maturité A4</strong> (Forte compétence + Fort engagement). Mais la délégation peut aussi servir de levier de progression pour un collaborateur en A2/A3, à condition d'adapter le niveau de suivi.
+      </div>
+
+      <h4>3.2.3 — Le suivi et le contrôle</h4>
+      <p>La délégation crée une <strong>coresponsabilité</strong>. L'autonomie n'exclut pas le contrôle — au contraire, elle l'exige sous une forme adaptée.</p>
+      <ul>
+        <li><strong>Modalités :</strong> Fixer des <strong>points d'étape réguliers</strong> (fréquence adaptée au niveau d'autonomie) plutôt qu'un contrôle permanent.</li>
+        <li><strong>Bilan :</strong> En fin de mission, analyser les résultats. En cas de succès, <strong>féliciter</strong> et valoriser. En cas d'échec, <strong>analyser les causes</strong> (compétence ? moyens ? consignes insuffisantes ?) sans blâmer, car l'échec est partagé entre le délégataire et le manager.</li>
+        <li><strong>Capitaliser :</strong> Tirer les enseignements pour améliorer les prochaines délégations (contenu, périmètre, suivi).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3.3 -->
+  <div class="card" id="c33">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-purple">3.3</span>
+      <h3>Le développement des compétences</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Le manager doit accompagner l'évolution de ses agents dans un environnement mouvant. L'apprentissage se fait à <strong>70 % par la pratique</strong> au quotidien (modèle 70-20-10 : 70 % expérience, 20 % échanges sociaux, 10 % formation formelle).</p>
+
+      <h4>3.3.1 — Identifier les besoins</h4>
+      <ul>
+        <li><strong>L'Entretien Professionnel :</strong> Moment clé annuel pour recenser les besoins et aspirations de chaque agent.</li>
+        <li><strong>Typologie des besoins :</strong>
+          <ul>
+            <li><strong>Adaptation au poste :</strong> Compétences de base pour tenir les fonctions.</li>
+            <li><strong>Évolution des métiers :</strong> Réformes, nouveaux outils, nouvelles procédures.</li>
+            <li><strong>Projet personnel :</strong> Préparation de concours, mobilité, reconversion.</li>
+          </ul>
+        </li>
+        <li><strong>Remédiation :</strong> Si un agent est en difficulté, le manager doit <strong>réorganiser la charge</strong> à court terme (redistribution des tâches) et <strong>prévoir une formation</strong> à moyen terme.</li>
+      </ul>
+
+      <h4>3.3.2 — L'accompagnement et le tutorat</h4>
+      <p>Le manager dispose de leviers internes pour faire grandir ses équipes :</p>
+      <ul>
+        <li><strong>Le Tutorat / Tuilage :</strong> Pour l'intégration des nouveaux arrivants. Le tuteur doit être un <strong>pair expérimenté</strong> (pas le chef direct) et pédagogue. Il accompagne la prise de poste sur une période définie.</li>
+        <li><strong>La Mutualisation :</strong> Encourager les échanges de savoirs entre collègues (experts techniques ↔ nouveaux arrivants). Organiser des « ateliers de partage » ou du co-développement.</li>
+        <li><strong>Le Suivi de formation :</strong> Pour qu'une formation soit utile, le manager doit :
+          <ol>
+            <li>En amont, définir les objectifs de la formation avec l'agent.</li>
+            <li>Au retour, faire un <strong>bilan</strong> avec l'agent.</li>
+            <li>Mettre l'agent en situation d'<strong>appliquer ses nouveaux acquis</strong> (ex: présenter une synthèse à l'équipe, devenir référent sur le sujet).</li>
+          </ol>
+        </li>
+      </ul>
+      <div class="info-box teal">
+        <strong>La matrice compétences :</strong> Outil utile pour le manager : cartographier les compétences de chaque agent de l'équipe sur un tableau (agent × compétence, avec un niveau de maîtrise). Cela permet d'identifier les <strong>zones de fragilité</strong> (un seul agent détient une compétence critique) et de planifier les montées en compétences et les polyvalences.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================= -->
+<!-- SECTION 4 : SITUATIONS COMPLEXES        -->
+<!-- ======================================= -->
+<div class="section" id="s4">
+  <div class="section-header">
+    <div class="section-number">4</div>
+    <h2>Gestion des situations relationnelles complexes</h2>
+  </div>
+
+  <div class="info-box blue" style="margin-bottom:1.5rem;">
+    La gestion des situations relationnelles est une compétence fondamentale pour le Cadre A. Le manager de proximité doit <strong>maintenir la cohésion d'équipe</strong> et gérer les transformations tout en <strong>préservant les conditions de travail</strong>. L'équilibre entre <strong>fermeté</strong> (assertivité, décision) et <strong>bienveillance</strong> (écoute, soutien) est la clé.
+  </div>
+
+  <!-- 4.1 -->
+  <div class="card" id="c41">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-red">4.1</span>
+      <h3>La gestion des conflits</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Les conflits sont <strong>inhérents à la vie collective</strong>. S'ils sont ignorés, ils deviennent une « bombe à retardement ». Le manager doit être <strong>proactif</strong>.</p>
+
+      <h4>4.1.1 — Les types de conflits</h4>
+      <p>Il est crucial d'analyser l'<strong>objet du conflit</strong> pour adapter sa réponse :</p>
+      <ul>
+        <li><strong>Conflits fonctionnels (Positifs) :</strong> Favorisent la performance, l'innovation et l'expression des différences. Ils stimulent la créativité et doivent être canalisés, pas supprimés.</li>
+        <li><strong>Conflits dysfonctionnels (Négatifs) :</strong> Freinent les objectifs et nuisent à la relation (incompatibilités personnelles). Ils doivent être <strong>impérativement résolus</strong>.</li>
+      </ul>
+      <p><strong>Les sources de désaccords (Modèle PIC) :</strong></p>
+      <ul>
+        <li><strong>Sur les faits :</strong> Interprétations divergentes d'une même situation.</li>
+        <li><strong>Sur les objectifs / intérêts :</strong> Intérêts individuels contre collectifs.</li>
+        <li><strong>Relationnels / Identitaires :</strong> Rivalités, incompatibilités d'humeur, jeux de pouvoir.</li>
+        <li><strong>Sur les valeurs :</strong> Certitudes profondes (ex: sens du service public). Difficiles à régler car touchent à l'identité.</li>
+        <li><strong>Sur les méthodes :</strong> Divergences sur les moyens ou procédures à employer.</li>
+        <li><strong>Liés au changement :</strong> Impact d'une réorganisation, d'un nouvel outil ou d'une évolution de la charge de travail.</li>
+      </ul>
+
+      <h4>4.1.2 — Les attitudes face au conflit (Thomas-Kilmann)</h4>
+      <p>Selon la matrice de Thomas et Kilmann, le comportement se situe entre la <strong>détermination</strong> (ses propres besoins) et la <strong>coopération</strong> (les besoins de l'autre). Il existe 5 attitudes :</p>
+      <table class="styled">
+        <thead><tr><th>Attitude</th><th>Logique</th><th>Quand l'utiliser ?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Collaboration</strong></td><td>Gagnant / Gagnant</td><td><strong>À privilégier.</strong> Écoute active, prise en compte des besoins de chacun. Demande du temps.</td></tr>
+          <tr><td><strong>Affrontement-Compétition</strong></td><td>Gagnant / Perdant</td><td>Imposer sa solution par l'autorité. Utile <strong>en urgence</strong>, mais climat contre-productif à long terme.</td></tr>
+          <tr><td><strong>Compromis</strong></td><td>Gagnant un peu / Perdant un peu</td><td>Négociation et concessions mutuelles. Rapide, mais <strong>solution partielle</strong>.</td></tr>
+          <tr><td><strong>Accommodation</strong></td><td>Perdant / Gagnant</td><td>Céder pour mettre fin au désaccord. Uniquement si l'<strong>enjeu est mineur</strong>.</td></tr>
+          <tr><td><strong>Repli-Évitement</strong></td><td>Perdant / Perdant</td><td>Ignorer le problème. <strong>Pire stratégie</strong>, risque d'escalade et de pourrissement.</td></tr>
+        </tbody>
+      </table>
+      <div class="info-box purple">
+        <strong>L'attitude clé : l'Assertivité.</strong> S'affirmer <strong>sans agressivité ni passivité</strong>. Exprimer ses besoins et ses limites tout en respectant ceux de l'autre. C'est la posture qui ouvre la voie à la collaboration.
+      </div>
+
+      <h4>4.1.3 — La résolution et la médiation</h4>
+      <p>Le manager doit intervenir <strong>rapidement</strong> avec <strong>neutralité</strong>.</p>
+
+      <h5>A. La Résolution par le Manager</h5>
+      <ul>
+        <li><strong>Négociation (Méthode ABCD) :</strong>
+          <ul>
+            <li><strong>A</strong>border séparément les personnes et le problème.</li>
+            <li>Se <strong>B</strong>aser sur les intérêts (et non les positions affichées).</li>
+            <li><strong>C</strong>réer des solutions (options mutuellement avantageuses).</li>
+            <li><strong>D</strong>éterminer des critères objectifs d'évaluation.</li>
+          </ul>
+        </li>
+        <li><strong>Dialogue et CNV :</strong> Utiliser la <strong>Communication Non Violente</strong> (Rosenberg) pour exprimer les besoins positivement : Observation → Sentiment → Besoin → Demande.</li>
+        <li><strong>Méthode ADRAV (en réunion) :</strong> Lister les points d'<strong>A</strong>ccord, de <strong>D</strong>ésaccord, et ce qui n'a <strong>R</strong>ien <strong>À</strong> <strong>V</strong>oir pour clarifier le débat.</li>
+        <li><strong>Règles d'intervention :</strong> Recevoir d'abord <strong>séparément</strong> (faits / ressentis), puis <strong>réunir</strong> pour trouver une solution orientée vers le futur. Si impasse, la hiérarchie tranche.</li>
+      </ul>
+
+      <h5>B. Le Recours à la Médiation</h5>
+      <p>Ce n'est pas un aveu d'échec, mais un <strong>acte de courage managérial</strong>.</p>
+      <ul>
+        <li><strong>Médiation DGFiP :</strong> Cellule interne (depuis 2015). Les médiateurs sont des tiers <strong>neutres, impartiaux et sans pouvoir de décision</strong>.</li>
+        <li><strong>Médiation de Conflit :</strong> Pour rétablir le dialogue en cas de rupture ou de souffrance (basée sur le <strong>volontariat</strong> des parties).</li>
+        <li><strong>Médiation de Projet :</strong> <strong>Préventive</strong>, pour accompagner les changements d'organisation et anticiper les tensions.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 4.2 -->
+  <div class="card" id="c42">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-red">4.2</span>
+      <h3>L'entretien de recadrage</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Levier managérial essentiel pour traiter les dysfonctionnements : erreurs répétées, refus de mission, manquements au règlement, tensions avec les collègues ou le public.</p>
+
+      <h4>4.2.1 — Préparer l'entretien (Faits)</h4>
+      <p>L'entretien doit être <strong>individuel</strong> (jamais en public) et préparé minutieusement :</p>
+      <ul>
+        <li><strong>Focalisation sur les Faits :</strong> Lister des éléments <strong>concrets et vérifiés</strong>. Éviter les « on-dit » et les généralisations (« toujours », « jamais »).</li>
+        <li><strong>Posture :</strong> Ne pas s'en prendre à la <strong>personne</strong> (ce qu'elle <em>est</em>), mais à son <strong>travail</strong> (ce qu'elle <em>fait</em>). Commencer par rappeler les points positifs pour créer un climat constructif.</li>
+        <li><strong>Cadre :</strong> Choisir un lieu neutre, prévoir suffisamment de temps, ne pas être dérangé.</li>
+      </ul>
+
+      <h4>4.2.2 — La méthode DESC</h4>
+      <p>Outil de responsabilisation visant une issue <strong>« gagnant-gagnant »</strong> :</p>
+      <ul>
+        <li><strong>D — Description des faits :</strong> Observations objectives, datées, sans jugement ni interprétation. <em>(« Le 15 mars, le rapport X n'a pas été transmis dans le délai fixé. »)</em></li>
+        <li><strong>E — Explication :</strong> Conséquences concrètes sur le service ou l'équipe (prise de conscience). <em>(« Cela a retardé l'envoi au directeur et mis l'équipe en difficulté. »)</em></li>
+        <li><strong>S — Solutions :</strong> Recherche <strong>commune</strong> de solutions réalistes. Laisser l'agent proposer en premier. <em>(« Comment peut-on faire pour que ça ne se reproduise pas ? »)</em></li>
+        <li><strong>C — Conclusion / Concrétisation :</strong> Validation des engagements, calendrier et conséquences (positives si résolution, négatives si persistance).</li>
+      </ul>
+
+      <h4>4.2.3 — Formaliser l'engagement</h4>
+      <ul>
+        <li><strong>Trace écrite :</strong> Un courriel récapitulatif suffit pour assurer la <strong>traçabilité</strong> des engagements réciproques.</li>
+        <li><strong>Suivi :</strong> Accompagner l'agent dans les semaines qui suivent et <strong>valoriser les efforts</strong> constatés.</li>
+        <li><strong>Escalade :</strong> Si aucune amélioration malgré l'accompagnement, référer à la hiérarchie ou aux RH pour envisager des mesures appropriées (rappel à l'ordre formel, voire procédure disciplinaire).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 4.3 -->
+  <div class="card" id="c43">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-red">4.3</span>
+      <h3>La prévention des RPS (Risques Psychosociaux)</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Le cadre joue un rôle essentiel dans la protection de la <strong>santé mentale</strong> et l'amélioration des <strong>conditions de vie au travail (CVT)</strong>.</p>
+
+      <div class="info-box red">
+        <strong>Définition :</strong> Les RPS désignent les risques pour la santé mentale, physique et sociale engendrés par les conditions d'emploi, les facteurs organisationnels et relationnels. Ils se manifestent notamment par le <strong>stress chronique</strong>, le <strong>burn-out</strong> (épuisement professionnel), le <strong>harcèlement</strong> (moral ou sexuel), les <strong>violences internes et externes</strong>, et le <strong>mal-être</strong> au travail.
+      </div>
+
+      <h4>4.3.1 — Les facteurs de risques</h4>
+      <p>Une analyse précise de l'organisation est nécessaire pour réduire les risques :</p>
+      <ul>
+        <li><strong>Organisation du travail :</strong> Manque de clarté dans les rôles, surcharge, délais trop courts, manque de coordination, injonctions contradictoires, manque d'autonomie.</li>
+        <li><strong>Relations de travail :</strong> Manque de reconnaissance, isolement, conflits non résolus, harcèlement, communication agressive, management défaillant.</li>
+        <li><strong>Insécurité :</strong> Changements organisationnels fréquents, incertitude sur l'avenir du poste ou du service, perte de sens.</li>
+        <li><strong>Exigences émotionnelles :</strong> Contact avec un public difficile, incivilités, gestion de situations de détresse.</li>
+        <li><strong>Télétravail :</strong> Risque de distanciation sociale et de perte de lien. Nécessite un soutien organisationnel renforcé.</li>
+      </ul>
+
+      <h4>4.3.2 — Repérer les signaux faibles</h4>
+      <p>Le manager doit intervenir le <strong>plus en amont possible</strong> face à :</p>
+      <ul>
+        <li><strong>Détérioration de la qualité du travail</strong> (manière de servir, erreurs inhabituelles).</li>
+        <li><strong>Isolement inhabituel</strong> ou repli sur soi (ne participe plus aux échanges, ne déjeune plus avec les collègues).</li>
+        <li><strong>Absences répétées</strong> ou irrégularités horaires (retards, départs anticipés, arrêts maladie courts et fréquents).</li>
+        <li><strong>Concurrence malsaine</strong> entre collaborateurs.</li>
+        <li><strong>Changements comportementaux :</strong> Irritabilité, agressivité, pleurs, pessimisme inhabituel, consommation de substances.</li>
+        <li><strong>Plaintes somatiques :</strong> Maux de tête, fatigue persistante, troubles du sommeil évoqués par l'agent.</li>
+      </ul>
+
+      <h4>4.3.3 — Le rôle du manager (Alerter / Agir)</h4>
+      <p>Le rôle s'inscrit dans la <strong>prévention primaire</strong> (agir sur la source) :</p>
+      <ol>
+        <li><strong>Organisation :</strong> Planifier, répartir équitablement les tâches, anticiper les impacts des changements, clarifier les rôles.</li>
+        <li><strong>Soutien :</strong> Écouter, encourager la parole sur les doutes, créer un climat de confiance où chacun peut exprimer ses difficultés.</li>
+        <li><strong>Intervention :</strong> Déclencher un <strong>entretien factuel</strong> dès les premiers signes de difficulté. Ne pas attendre que la situation se dégrade.</li>
+        <li><strong>Alerte :</strong> Si la situation stagne ou dépasse les compétences du manager, <strong>signaler</strong> à la Division RH (<strong>Fiche de signalement</strong>), au <strong>Médecin de prévention</strong>, à l'<strong>assistante sociale</strong> ou au <strong>réseau de soutien</strong> interne.</li>
+      </ol>
+      <div class="info-box orange">
+        <strong>À retenir :</strong> Le manager n'est <strong>ni psychologue ni thérapeute</strong>. Son rôle est de <strong>détecter, agir à son niveau et relayer</strong> aux professionnels compétents. Ne pas agir face à des signaux visibles engage sa responsabilité.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================= -->
+<!-- SECTION 5 : CONDUITE DU CHANGEMENT      -->
+<!-- ======================================= -->
+<div class="section" id="s5">
+  <div class="section-header">
+    <div class="section-number">5</div>
+    <h2>Conduite et accompagnement du changement</h2>
+  </div>
+
+  <div class="info-box blue" style="margin-bottom:1.5rem;">
+    La conduite du changement est une fonction clé à la DGFiP, une administration en <strong>constante transformation</strong> (NRP, dématérialisation, réformes fiscales, multi-sites…). Le Modèle Managérial intègre explicitement la capacité à « conduire et porter les transformations » comme une compétence essentielle. Le rôle du manager est de gérer ce processus (par nature non naturel) en l'<strong>anticipant</strong> pour garantir la réussite via la mobilisation des équipes.
+  </div>
+
+  <!-- 5.1 -->
+  <div class="card" id="c51">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-orange">5.1</span>
+      <h3>Comprendre le changement</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Toute transformation (réorganisation, nouvelle application, fusion de services) entraîne un passage d'un <strong>état actuel</strong> à un <strong>état futur</strong>, bouleversant l'ordre établi et les habitudes.</p>
+
+      <h4>5.1.1 — La courbe du changement (Kubler-Ross)</h4>
+      <p>Le changement est souvent vécu comme une <strong>perte</strong>. Ce processus psychologique comporte plusieurs phases émotionnelles successives :</p>
+      <table class="styled">
+        <thead><tr><th>Phase</th><th>Réaction</th><th>Rôle du Manager</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1. Choc / Déni</strong></td><td>« Ce n'est pas possible », sidération, refus d'y croire.</td><td>Sensibiliser à la nécessité du changement, faire preuve de pédagogie, laisser le temps de l'assimilation.</td></tr>
+          <tr><td><strong>2. Résistance</strong></td><td>Colère, frustration, négociation, nostalgie de l'ancien système.</td><td>Rechercher la participation, écouter les craintes, rassurer, traiter les conflits émergents.</td></tr>
+          <tr><td><strong>3. Exploration</strong></td><td>Acceptation progressive, curiosité, essais-erreurs.</td><td>Faire appel à la créativité des agents (réingénierie des procédures), accompagner la montée en compétence.</td></tr>
+          <tr><td><strong>4. Engagement</strong></td><td>Adoption des nouvelles pratiques, sérénité retrouvée.</td><td>Ancrer les nouvelles pratiques, célébrer les succès, consolider les acquis.</td></tr>
+        </tbody>
+      </table>
+      <div class="info-box teal">
+        <strong>La médiation de projet</strong> est une approche utile pour permettre ce « travail de deuil » avant de se projeter dans la nouveauté. Elle offre un espace de parole sécurisé pour les équipes.
+      </div>
+
+      <h4>5.1.2 — Comprendre les résistances</h4>
+      <p>L'individu résiste car il anticipe une <strong>perte</strong> (incertitude, perte de repères, de statut, de confort). L'accompagnement du <strong>facteur humain</strong> est la clé de la réussite d'un projet de transformation.</p>
+      <p><strong>Les sources de résistance :</strong></p>
+      <ul>
+        <li><strong>Organisationnelles :</strong> Impact sur les conditions de travail, les compétences requises, les positions acquises, la charge de travail.</li>
+        <li><strong>Individuelles / Comportementales :</strong> Lenteur d'exécution, rétention d'information, refus de formation, conflit, inertie, absentéisme.</li>
+        <li><strong>Cognitives :</strong> Incompréhension du projet, manque d'information, perception d'inutilité.</li>
+      </ul>
+      <div class="info-box orange">
+        <strong>Posture :</strong> Le manager ne doit pas voir la résistance uniquement comme de la mauvaise volonté, mais comme une <strong>expression nécessaire des craintes</strong> qu'il faut déconstruire et rassurer. Écouter la résistance, c'est déjà commencer à la résoudre.
+      </div>
+
+      <h4>5.1.3 — La cartographie des acteurs (Sociodynamique)</h4>
+      <p>L'approche sociodynamique permet d'identifier <strong>4 profils</strong> pour adapter sa stratégie :</p>
+      <table class="styled">
+        <thead><tr><th>Profil</th><th>Caractéristique</th><th>Stratégie du manager</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Les Alliés</strong></td><td>Ils ont à gagner et sont partants.</td><td><strong>S'appuyer sur eux</strong>, en faire des « champions » ou des ambassadeurs du changement. C'est le <strong>groupe prioritaire</strong>.</td></tr>
+          <tr><td><strong>Les Indifférents</strong></td><td>N'ont ni à gagner ni à perdre. Suivent par discipline.</td><td>Les <strong>informer</strong> régulièrement, les impliquer progressivement via des succès visibles.</td></tr>
+          <tr><td><strong>Les Alternatifs</strong></td><td>Veulent le changement mais « autrement » (autre vision).</td><td>Entrer en <strong>dialogue</strong> avec eux, intégrer leurs propositions lorsque c'est pertinent.</td></tr>
+          <tr><td><strong>Les Opposants</strong></td><td>Pensent avoir beaucoup à perdre (pouvoir, confort).</td><td><strong>Écouter</strong> sans céder, poser un cadre clair. Ne pas y consacrer toute son énergie au détriment des alliés.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 5.2 -->
+  <div class="card" id="c52">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-orange">5.2</span>
+      <h3>Accompagner le changement</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Le manager de proximité doit mettre en synergie ses savoirs (<strong>faire, faire-faire, être</strong>) pour piloter la transition.</p>
+
+      <h4>5.2.1 — Communiquer la vision</h4>
+      <p>L'inconnu génère de l'anxiété ; la communication doit donc être <strong>claire, régulière et honnête</strong>.</p>
+      <ul>
+        <li><strong>Donner du sens :</strong> Expliquer le <strong>« Pourquoi »</strong> (raisons, finalités) pour susciter l'adhésion. Relier le projet à la stratégie globale de la DGFiP.</li>
+        <li><strong>Partager la vision :</strong> Fixer un cap clair et le communiquer de manière dynamique. Montrer l'état d'arrivée souhaité et les bénéfices attendus.</li>
+        <li><strong>Transparence :</strong> Dire ce que l'on sait, dire ce que l'on ne sait pas, et dire ce que l'on a le droit de dire. L'honnêteté sur les zones d'incertitude est plus crédible qu'un optimisme de façade.</li>
+        <li><strong>Participation :</strong> Favoriser la <strong>co-construction</strong> (ex: via la médiation de projet) pour responsabiliser l'équipe et réduire le sentiment de subir le changement.</li>
+      </ul>
+
+      <h4>5.2.2 — Accompagner la montée en compétence</h4>
+      <p>La peur de l'incompétence est un <strong>frein majeur</strong> au changement.</p>
+      <ul>
+        <li><strong>La Formation :</strong> Prévoir un <strong>plan d'accompagnement</strong> adapté aux besoins (nouveaux outils, nouvelle réglementation, nouvelles procédures). La formation doit intervenir au bon moment : ni trop tôt (on oublie), ni trop tard (on panique).</li>
+        <li><strong>La Responsabilisation :</strong> Utiliser la <strong>délégation</strong> pour impliquer les agents. Cela permet d'appréhender le changement comme « initié » et non « subi ».</li>
+        <li><strong>Le droit à l'erreur :</strong> Dans la période de transition, tolérer les tâtonnements et les imperfections. La courbe d'apprentissage implique une baisse temporaire de performance avant de retrouver puis dépasser le niveau initial.</li>
+      </ul>
+
+      <h4>5.2.3 — Célébrer les succès (Ancrage)</h4>
+      <p>La réussite ne se mesure pas au déploiement, mais à l'<strong>ancrage durable</strong> des nouvelles pratiques.</p>
+      <ul>
+        <li><strong>L'Ancrage :</strong> Consolider les nouveaux comportements pour qu'ils deviennent la nouvelle culture (documentation, formalisation des procédures, validation collective des pratiques).</li>
+        <li><strong>La Reconnaissance :</strong> Valoriser les efforts et les nouveaux comportements adoptés. Montrer que l'engagement des agents a été vu et apprécié.</li>
+        <li><strong>Les « Quick Wins » :</strong> Le manager doit identifier et <strong>célébrer les victoires rapides</strong>. Montrer ce qui fonctionne vite et bien permet de maintenir la mobilisation et de convaincre les indifférents.</li>
+      </ul>
+      <div class="info-box green">
+        <strong>En résumé :</strong> La conduite du changement n'est pas une procédure mécanique, mais une <strong>construction humaine</strong> qui nécessite une stratégie sur mesure. Le modèle de Kotter synthétise la démarche en 8 étapes : créer l'urgence → former une coalition → développer la vision → communiquer → lever les obstacles → générer des victoires rapides → consolider → ancrer dans la culture.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================= -->
+<!-- SECTION 6 : MANAGEMENT À DISTANCE       -->
+<!-- ======================================= -->
+<div class="section" id="s6">
+  <div class="section-header">
+    <div class="section-number">6</div>
+    <h2>Management à distance</h2>
+  </div>
+
+  <div class="info-box blue" style="margin-bottom:1.5rem;">
+    Le Management à Distance (MAD) est structurant pour la DGFiP (<strong>près de 40 % des agents télétravaillent</strong>). Le manager doit adapter ses pratiques pour maintenir cohésion et performance malgré l'éloignement.<br><br>
+    <strong>Métaphore :</strong> Manager à distance, c'est comme être le chef d'orchestre de musiciens répartis dans différentes salles. L'harmonie repose sur une <strong>partition claire</strong> (cadre), une <strong>écoute mutuelle</strong> (confiance) et une <strong>technologie maîtrisée</strong>.
+  </div>
+
+  <!-- 6.1 -->
+  <div class="card" id="c61">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-teal">6.1</span>
+      <h3>Poser le cadre de fonctionnement</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Le mode hybride exige une <strong>clarification des attentes</strong> pour éviter la déstructuration du collectif.</p>
+
+      <h4>6.1.1 — Les règles de vie commune</h4>
+      <p>L'organisation doit être <strong>documentée et partagée</strong> :</p>
+      <ul>
+        <li><strong>Règles définies :</strong> Dès le début, fixer des règles <strong>claires, utiles et contractuelles</strong>, co-construites avec l'équipe pour favoriser l'adhésion.</li>
+        <li><strong>Organisation précise :</strong> Établir un <strong>planning multi-sites</strong> des présences/absences et un <strong>annuaire partagé</strong> avec les disponibilités de chacun.</li>
+        <li><strong>Charte de communication :</strong> Fixer les modes de contact privilégiés (mail, téléphone, chat) et les <strong>plages de joignabilité</strong>.</li>
+        <li><strong>Transparence des missions :</strong> Définir précisément les <strong>tâches télétravaillables</strong> (qui doivent avoir du sens et ne pas être des tâches « poubelle ») pour éviter les conflits et les sentiments d'iniquité.</li>
+      </ul>
+
+      <h4>6.1.2 — La gestion par la confiance</h4>
+      <p>C'est la <strong>clé de voûte</strong> du management à distance.</p>
+      <ul>
+        <li><strong>Culture de la confiance :</strong> Indispensable pour responsabiliser les collaborateurs. La confiance se construit par la <strong>cohérence</strong> (4C), la transparence et le respect des engagements mutuels.</li>
+        <li><strong>Contrôle adapté :</strong> Éviter le <strong>surcontrôle</strong> (« micro-management ») qui tue la confiance et démotive. Le contrôle doit être le <strong>corollaire de l'autonomie</strong> et s'exercer via le management par objectifs, pas par la surveillance.</li>
+        <li><strong>Présomption de bonne foi :</strong> Partir du principe que l'agent travaille correctement, sauf signaux objectifs contraires.</li>
+      </ul>
+
+      <h4>6.1.3 — L'autonomie et le reporting</h4>
+      <ul>
+        <li><strong>Développement de l'autonomie :</strong> Le niveau d'autonomie peut varier entre présentiel et distanciel. La <strong>délégation</strong> est le levier pour l'accroître.</li>
+        <li><strong>Management par Objectifs (MPO) :</strong> Idéal à distance. Le manager demande un <strong>plan de travail hebdomadaire</strong> pour responsabiliser sur les délais et les priorités.</li>
+        <li><strong>Reporting adapté :</strong> Doit être <strong>co-construit</strong> pour être utile aux deux parties (éviter le « remplir pour rien »). Le format doit être simple, rapide et orienté résultats.</li>
+        <li><strong>Culture du « Rendre Compte » :</strong> La formalisation devient incontournable pour assurer la <strong>traçabilité</strong> et la visibilité du travail accompli.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 6.2 -->
+  <div class="card" id="c62">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-teal">6.2</span>
+      <h3>Maintenir le lien social</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Le télétravail peut créer de l'<strong>isolement</strong>. L'encadrant est le <strong>garant du lien</strong> collectif.</p>
+
+      <h4>6.2.1 — Les rituels d'équipe à distance</h4>
+      <p>Compenser l'absence d'interactions spontanées par des <strong>rituels structurants</strong> :</p>
+      <ul>
+        <li><strong>Régularité :</strong> Réunion d'équipe hebdomadaire ou bi-mensuelle (idéalement en <strong>présentiel</strong> pour les réunions clés).</li>
+        <li><strong>Innovation :</strong> Varier les formats pour éviter la lassitude (tour de table express, atelier collaboratif, point d'information flash).</li>
+        <li><strong>Présentiel obligatoire :</strong> Prévoir des <strong>temps de regroupement physique</strong> pour la cohésion (journées de service, réunions de lancement). Le manager doit <strong>tourner sur les différents sites</strong> pour assurer l'équité de présence.</li>
+        <li><strong>Points individuels :</strong> Maintenir des points réguliers avec chaque agent, plus fréquents qu'en présentiel, même courts (10-15 min).</li>
+      </ul>
+
+      <h4>6.2.2 — La communication informelle</h4>
+      <p>Pallier le manque de « machine à café » :</p>
+      <ul>
+        <li><strong>Outils :</strong> Utiliser la messagerie instantanée (<strong>Tchap</strong>) pour l'informel et les échanges rapides.</li>
+        <li><strong>Proximité managériale :</strong> Aller à la rencontre des agents sur site (<strong>« acte fondateur »</strong>) et prendre des nouvelles régulièrement, au-delà du seul travail.</li>
+        <li><strong>Leadership hybride :</strong> Continuer à animer le collectif et l'intelligence collective malgré la distance. Créer des espaces d'échange non liés à la production (pause-café virtuelle, moments conviviaux).</li>
+      </ul>
+
+      <h4>6.2.3 — Prévenir l'isolement</h4>
+      <ul>
+        <li><strong>Vigilance accrue :</strong> Repérer les signaux faibles est <strong>plus difficile à distance</strong>. Il faut « aller à la chasse aux informations » et ne pas se contenter du silence.</li>
+        <li><strong>Soutien :</strong> Utiliser le travail collaboratif (<strong>Novae</strong>) pour rompre l'isolement géographique et maintenir le sentiment d'appartenance.</li>
+        <li><strong>Équité :</strong> Veiller à ce que les agents distants aient le <strong>même niveau d'information</strong> que ceux sur site. Éviter les décisions « de couloir » qui excluent les télétravailleurs.</li>
+        <li><strong>RPS :</strong> Renforcer le soutien pour prévenir stress et fatigue. La frontière vie pro / vie perso est plus poreuse en télétravail.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 6.3 -->
+  <div class="card" id="c63">
+    <div class="card-head" onclick="toggle(this)">
+      <span class="badge badge-teal">6.3</span>
+      <h3>Les outils numériques</h3>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+      <p>Leur maîtrise est une <strong>priorité DGFiP</strong>. L'outil ne remplace pas le management, mais il le rend possible à distance.</p>
+
+      <h4>6.3.1 — Le choix des outils collaboratifs</h4>
+      <table class="styled">
+        <thead><tr><th>Outil</th><th>Usage</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Novae</strong></td><td>Portail collaboratif central : coédition de documents, visioconférence, annuaire, gestion de tâches, capitalisation des connaissances.</td></tr>
+          <tr><td><strong>Tchap</strong></td><td>Messagerie instantanée interministérielle : échanges rapides, communication informelle.</td></tr>
+          <tr><td><strong>AudioConf</strong></td><td>Audioconférence interministérielle : points rapides, réunions sans besoin de visuel.</td></tr>
+          <tr><td><strong>Webconférence</strong></td><td>Visioconférence : réunions d'équipe, formations, présentations.</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Mutualisation :</strong> Centraliser les connaissances au même endroit pour capitaliser le savoir collectif et éviter la dispersion de l'information.</p>
+
+      <h4>6.3.2 — Les bonnes pratiques d'usage</h4>
+      <ul>
+        <li><strong>Synchrone :</strong> Privilégier la <strong>visio avec caméra activée</strong> pour se rapprocher du réel et maintenir le lien visuel (règle de Mehrabian).</li>
+        <li><strong>Courriel :</strong> À limiter pour l'info descendante. Toujours mettre un <strong>objet précis</strong> et un <strong>ton neutre</strong>. Éviter les copies systématiques et les chaînes interminables.</li>
+        <li><strong>Déontologie :</strong> Usage <strong>strictement professionnel</strong>. Toute consultation personnelle est tracée et interdite.</li>
+        <li><strong>Sécurité :</strong> Usage exclusif du <strong>matériel professionnel</strong> (PC portable ou fixe nomade). Vigilance sur la confidentialité des données, y compris à domicile.</li>
+        <li><strong>Choix du canal :</strong> Adapter le mode de communication au message : l'urgence et l'émotion nécessitent le téléphone ou la visio ; l'information factuelle et la traçabilité passent par l'écrit.</li>
+      </ul>
+
+      <h4>6.3.3 — Le droit à la déconnexion</h4>
+      <p>Garantir le <strong>respect de la vie privée</strong> face à l'hyperconnexion :</p>
+      <ul>
+        <li><strong>Principe :</strong> Droit de ne pas être connecté en dehors du temps de travail. Ce droit est <strong>opposable</strong> et ne doit pas être perçu comme un manque d'engagement.</li>
+        <li><strong>Cadre :</strong> Les plages horaires de joignabilité sont <strong>contractuelles</strong> (arrêté / convention de télétravail). Les respecter est une responsabilité managériale.</li>
+        <li><strong>Pratiques douces :</strong> Ajouter en signature de mail : <em>« Ce message n'appelle pas de réponse immédiate »</em> (déculpabilisation). Utiliser les envois différés pour ne pas envoyer de mails tardifs.</li>
+        <li><strong>Sensibilisation :</strong> Former aux bons usages pour respecter le repos d'autrui. Le manager doit être <strong>exemplaire</strong> : s'il envoie des mails à 22h, il envoie un signal contradictoire à l'équipe.</li>
+      </ul>
+      <div class="info-box green">
+        <strong>Synthèse du MAD :</strong> Le management à distance réussi repose sur un triptyque — <strong>Cadre</strong> (règles claires et contractuelles), <strong>Confiance</strong> (autonomie responsable et management par objectifs) et <strong>Lien</strong> (rituels, communication proactive et outils maîtrisés). L'enjeu n'est pas de reproduire le présentiel à distance, mais d'<strong>inventer un nouveau mode de fonctionnement hybride</strong> qui combine le meilleur des deux mondes.
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- .container -->
+
+<button class="btt" id="btt" onclick="window.scrollTo({top:0})" title="Retour en haut">↑</button>
+
+<footer>
+  Support Management — Guide complet
+</footer>
+
+<script>
+function toggle(el){el.closest('.card').classList.toggle('open');}
+document.querySelectorAll('.card').forEach(c=>c.classList.add('open'));
+const btt=document.getElementById('btt');
+window.addEventListener('scroll',()=>{btt.classList.toggle('show',window.scrollY>400);});
+const sections=document.querySelectorAll('.section');
+const navLinks=document.querySelectorAll('.topnav .nav-links a');
+window.addEventListener('scroll',()=>{
+  let current='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-120)current=s.id;});
+  navLinks.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+current);});
+});
+</script>
+</body>
+</html>
