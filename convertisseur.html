@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertisseur PDF en Grille d'Images (Optimisé OCR)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #f4f4f9; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; align-items: end; }
+        .control-group { display: flex; flex-direction: column; gap: 5px; }
+        label { font-weight: bold; font-size: 0.9em; }
+        input[type="number"], input[type="range"] { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        input[type="file"] { padding: 5px 0; }
+        button { background: #007bff; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; height: 100%; transition: background 0.2s; }
+        button:hover { background: #0056b3; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        .output-item { margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background: #fafafa; text-align: center; }
+        canvas { max-width: 100%; height: auto; border: 1px solid #ccc; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        #status { margin-bottom: 15px; font-weight: bold; color: #d9534f; padding: 10px; border-radius: 4px; background: #fdfdfd; border: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>📄 PDF vers Grille d'Images (Optimisé OCR)</h2>
+        
+        <div class="controls">
+            <div class="control-group" style="grid-column: 1 / -1;">
+                <label for="pdfFile">Fichier PDF :</label>
+                <input type="file" id="pdfFile" accept="application/pdf">
+            </div>
+            
+            <div class="control-group">
+                <label for="cols">Colonnes :</label>
+                <input type="number" id="cols" value="2" min="1" max="10">
+            </div>
+            
+            <div class="control-group">
+                <label for="rows">Lignes :</label>
+                <input type="number" id="rows" value="2" min="1" max="10">
+            </div>
+
+            <div class="control-group">
+                <label for="scale" title="Augmentez pour un texte plus grand et plus net">Résolution : x<span id="scaleVal">2.0</span></label>
+                <input type="range" id="scale" value="2.0" min="1.0" max="4.0" step="0.5" oninput="document.getElementById('scaleVal').textContent=this.value">
+            </div>
+
+            <div class="control-group">
+                <label for="quality" title="Baissez pour réduire le poids en Mo">Qualité JPEG : <span id="qualVal">80</span>%</label>
+                <input type="range" id="quality" value="0.8" min="0.1" max="1.0" step="0.1" oninput="document.getElementById('qualVal').textContent=Math.round(this.value*100)">
+            </div>
+
+            <div class="control-group">
+                <button id="convertBtn" disabled>Convertir</button>
+            </div>
+        </div>
+        
+        <div id="status">En attente d'un fichier...</div>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        // Configuration du worker PDF.js
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        const fileInput = document.getElementById('pdfFile');
+        const convertBtn = document.getElementById('convertBtn');
+        const statusDiv = document.getElementById('status');
+        const outputDiv = document.getElementById('output');
+
+        let pdfDocument = null;
+        let fileData = null;
+
+        // Activer le bouton quand un fichier est choisi
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type === "application/pdf") {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    fileData = new Uint8Array(evt.target.result);
+                    convertBtn.disabled = false;
+                    statusDiv.textContent = "✅ PDF chargé. Prêt à convertir.";
+                    statusDiv.style.color = "#28a745";
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        });
+
+        convertBtn.addEventListener('click', async () => {
+            if (!fileData) return;
+
+            const cols = parseInt(document.getElementById('cols').value);
+            const rows = parseInt(document.getElementById('rows').value);
+            const scale = parseFloat(document.getElementById('scale').value);
+            const quality = parseFloat(document.getElementById('quality').value);
+
+            convertBtn.disabled = true;
+            outputDiv.innerHTML = '';
+            statusDiv.textContent = "⏳ Extraction et rendu des pages en cours...";
+            statusDiv.style.color = "#fd7e14";
+
+            try {
+                // Charger le document PDF
+                pdfDocument = await pdfjsLib.getDocument({ data: fileData }).promise;
+                const totalPages = pdfDocument.numPages;
+                
+                const pagesPerImage = cols * rows;
+                const totalOutputImages = Math.ceil(totalPages / pagesPerImage);
+                
+                // Rendu de toutes les pages dans des canvas temporaires
+                const pageCanvases = [];
+                let maxWidth = 0;
+                let maxHeight = 0;
+
+                for (let i = 1; i <= totalPages; i++) {
+                    statusDiv.textContent = `⏳ Rendu de la page ${i} sur ${totalPages}...`;
+                    const page = await pdfDocument.getPage(i);
+                    // Utilisation de la résolution choisie par l'utilisateur
+                    const viewport = page.getViewport({ scale: scale }); 
+                    
+                    const tempCanvas = document.createElement('canvas');
+                    const ctx = tempCanvas.getContext('2d');
+                    tempCanvas.width = viewport.width;
+                    tempCanvas.height = viewport.height;
+
+                    await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+                    pageCanvases.push(tempCanvas);
+
+                    // Trouver les dimensions maximales pour uniformiser la grille
+                    if (viewport.width > maxWidth) maxWidth = viewport.width;
+                    if (viewport.height > maxHeight) maxHeight = viewport.height;
+                }
+
+                statusDiv.textContent = "⚙️ Assemblage des grilles et compression JPEG...";
+
+                // Assemblage des grilles
+                let pageIndex = 0;
+                for (let imgIndex = 0; imgIndex < totalOutputImages; imgIndex++) {
+                    const finalCanvas = document.createElement('canvas');
+                    const finalCtx = finalCanvas.getContext('2d');
+                    
+                    finalCanvas.width = maxWidth * cols;
+                    finalCanvas.height = maxHeight * rows;
+
+                    // Fond blanc obligatoire pour le format JPEG (qui ne gère pas la transparence)
+                    finalCtx.fillStyle = 'white';
+                    finalCtx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+
+                    // Dessiner le quadrillage
+                    for (let r = 0; r < rows; r++) {
+                        for (let c = 0; c < cols; c++) {
+                            if (pageIndex < totalPages) {
+                                const sourceCanvas = pageCanvases[pageIndex];
+                                finalCtx.drawImage(
+                                    sourceCanvas, 
+                                    c * maxWidth + (maxWidth - sourceCanvas.width) / 2, // Centrage X
+                                    r * maxHeight + (maxHeight - sourceCanvas.height) / 2 // Centrage Y
+                                );
+                                pageIndex++;
+                            }
+                        }
+                    }
+
+                    // Créer l'interface de téléchargement
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'output-item';
+                    
+                    const title = document.createElement('h3');
+                    title.textContent = `Grille ${imgIndex + 1} / ${totalOutputImages}`;
+                    
+                    const downloadBtn = document.createElement('button');
+                    downloadBtn.textContent = `⬇️ Télécharger (JPEG - ${Math.round(quality*100)}%)`;
+                    downloadBtn.onclick = () => {
+                        const link = document.createElement('a');
+                        link.download = `pdf_grille_${imgIndex + 1}.jpg`;
+                        // Exportation en JPEG avec la qualité définie par le curseur
+                        link.href = finalCanvas.toDataURL('image/jpeg', quality);
+                        link.click();
+                    };
+
+                    wrapper.appendChild(title);
+                    wrapper.appendChild(finalCanvas);
+                    wrapper.appendChild(document.createElement('br'));
+                    wrapper.appendChild(downloadBtn);
+                    
+                    outputDiv.appendChild(wrapper);
+                }
+
+                statusDiv.textContent = "✅ Terminé ! Vous pouvez télécharger vos images.";
+                statusDiv.style.color = "#28a745";
+
+            } catch (error) {
+                console.error(error);
+                statusDiv.textContent = "❌ Erreur lors de la conversion.";
+                statusDiv.style.color = "#dc3545";
+            } finally {
+                convertBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
